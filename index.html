@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home</title>
+  <title>Background Invert Flash + Socials</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .background {
@@ -23,6 +24,7 @@
       background-repeat: no-repeat;
       background-position: center;
       animation: invertFlash 3.5s infinite;
+      z-index: -1;
     }
 
     @keyframes invertFlash {
@@ -34,15 +36,76 @@
       }
     }
 
-    /* Mobile portrait: align image to the left */
+    .social-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 20px;
+      padding: 30px 40px;
+      color: white;
+      text-align: center;
+      backdrop-filter: blur(4px);
+      animation: popIn 1.5s ease-out forwards;
+      animation-delay: 1.5s;
+    }
+
+    @keyframes popIn {
+      to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .social-box h1 {
+      margin-bottom: 15px;
+      font-size: 2em;
+      font-weight: bold;
+    }
+
+    .social-links a {
+      display: inline-block;
+      margin: 0 10px;
+      text-decoration: none;
+      color: #00bfff;
+      font-weight: 600;
+      font-size: 1.1em;
+      transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+      color: #ffffff;
+    }
+
+    /* Mobile Portrait - Adjust box slightly */
     @media (max-width: 768px) and (orientation: portrait) {
       .background {
         background-position: left center;
+      }
+      .social-box {
+        width: 90%;
+        padding: 20px;
+      }
+      .social-links a {
+        display: block;
+        margin: 8px 0;
       }
     }
   </style>
 </head>
 <body>
   <div class="background"></div>
+
+  <div class="social-box">
+    <h1>Socials</h1>
+    <div class="social-links">
+      <a href="https://discord.com" target="_blank">Discord</a>
+      <a href="https://twitter.com" target="_blank">Twitter</a>
+      <a href="https://instagram.com" target="_blank">Instagram</a>
+      <a href="#">YouTube</a>
+    </div>
+  </div>
 </body>
 </html>
