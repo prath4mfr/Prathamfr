@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SOCI4LS</title>
+  <title>Ho(e)me page</title>
 
-  <!-- Carti aesthetic font -->
+  <!-- Orbitron font for Carti aesthetic -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 
   <style>
@@ -101,30 +101,34 @@
       filter: brightness(0);
     }
 
-    /* Mobile Portrait Optimization */
+    /* 👇 MOBILE ONLY STYLING */
     @media (max-width: 768px) {
       .background {
         background-position: left center;
       }
 
       .social-box {
-        width: 90%;
-        max-width: 300px;
-        padding: 18px 16px;
+        width: 88%;
+        max-width: 280px;
+        padding: 16px 14px;
         border-radius: 14px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.3);
       }
 
       .social-link {
         justify-content: center;
-        padding: 8px 12px;
-        border-radius: 10px;
-        font-size: 0.95em;
+        padding: 10px;
+        margin: 10px 0;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .social-link span {
+        display: none;
       }
 
       .social-link img {
-        width: 22px;
-        height: 22px;
+        width: 32px;
+        height: 32px;
       }
 
       .social-box h1 {
@@ -142,37 +146,37 @@
 
     <a class="social-link" href="https://www.instagram.com/prath4mfr?igsh=MW52NDlxOWE5OHA4aw==" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
-      Instagram
+      <span>Instagram</span>
     </a>
 
     <a class="social-link" href="#" onclick="navigator.clipboard.writeText('742604865888452688'); alert('Discord ID copied!'); return false;">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord">
-      Discord
+      <span>Discord</span>
     </a>
 
     <a class="social-link" href="https://x.com/PrathamPoswal?t=NYN2KZT9G1vkDWoqzvuggA&s=09" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="X (Twitter)">
-      X
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="X">
+      <span>X</span>
     </a>
 
     <a class="social-link" href="https://youtube.com/@notsmilyjungle?si=-HRsBp0Dmx5_PqpO" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-      YouTube
+      <span>YouTube</span>
     </a>
 
     <a class="social-link" href="https://open.spotify.com/user/s9s8a7ps81ln4nzxvxtfcp0yw" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/174/174872.png" alt="Spotify">
-      Spotify
+      <span>Spotify</span>
     </a>
 
     <a class="social-link" href="https://www.reddit.com/u/EstablishmentRich970/s/285XUwmisL" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit">
-      Reddit
+      <span>Reddit</span>
     </a>
 
     <a class="social-link" href="https://www.roblox.com/share?code=75df44055b274a4d92b29cd9ba8e359e&type=Profile&source=ProfileShare&stamp=1751911827813" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/5968/5968959.png" alt="Roblox">
-      Roblox
+      <span>Roblox</span>
     </a>
   </div>
 </body>
