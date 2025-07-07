@@ -2,80 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name | Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cool Background Effect</title>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f4f4;
+    * {
       margin: 0;
       padding: 0;
-      color: #333;
+      box-sizing: border-box;
     }
 
-    header {
-      background-color: #333;
-      color: #fff;
-      padding: 20px 0;
-      text-align: center;
+    body, html {
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-image: url('collest.png,jpg');
+      background-size: cover;
+      background-position: center;
+      animation: invertFlash 4s infinite;
+    }
+
+    @keyframes invertFlash {
+      0%, 98%, 100% {
+        filter: invert(0);
+      }
+      50% {
+        filter: invert(1);
+      }
     }
 
     main {
-      padding: 40px;
-      max-width: 800px;
-      margin: auto;
+      text-align: center;
+      color: white;
+      padding: 100px 20px;
+      backdrop-filter: blur(2px);
     }
 
     h1 {
-      margin-bottom: 0;
+      font-size: 3em;
     }
 
     p {
-      line-height: 1.6;
-    }
-
-    footer {
-      background-color: #333;
-      color: white;
-      text-align: center;
-      padding: 10px 0;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-
-    a {
-      color: #0077cc;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
+      font-size: 1.3em;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Your Name</h1>
-    <p>Welcome to my website</p>
-  </header>
-
   <main>
-    <h2>About Me</h2>
-    <p>Hi! I'm a student and aspiring web developer. This is my personal site hosted using GitHub Pages.</p>
-
-    <h2>Projects</h2>
-    <ul>
-      <li><a href="#">Project One</a></li>
-      <li><a href="#">Project Two</a></li>
-    </ul>
-
-    <h2>Contact</h2>
-    <p>You can reach me at: <a href="mailto:your@email.com">your@email.com</a></p>
+    <h1>Your Name</h1>
+    <p>Black & white background with a cool invert pulse 🔁</p>
   </main>
-
-  <footer>
-    <p>&copy; 2025 Your Name</p>
-  </footer>
 </body>
 </html>
