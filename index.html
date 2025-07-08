@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ho(e)me Page</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-
   <style>
     html, body {
       margin: 0;
@@ -112,7 +111,26 @@
       filter: brightness(0) drop-shadow(0 0 6px white);
     }
 
-    /* 🎵 Music Controls */
+    .know-more-btn {
+      display: block;
+      margin-top: 20px;
+      padding: 10px 16px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      text-align: right;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      backdrop-filter: blur(4px);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .know-more-btn:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: black;
+    }
+
     .music-controls {
       position: fixed;
       bottom: 16px;
@@ -173,140 +191,55 @@
         width: 80px;
       }
     }
+
+    #music-controls {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(0, 0, 0, 0.35);
+      padding: 6px 10px;
+      border-radius: 10px;
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      height: 40px;
+    }
+
+    #music-controls button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    #music-controls img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) invert(1);
+    }
+
+    #volume-slider {
+      width: 80px;
+      cursor: pointer;
+      accent-color: white;
+    }
   </style>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Falling crosses
- for (let i = 0; i < 40; i++) {
-  const cross = document.createElement("div");
-  cross.classList.add("falling-cross");
-  const size = Math.floor(Math.random() * 20) + 20;
-  cross.style.width = `${size}px`;
-  cross.style.height = `${size}px`;
-  cross.style.left = `${Math.random() * 100}vw`;
-  cross.style.animationDuration = `${Math.random() * 6 + 5}s`;
-  cross.style.animationDelay = `${Math.random() * 5}s`;
-  document.body.appendChild(cross);
-}
-
-      // Music setup
-      const audio = document.getElementById("bg-music");
-      audio.volume = 0.5;
-
-      const playPauseBtn = document.getElementById("playPauseBtn");
-      const volumeSlider = document.getElementById("volumeControl");
-
-      playPauseBtn.addEventListener("click", () => {
-        if (audio.paused) {
-          audio.play();
-          playPauseBtn.textContent = "⏸️";
-        } else {
-          audio.pause();
-          playPauseBtn.textContent = "▶️";
-        }
-      });
-
-      volumeSlider.addEventListener("input", () => {
-        audio.volume = volumeSlider.value;
-      });
-    });
-  </script>
 </head>
 <body>
   <div class="background"></div>
+  <audio id="bg-music" src="9.mp3" loop></audio>
 
-<!-- Audio -->
-<audio id="bg-music" src="9.mp3" loop></audio>
+  <!-- Music Controls -->
+  <div id="music-controls">
+    <button id="play-pause">
+      <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Pause" id="playPauseIcon" />
+    </button>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" />
+  </div>
 
-<!-- Music Controls -->
-<div id="music-controls">
-  <button id="play-pause">
-    <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Pause" id="playPauseIcon" />
-  </button>
-  <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" />
-</div>
-
-<!-- Style -->
-<style>
-  #music-controls {
-    position: fixed;
-    bottom: 16px;
-    left: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: rgba(0, 0, 0, 0.35);
-    padding: 6px 10px;
-    border-radius: 10px;
-    backdrop-filter: blur(6px);
-    z-index: 1000;
-    height: 40px;
-  }
-
-  #music-controls button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-
-  #music-controls img {
-    width: 22px;
-    height: 22px;
-    filter: brightness(0) invert(1);
-  }
-
-  #volume-slider {
-    width: 80px;
-    cursor: pointer;
-    accent-color: white;
-  }
-</style>
-
-<!-- Script -->
-<script>
-  const audio = document.getElementById('bg-music');
-  const playPauseBtn = document.getElementById('play-pause');
-  const playPauseIcon = document.getElementById('playPauseIcon');
-  const volumeSlider = document.getElementById('volume-slider');
-
-  // Initial volume
-  audio.volume = 0.5;
-
-  // Try autoplay, fallback on first click
-  window.addEventListener('load', () => {
-    const attempt = audio.play();
-    if (attempt !== undefined) {
-      attempt.catch(() => {
-        document.body.addEventListener('click', () => {
-          audio.play();
-        }, { once: true });
-      });
-    }
-  });
-
-  // Toggle play/pause
-  playPauseBtn.addEventListener('click', () => {
-    if (audio.paused) {
-      audio.play();
-      playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png"; // Pause icon
-    } else {
-      audio.pause();
-      playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png"; // Play icon
-    }
-  });
-
-  // Volume adjust
-  volumeSlider.addEventListener('input', () => {
-    audio.volume = volumeSlider.value;
-  });
-</script>
-
-
-
-
-  <!-- 🌐 Social Links -->
+  <!-- 🌐 Social Links Box -->
   <div class="social-box">
     <h1>SOCI4LS</h1>
     <a class="social-link" href="https://www.instagram.com/prath4mfr?igsh=MW52NDlxOWE5OHA4aw==" target="_blank">
@@ -330,6 +263,56 @@
     <a class="social-link" href="https://www.roblox.com/share?code=75df44055b274a4d92b29cd9ba8e359e&type=Profile&source=ProfileShare&stamp=1751911827813" target="_blank">
       <img src="https://www.citypng.com/public/uploads/preview/hd-roblox-white-symbol-sign-icon-logo-png-701751694787435ra1r2desi8.png" alt="Roblox"> Roblox
     </a>
+
+    <!-- NEW BUTTON HERE -->
+    <a href="pratham.html" class="know-more-btn">Know More About Pratham &gt;&gt;&gt;</a>
   </div>
+
+  <!-- Cross Falling Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      for (let i = 0; i < 40; i++) {
+        const cross = document.createElement("div");
+        cross.classList.add("falling-cross");
+        const size = Math.floor(Math.random() * 20) + 20;
+        cross.style.width = `${size}px`;
+        cross.style.height = `${size}px`;
+        cross.style.left = `${Math.random() * 100}vw`;
+        cross.style.animationDuration = `${Math.random() * 6 + 5}s`;
+        cross.style.animationDelay = `${Math.random() * 5}s`;
+        document.body.appendChild(cross);
+      }
+
+      const audio = document.getElementById('bg-music');
+      const playPauseBtn = document.getElementById('play-pause');
+      const playPauseIcon = document.getElementById('playPauseIcon');
+      const volumeSlider = document.getElementById('volume-slider');
+
+      audio.volume = 0.5;
+
+      const attempt = audio.play();
+      if (attempt !== undefined) {
+        attempt.catch(() => {
+          document.body.addEventListener('click', () => {
+            audio.play();
+          }, { once: true });
+        });
+      }
+
+      playPauseBtn.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play();
+          playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png";
+        } else {
+          audio.pause();
+          playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png";
+        }
+      });
+
+      volumeSlider.addEventListener('input', () => {
+        audio.volume = volumeSlider.value;
+      });
+    });
+  </script>
 </body>
 </html>
