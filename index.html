@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ho(e)me Page</title>
-
-  <!-- Carti-style font -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 
   <style>
@@ -44,18 +42,12 @@
       background-repeat: no-repeat;
       opacity: 0.9;
       z-index: -2;
-      animation-name: fall;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
+      animation: fall linear infinite;
     }
 
     @keyframes fall {
-      0% {
-        transform: translateY(-60px);
-      }
-      100% {
-        transform: translateY(110vh);
-      }
+      0% { transform: translateY(-60px); }
+      100% { transform: translateY(110vh); }
     }
 
     .social-box {
@@ -120,6 +112,34 @@
       filter: brightness(0) drop-shadow(0 0 6px white);
     }
 
+    /* 🎵 Music Controls */
+    .music-controls {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 12px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+
+    .music-controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .music-controls input[type="range"] {
+      width: 100px;
+      accent-color: white;
+    }
+
     @media (max-width: 768px) {
       .background { background-position: left center; }
 
@@ -141,13 +161,24 @@
         padding: 9px;
         font-size: 0.95em;
       }
+
+      .music-controls {
+        bottom: 10px;
+        left: 10px;
+        gap: 8px;
+        padding: 8px 10px;
+      }
+
+      .music-controls input[type="range"] {
+        width: 80px;
+      }
     }
   </style>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const count = 40;
-      for (let i = 0; i < count; i++) {
+      // Falling crosses
+      for (let i = 0; i < 40; i++) {
         const cross = document.createElement("div");
         cross.classList.add("falling-cross");
         const size = Math.floor(Math.random() * 20) + 20;
@@ -158,12 +189,43 @@
         cross.style.animationDelay = `${Math.random() * 5}s`;
         document.body.appendChild(cross);
       }
+
+      // Music setup
+      const audio = document.getElementById("bg-music");
+      audio.volume = 0.5;
+
+      const playPauseBtn = document.getElementById("playPauseBtn");
+      const volumeSlider = document.getElementById("volumeControl");
+
+      playPauseBtn.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          playPauseBtn.textContent = "⏸️";
+        } else {
+          audio.pause();
+          playPauseBtn.textContent = "▶️";
+        }
+      });
+
+      volumeSlider.addEventListener("input", () => {
+        audio.volume = volumeSlider.value;
+      });
     });
   </script>
 </head>
 <body>
   <div class="background"></div>
 
+  <!-- 🎵 Audio File -->
+  <audio id="bg-music" src="9.mp3" autoplay loop></audio>
+
+  <!-- 🎧 Music Controls -->
+  <div class="music-controls">
+    <button id="playPauseBtn">⏸️</button>
+    <input id="volumeControl" type="range" min="0" max="1" step="0.01" value="0.5" />
+  </div>
+
+  <!-- 🌐 Social Links -->
   <div class="social-box">
     <h1>SOCI4LS</h1>
     <a class="social-link" href="https://www.instagram.com/prath4mfr?igsh=MW52NDlxOWE5OHA4aw==" target="_blank">
