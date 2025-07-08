@@ -216,14 +216,90 @@
 <body>
   <div class="background"></div>
 
-  <!-- 🎵 Audio File -->
-  <audio id="bg-music" src="9.mp3" autoplay loop></audio>
+<!-- Audio -->
+<audio id="bg-music" src="9.mp3" loop></audio>
 
-  <!-- 🎧 Music Controls -->
-  <div class="music-controls">
-    <button id="playPauseBtn">⏸️</button>
-    <input id="volumeControl" type="range" min="0" max="1" step="0.01" value="0.5" />
-  </div>
+<!-- Music Controls -->
+<div id="music-controls">
+  <button id="play-pause">
+    <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Pause" id="playPauseIcon" />
+  </button>
+  <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" />
+</div>
+
+<style>
+  #music-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 8px 12px;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+  }
+
+  #music-controls button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  #music-controls img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+  }
+
+  #volume-slider {
+    width: 100px;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  const audio = document.getElementById('bg-music');
+  const playPauseBtn = document.getElementById('play-pause');
+  const playPauseIcon = document.getElementById('playPauseIcon');
+  const volumeSlider = document.getElementById('volume-slider');
+
+  // Set initial volume
+  audio.volume = 0.5;
+
+  // Try to autoplay (some browsers require user interaction)
+  window.addEventListener('load', () => {
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Wait for user interaction
+        document.body.addEventListener('click', () => {
+          audio.play();
+        }, { once: true });
+      });
+    }
+  });
+
+  // Play/pause toggle
+  playPauseBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png"; // pause icon
+    } else {
+      audio.pause();
+      playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png"; // play icon
+    }
+  });
+
+  // Volume control
+  volumeSlider.addEventListener('input', () => {
+    audio.volume = volumeSlider.value;
+  });
+</script>
+
 
   <!-- 🌐 Social Links -->
   <div class="social-box">
