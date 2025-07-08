@@ -3,46 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prath4m</title>
+  <title>PRATH4M</title>
+  <link href="https://fonts.googleapis.com/css2?family=Spicy+Rice&display=swap" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: 'AnotherTag';
-      src: url('aAnotherTag.ttf') format('truetype');
-    }
-
     html, body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       height: 100%;
       overflow: hidden;
     }
-
-    .video-background {
+    .video-bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       object-fit: cover;
       z-index: -1;
     }
-
-    .graffiti-text {
+    .graffiti {
       position: absolute;
-      top: 6%;
+      top: 7%;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 7vw;
-      font-family: 'AnotherTag', cursive;
+      font-family: 'Spicy Rice', cursive;
+      font-size: 6vw;
       color: black;
-      text-align: center;
+      text-shadow: 2px 2px 2px white;
+      white-space: nowrap;
       z-index: 1;
-      text-shadow: 4px 4px 0 white;
-      letter-spacing: 2px;
     }
-
     @media (max-width: 768px) {
-      .graffiti-text {
+      .graffiti {
         font-size: 12vw;
         top: 5%;
       }
@@ -50,13 +39,13 @@
   </style>
 </head>
 <body>
-  <!-- Video Background -->
-  <video class="video-background" autoplay muted loop playsinline>
-    <source src="baawe.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
+
+  <video class="video-bg" autoplay muted loop playsinline>
+    <source src="baawe.mp4" type="video/mp4">
+    Your browser doesn’t support it.
   </video>
 
-  <!-- Graffiti Name -->
-  <div class="graffiti-text">PRATH4M</div>
+  <div class="graffiti">PRATH4M</div>
+
 </body>
 </html>
