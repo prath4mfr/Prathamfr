@@ -36,8 +36,9 @@
       background-image: url('https://png.pngtree.com/png-clipart/20230623/ourmid/pngtree-christian-cross-symbol-of-justice-png-image_7135202.png');
       background-size: contain;
       background-repeat: no-repeat;
-      animation: float 2.4s ease-in-out infinite, glowPulse 1.8s ease-in-out infinite;
+      animation: float 2.4s ease-in-out infinite, glowWhite 1.8s ease-in-out infinite;
       cursor: pointer;
+      filter: drop-shadow(0 0 10px white);
     }
 
     .click-text {
@@ -54,15 +55,15 @@
       50% { transform: translateY(-12px); }
     }
 
-    @keyframes glowPulse {
-      0% { filter: drop-shadow(0 0 5px #00ffff); }
-      50% { filter: drop-shadow(0 0 15px #00ffff); }
-      100% { filter: drop-shadow(0 0 5px #00ffff); }
+    @keyframes glowWhite {
+      0% { filter: drop-shadow(0 0 5px white); }
+      50% { filter: drop-shadow(0 0 15px white); }
+      100% { filter: drop-shadow(0 0 5px white); }
     }
 
     @keyframes glowText {
       from { text-shadow: 0 0 5px white; }
-      to { text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff; }
+      to { text-shadow: 0 0 15px white, 0 0 30px white; }
     }
 
     .background {
@@ -71,7 +72,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-image: url('collest.jpg');
+      background-image: url('collest.png.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
