@@ -1,51 +1,52 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pratham</title>
+  <title>Prath4m</title>
   <style>
     @font-face {
-      font-family: 'Graffiti';
-      src: url('https://cdn.jsdelivr.net/gh/akzhy/graffiti-fonts/AnotherTag.ttf') format('truetype');
-    }html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-  background: black;
-}
+      font-family: 'AnotherTag';
+      src: url('AnotherTag.ttf') format('truetype');
+    }
 
-.video-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: -1;
-}
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
 
-.graffiti-text {
-  position: absolute;
-  top: 5%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 6vw;
-  font-family: 'Graffiti', cursive;
-  color: black;
-  text-align: center;
-  letter-spacing: 2px;
-  text-shadow: 3px 3px 0 white;
-  z-index: 1;
-}
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
 
-@media (max-width: 768px) {
-  .graffiti-text {
-    font-size: 10vw;
-    top: 6%;
-  }
-}
+    .graffiti-text {
+      position: absolute;
+      top: 6%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 7vw;
+      font-family: 'AnotherTag', cursive;
+      color: black;
+      text-align: center;
+      z-index: 1;
+      text-shadow: 4px 4px 0 white;
+      letter-spacing: 2px;
+    }
 
+    @media (max-width: 768px) {
+      .graffiti-text {
+        font-size: 12vw;
+        top: 5%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -53,6 +54,9 @@
   <video class="video-background" autoplay muted loop playsinline>
     <source src="baawe.mp4" type="video/mp4" />
     Your browser does not support the video tag.
-  </video>  <!-- Graffiti Text -->  <div class="graffiti-text">Prath4m</div>
+  </video>
+
+  <!-- Graffiti Name -->
+  <div class="graffiti-text">PRATH4M</div>
 </body>
 </html>
