@@ -21,10 +21,10 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-image: url('collest.png.jpg');
+      background-image: url('https://images.unsplash.com/photo-1549921296-3a6b3cfa8e90?auto=format&fit=crop&w=1500&q=80');
       background-size: cover;
       background-repeat: no-repeat;
-      background-position: center center;
+      background-position: center;
       animation: invertFlash 3.5s infinite;
       z-index: -3;
     }
@@ -41,7 +41,7 @@
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      opacity: 0.9;
+      opacity: 0.8;
       z-index: 0;
       animation: fall linear infinite;
       pointer-events: none;
@@ -66,7 +66,8 @@
       backdrop-filter: blur(8px);
       animation: popIn 1.5s ease-out forwards;
       animation-delay: 1.5s;
-      width: 260px;
+      width: 90%;
+      max-width: 280px;
       z-index: 2;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     }
@@ -114,85 +115,69 @@
       filter: brightness(0) drop-shadow(0 0 6px white);
     }
 
-    /* 🎵 Music Controls */
-    .music-controls {
+    #music-controls {
       position: fixed;
-      bottom: 16px;
-      left: 16px;
+      bottom: 20px;
+      left: 20px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      background: rgba(0, 0, 0, 0.5);
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.15);
       padding: 10px 12px;
-      border-radius: 12px;
-      backdrop-filter: blur(6px);
-      z-index: 10;
+      border-radius: 14px;
+      backdrop-filter: blur(10px);
+      z-index: 1000;
     }
 
-    .music-controls button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 18px;
+    #play-pause {
+      width: 32px;
+      height: 32px;
+      background: url('https://cdn-icons-png.flaticon.com/512/0/375.png') no-repeat center/cover;
       cursor: pointer;
     }
 
-    .music-controls input[type="range"] {
-      width: 100px;
-      accent-color: white;
+    #play-pause.paused {
+      background-image: url('https://cdn-icons-png.flaticon.com/512/727/727245.png');
     }
 
-    @media (max-width: 768px) {
-      .social-box {
-        width: 88%;
-        max-width: 280px;
-        padding: 16px 14px;
-      }
+    #volume-slider {
+      width: 90px;
+      appearance: none;
+      height: 6px;
+      border-radius: 4px;
+      background: linear-gradient(to right, white 50%, rgba(255,255,255,0.2) 50%);
+    }
 
-      .social-box h1 {
-        font-size: 1.5em;
-      }
+    #volume-slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      background: white;
+      border-radius: 50%;
+      cursor: pointer;
+    }
 
-      .music-controls {
+    @media (max-width: 600px) {
+      #music-controls {
         bottom: 10px;
         left: 10px;
-        padding: 8px 10px;
-        gap: 10px;
+        gap: 8px;
       }
 
-      .music-controls input[type="range"] {
-        width: 80px;
+      #volume-slider {
+        width: 70px;
       }
     }
   </style>
 </head>
 <body>
   <div class="background"></div>
+  <audio id="bg-music" src="9.mp3" loop></audio>
+  <div id="music-controls">
+    <div id="play-pause"></div>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" />
+  </div>
 
-  <!-- Falling Crosses -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      for (let i = 0; i < 40; i++) {
-        const cross = document.createElement("div");
-        cross.className = "falling-cross";
-
-        const size = Math.floor(Math.random() * 20) + 20;
-        const left = Math.random() * 100;
-        const duration = Math.random() * 5 + 5;
-        const delay = Math.random() * 5;
-
-        cross.style.width = `${size}px`;
-        cross.style.height = `${size}px`;
-        cross.style.left = `${left}vw`;
-        cross.style.animationDuration = `${duration}s`;
-        cross.style.animationDelay = `${delay}s`;
-
-        document.body.appendChild(cross);
-      }
-    });
-  </script>
-
-  <!-- Social Box -->
   <div class="social-box">
     <h1>SOCI4LS</h1>
     <a class="social-link" href="https://www.instagram.com/prath4mfr" target="_blank">
@@ -218,42 +203,59 @@
     </a>
   </div>
 
-  <!-- 🎵 Music -->
-  <audio id="bg-music" src="9.mp3" loop></audio>
-
-  <div class="music-controls">
-    <button id="playPauseBtn">▶️</button>
-    <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
-  </div>
-
   <script>
-    const audio = document.getElementById('bg-music');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const volumeSlider = document.getElementById('volumeControl');
-
-    audio.volume = 0.5;
-
-    window.addEventListener('load', () => {
-      const tryPlay = audio.play();
-      if (tryPlay !== undefined) {
-        tryPlay.catch(() => {
-          document.body.addEventListener('click', () => audio.play(), { once: true });
-        });
+    document.addEventListener("DOMContentLoaded", () => {
+      for (let i = 0; i < 40; i++) {
+        const cross = document.createElement("div");
+        cross.className = "falling-cross";
+        const size = Math.floor(Math.random() * 20) + 20;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 5 + 5;
+        const delay = Math.random() * 5;
+        cross.style.width = `${size}px`;
+        cross.style.height = `${size}px`;
+        cross.style.left = `${left}vw`;
+        cross.style.animationDuration = `${duration}s`;
+        cross.style.animationDelay = `${delay}s`;
+        document.body.appendChild(cross);
       }
-    });
 
-    playPauseBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        playPauseBtn.textContent = '⏸️';
-      } else {
-        audio.pause();
-        playPauseBtn.textContent = '▶️';
-      }
-    });
+      const audio = document.getElementById('bg-music');
+      const playPause = document.getElementById('play-pause');
+      const volumeSlider = document.getElementById('volume-slider');
 
-    volumeSlider.addEventListener('input', () => {
-      audio.volume = volumeSlider.value;
+      audio.volume = 0.5;
+
+      const updateVolumeBar = () => {
+        const percent = volumeSlider.value * 100;
+        volumeSlider.style.background = `linear-gradient(to right, white ${percent}%, rgba(255,255,255,0.2) ${percent}%)`;
+      };
+
+      updateVolumeBar();
+
+      playPause.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play();
+          playPause.classList.add('paused');
+        } else {
+          audio.pause();
+          playPause.classList.remove('paused');
+        }
+      });
+
+      volumeSlider.addEventListener('input', () => {
+        audio.volume = volumeSlider.value;
+        updateVolumeBar();
+      });
+
+      window.addEventListener('load', () => {
+        const tryPlay = audio.play();
+        if (tryPlay !== undefined) {
+          tryPlay.catch(() => {
+            document.body.addEventListener('click', () => audio.play(), { once: true });
+          });
+        }
+      });
     });
   </script>
 </body>
