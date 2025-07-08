@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+
+</body>
+</html><!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ho(e)me Page</title>
+  <title>Home Page</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
     html, body {
@@ -12,276 +13,250 @@
       height: 100%;
       overflow: hidden;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    }.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('collest.png.jpg');
+  background-size: cover;
+  background-position: center;
+  animation: invertFlash 3.5s infinite;
+  z-index: -3;
+}
 
-    .background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('collest.png.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      animation: invertFlash 3.5s infinite;
-      z-index: -3;
-    }
+@keyframes invertFlash {
+  0%, 97%, 100% { filter: invert(0); }
+  98% { filter: invert(1); }
+}
 
-    @keyframes invertFlash {
-      0%, 97%, 100% { filter: invert(0); }
-      98% { filter: invert(1); }
-    }
+.falling-cross {
+  position: fixed;
+  top: -50px;
+  background-image: url('https://png.pngtree.com/png-clipart/20230623/ourmid/pngtree-christian-cross-symbol-of-justice-png-image_7135202.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.9;
+  z-index: -2;
+  animation: fall linear infinite;
+}
 
-    .falling-cross {
-      position: fixed;
-      top: -50px;
-      background-image: url('https://png.pngtree.com/png-clipart/20230623/ourmid/pngtree-christian-cross-symbol-of-justice-png-image_7135202.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      opacity: 0.9;
-      z-index: -2;
-      animation: fall linear infinite;
-    }
+@keyframes fall {
+  0% { transform: translateY(-60px); }
+  100% { transform: translateY(110vh); }
+}
 
-    @keyframes fall {
-      0% { transform: translateY(-60px); }
-      100% { transform: translateY(110vh); }
-    }
+.social-container {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%) scale(0.9);
+  animation: fadeIn 1.5s ease-out forwards;
+  animation-delay: 1.5s;
+}
 
-    .social-box {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      opacity: 0;
-      background-color: rgba(0, 0, 0, 0.55);
-      border-radius: 16px;
-      padding: 20px 18px;
-      color: white;
-      text-align: center;
-      backdrop-filter: blur(8px);
-      animation: popIn 1.5s ease-out forwards;
-      animation-delay: 1.5s;
-      width: 260px;
-      z-index: 1;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-    }
+@keyframes fadeIn {
+  to {
+    transform: translate(50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
 
-    @keyframes popIn {
-      to {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-      }
-    }
+.social-box {
+  background-color: rgba(0, 0, 0, 0.55);
+  border-radius: 16px;
+  padding: 20px 18px;
+  color: white;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  width: 260px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  animation: fadeIn 1.5s ease-out forwards;
+  animation-delay: 1.5s;
+}
 
-    .social-box h1 {
-      margin-bottom: 20px;
-      font-size: 2em;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 2px;
-    }
+.social-box h1 {
+  margin-bottom: 20px;
+  font-size: 2em;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 2px;
+}
 
-    .social-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: flex-start;
-      background-color: transparent;
-      padding: 9px 14px;
-      margin: 6px 0;
-      border-radius: 12px;
-      text-decoration: none;
-      color: white;
-      transition: all 0.3s ease;
-    }
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: transparent;
+  padding: 9px 14px;
+  margin: 6px 0;
+  border-radius: 12px;
+  text-decoration: none;
+  color: white;
+  transition: all 0.3s ease;
+}
 
-    .social-link img {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-    }
+.social-link img {
+  width: 24px;
+  height: 24px;
+}
 
-    .social-link:hover {
-      background-color: white;
-      color: black;
-    }
+.social-link:hover {
+  background-color: white;
+  color: black;
+}
 
-    .social-link:hover img {
-      filter: brightness(0) drop-shadow(0 0 6px white);
-    }
+.social-link:hover img {
+  filter: brightness(0) drop-shadow(0 0 6px white);
+}
 
-    .know-more-detached {
-      position: absolute;
-      top: calc(50% + 180px);
-      right: 8%;
-      z-index: 2;
-    }
+.know-more-box {
+  margin-top: 16px;
+  width: 160px;
+  background-color: rgba(0, 0, 0, 0.45);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  color: white;
+  font-weight: bold;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: block;
+  margin-left: auto;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-out forwards;
+  animation-delay: 1.5s;
+}
 
-    .know-more-btn {
-      display: inline-block;
-      padding: 8px 14px;
-      background-color: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      color: white;
-      text-decoration: none;
-      font-size: 0.85em;
-      font-weight: 600;
-      backdrop-filter: blur(5px);
-      transition: all 0.3s ease;
-    }
+.know-more-box:hover {
+  background-color: white;
+  color: black;
+}
 
-    .know-more-btn:hover {
-      background-color: rgba(255, 255, 255, 0.9);
-      color: black;
-    }
+.music-controls {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px 12px;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  z-index: 10;
+}
 
-    #music-controls {
-      position: fixed;
-      bottom: 16px;
-      left: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background-color: rgba(0, 0, 0, 0.35);
-      padding: 6px 10px;
-      border-radius: 10px;
-      backdrop-filter: blur(6px);
-      z-index: 1000;
-      height: 40px;
-    }
+.music-controls button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-    #music-controls button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-    }
+.music-controls input[type="range"] {
+  width: 100px;
+  accent-color: white;
+}
 
-    #music-controls img {
-      width: 22px;
-      height: 22px;
-      filter: brightness(0) invert(1);
-    }
+@media (max-width: 768px) {
+  .social-container {
+    top: 52%;
+    right: 50%;
+    transform: translate(50%, -50%) scale(1);
+  }
 
-    #volume-slider {
-      width: 80px;
-      cursor: pointer;
-      accent-color: white;
-    }
+  .social-box {
+    width: 88%;
+    max-width: 280px;
+    padding: 16px;
+  }
 
-    @media (max-width: 768px) {
-      .background { background-position: left center; }
+  .know-more-box {
+    width: 140px;
+    font-size: 0.9em;
+    margin-top: 14px;
+  }
 
-      .social-box {
-        width: 88%;
-        max-width: 280px;
-        padding: 16px 14px;
-        border-radius: 14px;
-      }
+  .music-controls input[type="range"] {
+    width: 80px;
+  }
+}
 
-      .social-box h1 {
-        font-size: 1.4em;
-        margin-bottom: 14px;
-      }
-
-      .social-link {
-        justify-content: center;
-        gap: 8px;
-        padding: 9px;
-        font-size: 0.95em;
-      }
-
-      .know-more-detached {
-        right: 6%;
-        top: calc(50% + 200px);
-      }
-
-      .know-more-btn {
-        font-size: 0.75em;
-        padding: 7px 12px;
-      }
-
-      #music-controls {
-        bottom: 10px;
-        left: 10px;
-        gap: 8px;
-        padding: 8px 10px;
-      }
-
-      #music-controls input[type="range"] {
-        width: 80px;
-      }
-    }
   </style>
 </head>
 <body>
-  <!-- Background -->
   <div class="background"></div>
+  <audio id="bg-music" src="9.mp3" loop></audio>  <div class="music-controls">
+    <button id="playPauseBtn">⏸️</button>
+    <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
+  </div>  <div class="social-container">
+    <div class="social-box">
+      <h1>SOCI4LS</h1>
+      <a class="social-link" href="https://www.instagram.com/prath4mfr" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"> Instagram
+      </a>
+      <a class="social-link" href="#" onclick="navigator.clipboard.writeText('742604865888452688'); alert('Discord ID copied!'); return false;">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png"> Discord
+      </a>
+      <a class="social-link" href="https://x.com/PrathamPoswal" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png"> X
+      </a>
+      <a class="social-link" href="https://youtube.com/@notsmilyjungle" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"> YouTube
+      </a>
+      <a class="social-link" href="https://open.spotify.com/user/s9s8a7ps81ln4nzxvxtfcp0yw" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174872.png"> Spotify
+      </a>
+      <a class="social-link" href="https://www.reddit.com/u/EstablishmentRich970" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png"> Reddit
+      </a>
+      <a class="social-link" href="https://www.roblox.com/users/12345678/profile" target="_blank">
+        <img src="https://www.citypng.com/public/uploads/preview/hd-roblox-white-symbol-sign-icon-logo-png-701751694787435ra1r2desi8.png"> Roblox
+      </a>
+    </div>
+    <a class="know-more-box" href="pratham.html">Know More About Pratham ›››</a>
+  </div>  <script>
+    // Falling Crosses
+    for (let i = 0; i < 40; i++) {
+      const cross = document.createElement("div");
+      cross.classList.add("falling-cross");
+      const size = Math.floor(Math.random() * 20) + 20;
+      cross.style.width = `${size}px`;
+      cross.style.height = `${size}px`;
+      cross.style.left = `${Math.random() * 100}vw`;
+      cross.style.animationDuration = `${Math.random() * 6 + 5}s`;
+      cross.style.animationDelay = `${Math.random() * 5}s`;
+      document.body.appendChild(cross);
+    }
 
-  <!-- Music -->
-  <audio id="bg-music" src="9.mp3" loop></audio>
-  <div id="music-controls">
-    <button id="play-pause">
-      <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Pause" id="playPauseIcon" />
-    </button>
-    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" />
-  </div>
+    // Music Controls
+    const audio = document.getElementById("bg-music");
+    const playPauseBtn = document.getElementById("playPauseBtn");
+    const volumeSlider = document.getElementById("volumeControl");
+    audio.volume = 0.5;
 
-  <!-- Social Links Box -->
-  <div class="social-box">
-    <h1>SOCI4LS</h1>
-    <a class="social-link" href="https://www.instagram.com/prath4mfr?igsh=MW52NDlxOWE5OHA4aw==" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"> Instagram
-    </a>
-    <a class="social-link" href="#" onclick="navigator.clipboard.writeText('742604865888452688'); alert('Discord ID copied!'); return false;">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Discord
-    </a>
-    <a class="social-link" href="https://x.com/PrathamPoswal?t=NYN2KZT9G1vkDWoqzvuggA&s=09" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="X"> X
-    </a>
-    <a class="social-link" href="https://youtube.com/@notsmilyjungle?si=-HRsBp0Dmx5_PqpO" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"> YouTube
-    </a>
-    <a class="social-link" href="https://open.spotify.com/user/s9s8a7ps81ln4nzxvxtfcp0yw" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/174/174872.png" alt="Spotify"> Spotify
-    </a>
-    <a class="social-link" href="https://www.reddit.com/u/EstablishmentRich970/s/285XUwmisL" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit"> Reddit
-    </a>
-    <a class="social-link" href="https://www.roblox.com/share?code=75df44055b274a4d92b29cd9ba8e359e&type=Profile&source=ProfileShare&stamp=1751911827813" target="_blank">
-      <img src="https://www.citypng.com/public/uploads/preview/hd-roblox-white-symbol-sign-icon-logo-png-701751694787435ra1r2desi8.png" alt="Roblox"> Roblox
-    </a>
-  </div>
-
-  <!-- Know More Button -->
-  <div class="know-more-detached">
-    <a href="pratham.html" class="know-more-btn">Know More About Pratham &gt;&gt;&gt;</a>
-  </div>
-
-  <!-- Scripts -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      for (let i = 0; i < 40; i++) {
-        const cross = document.createElement("div");
-        cross.classList.add("falling-cross");
-        const size = Math.floor(Math.random() * 20) + 20;
-        cross.style.width = `${size}px`;
-        cross.style.height = `${size}px`;
-        cross.style.left = `${Math.random() * 100}vw`;
-        cross.style.animationDuration = `${Math.random() * 6 + 5}s`;
-        cross.style.animationDelay = `${Math.random() * 5}s`;
-        document.body.appendChild(cross);
+    playPauseBtn.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        playPauseBtn.textContent = "⏸️";
+      } else {
+        audio.pause();
+        playPauseBtn.textContent = "▶️";
       }
+    });
 
-      const audio = document.getElementById('bg-music');
-      const playPauseBtn = document.getElementById('play-pause');
-      const playPauseIcon = document.getElementById('playPauseIcon');
-      const volumeSlider = document.getElementById('volume-slider');
+    volumeSlider.addEventListener("input", () => {
+      audio.volume = volumeSlider.value;
+    });
 
-      audio.volume = 0.5;
-
+    // Try autoplay
+    window.addEventListener('load', () => {
       const attempt = audio.play();
       if (attempt !== undefined) {
         attempt.catch(() => {
@@ -290,21 +265,6 @@
           }, { once: true });
         });
       }
-
-      playPauseBtn.addEventListener('click', () => {
-        if (audio.paused) {
-          audio.play();
-          playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png";
-        } else {
-          audio.pause();
-          playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png";
-        }
-      });
-
-      volumeSlider.addEventListener('input', () => {
-        audio.volume = volumeSlider.value;
-      });
     });
-  </script>
-</body>
+  </script></body>
 </html>
