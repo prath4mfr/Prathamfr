@@ -12,6 +12,7 @@
       height: 100%;
       overflow: hidden;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: black;
     }
 
     .background {
@@ -39,20 +40,16 @@
       background-image: url('https://png.pngtree.com/png-clipart/20230623/ourmid/pngtree-christian-cross-symbol-of-justice-png-image_7135202.png');
       background-size: contain;
       background-repeat: no-repeat;
-      opacity: 0.9;
-      z-index: -2;
-      animation: fall linear infinite, glowWhite 1.8s ease-in-out infinite;
-      filter: drop-shadow(0 0 5px white);
+      background-position: center;
+      opacity: 0.8;
+      z-index: 0;
+      animation: fall linear infinite;
+      pointer-events: none;
     }
 
     @keyframes fall {
       0% { transform: translateY(-60px); }
       100% { transform: translateY(110vh); }
-    }
-
-    @keyframes glowWhite {
-      0%, 100% { filter: drop-shadow(0 0 5px white); }
-      50% { filter: drop-shadow(0 0 15px white); }
     }
 
     .social-box {
@@ -70,7 +67,7 @@
       animation: popIn 1.5s ease-out forwards;
       animation-delay: 1.5s;
       width: 260px;
-      z-index: 1;
+      z-index: 2;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     }
 
@@ -123,25 +120,25 @@
 
   <div class="social-box">
     <h1>SOCI4LS</h1>
-    <a class="social-link" href="https://www.instagram.com/prath4mfr?igsh=MW52NDlxOWE5OHA4aw==" target="_blank">
+    <a class="social-link" href="https://www.instagram.com/prath4mfr" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"> Instagram
     </a>
     <a class="social-link" href="#" onclick="navigator.clipboard.writeText('742604865888452688'); alert('Discord ID copied!'); return false;">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Discord
     </a>
-    <a class="social-link" href="https://x.com/PrathamPoswal?t=NYN2KZT9G1vkDWoqzvuggA&s=09" target="_blank">
+    <a class="social-link" href="https://x.com/PrathamPoswal" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="X"> X
     </a>
-    <a class="social-link" href="https://youtube.com/@notsmilyjungle?si=-HRsBp0Dmx5_PqpO" target="_blank">
+    <a class="social-link" href="https://youtube.com/@notsmilyjungle" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"> YouTube
     </a>
     <a class="social-link" href="https://open.spotify.com/user/s9s8a7ps81ln4nzxvxtfcp0yw" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/174/174872.png" alt="Spotify"> Spotify
     </a>
-    <a class="social-link" href="https://www.reddit.com/u/EstablishmentRich970/s/285XUwmisL" target="_blank">
+    <a class="social-link" href="https://www.reddit.com/u/EstablishmentRich970" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit"> Reddit
     </a>
-    <a class="social-link" href="https://www.roblox.com/share?code=75df44055b274a4d92b29cd9ba8e359e&type=Profile&source=ProfileShare&stamp=1751911827813" target="_blank">
+    <a class="social-link" href="https://www.roblox.com/users/username" target="_blank">
       <img src="https://www.citypng.com/public/uploads/preview/hd-roblox-white-symbol-sign-icon-logo-png-701751694787435ra1r2desi8.png" alt="Roblox"> Roblox
     </a>
   </div>
@@ -150,18 +147,18 @@
     document.addEventListener("DOMContentLoaded", () => {
       for (let i = 0; i < 40; i++) {
         const cross = document.createElement("div");
-        cross.classList.add("falling-cross");
+        cross.className = "falling-cross";
 
         const size = Math.floor(Math.random() * 20) + 20;
         const left = Math.random() * 100;
-        const duration = Math.random() * 6 + 5;
+        const duration = Math.random() * 5 + 5;
         const delay = Math.random() * 5;
 
-        cross.style.width = size + "px";
-        cross.style.height = size + "px";
-        cross.style.left = left + "vw";
-        cross.style.animationDuration = duration + "s";
-        cross.style.animationDelay = delay + "s";
+        cross.style.width = `${size}px`;
+        cross.style.height = `${size}px`;
+        cross.style.left = `${left}vw`;
+        cross.style.animationDuration = `${duration}s`;
+        cross.style.animationDelay = `${delay}s`;
 
         document.body.appendChild(cross);
       }
