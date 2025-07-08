@@ -19,12 +19,12 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       background-image: url('collest.png.jpg');
       background-size: cover;
       background-repeat: no-repeat;
-      background-position: center;
+      background-position: center center;
       animation: invertFlash 3.5s infinite;
       z-index: -3;
     }
@@ -41,7 +41,7 @@
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      opacity: 0.8;
+      opacity: 0.9;
       z-index: 0;
       animation: fall linear infinite;
       pointer-events: none;
@@ -113,11 +113,86 @@
     .social-link:hover img {
       filter: brightness(0) drop-shadow(0 0 6px white);
     }
+
+    /* 🎵 Music Controls */
+    .music-controls {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 12px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+
+    .music-controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .music-controls input[type="range"] {
+      width: 100px;
+      accent-color: white;
+    }
+
+    @media (max-width: 768px) {
+      .social-box {
+        width: 88%;
+        max-width: 280px;
+        padding: 16px 14px;
+      }
+
+      .social-box h1 {
+        font-size: 1.5em;
+      }
+
+      .music-controls {
+        bottom: 10px;
+        left: 10px;
+        padding: 8px 10px;
+        gap: 10px;
+      }
+
+      .music-controls input[type="range"] {
+        width: 80px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="background"></div>
 
+  <!-- Falling Crosses -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      for (let i = 0; i < 40; i++) {
+        const cross = document.createElement("div");
+        cross.className = "falling-cross";
+
+        const size = Math.floor(Math.random() * 20) + 20;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 5 + 5;
+        const delay = Math.random() * 5;
+
+        cross.style.width = `${size}px`;
+        cross.style.height = `${size}px`;
+        cross.style.left = `${left}vw`;
+        cross.style.animationDuration = `${duration}s`;
+        cross.style.animationDelay = `${delay}s`;
+
+        document.body.appendChild(cross);
+      }
+    });
+  </script>
+
+  <!-- Social Box -->
   <div class="social-box">
     <h1>SOCI4LS</h1>
     <a class="social-link" href="https://www.instagram.com/prath4mfr" target="_blank">
@@ -143,25 +218,42 @@
     </a>
   </div>
 
+  <!-- 🎵 Music -->
+  <audio id="bg-music" src="9.mp3" loop></audio>
+
+  <div class="music-controls">
+    <button id="playPauseBtn">▶️</button>
+    <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
+  </div>
+
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      for (let i = 0; i < 40; i++) {
-        const cross = document.createElement("div");
-        cross.className = "falling-cross";
+    const audio = document.getElementById('bg-music');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeSlider = document.getElementById('volumeControl');
 
-        const size = Math.floor(Math.random() * 20) + 20;
-        const left = Math.random() * 100;
-        const duration = Math.random() * 5 + 5;
-        const delay = Math.random() * 5;
+    audio.volume = 0.5;
 
-        cross.style.width = `${size}px`;
-        cross.style.height = `${size}px`;
-        cross.style.left = `${left}vw`;
-        cross.style.animationDuration = `${duration}s`;
-        cross.style.animationDelay = `${delay}s`;
-
-        document.body.appendChild(cross);
+    window.addEventListener('load', () => {
+      const tryPlay = audio.play();
+      if (tryPlay !== undefined) {
+        tryPlay.catch(() => {
+          document.body.addEventListener('click', () => audio.play(), { once: true });
+        });
       }
+    });
+
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playPauseBtn.textContent = '⏸️';
+      } else {
+        audio.pause();
+        playPauseBtn.textContent = '▶️';
+      }
+    });
+
+    volumeSlider.addEventListener('input', () => {
+      audio.volume = volumeSlider.value;
     });
   </script>
 </body>
