@@ -4,35 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PRATH4M</title>
-  <link href="https://fonts.googleapis.com/css2?family=Spicy+Rice&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
   <style>
     html, body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       height: 100%;
       overflow: hidden;
     }
+
     .video-bg {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       object-fit: cover;
       z-index: -1;
     }
-    .graffiti {
+
+    .name-text {
       position: absolute;
-      top: 7%;
+      top: 6%;
       left: 50%;
       transform: translateX(-50%);
-      font-family: 'Spicy Rice', cursive;
+      font-family: 'Noto Sans', sans-serif;
       font-size: 6vw;
+      font-weight: 900;
       color: black;
-      text-shadow: 2px 2px 2px white;
-      white-space: nowrap;
+      text-shadow: 2px 2px 4px white;
+      letter-spacing: 2px;
       z-index: 1;
+      white-space: nowrap;
     }
+
     @media (max-width: 768px) {
-      .graffiti {
-        font-size: 12vw;
+      .name-text {
+        font-size: 11vw;
         top: 5%;
       }
     }
@@ -40,12 +48,14 @@
 </head>
 <body>
 
+  <!-- Video Background -->
   <video class="video-bg" autoplay muted loop playsinline>
     <source src="baawe.mp4" type="video/mp4">
-    Your browser doesn’t support it.
+    Your browser does not support the video tag.
   </video>
 
-  <div class="graffiti">PRATH4M</div>
+  <!-- Big Name -->
+  <div class="name-text">PRATH4M</div>
 
 </body>
 </html>
