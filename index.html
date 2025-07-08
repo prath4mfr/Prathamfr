@@ -107,18 +107,14 @@
       color: white;
       text-align: center;
       backdrop-filter: blur(8px);
-      animation: popIn 1.5s ease-out forwards;
-      animation-delay: 1.5s;
+      transition: opacity 0.6s ease 0.5s;
       width: 240px;
       z-index: 1;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     }
 
-    @keyframes popIn {
-      to {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-      }
+    .social-box.visible {
+      opacity: 1;
     }
 
     .social-box h1 {
@@ -202,7 +198,27 @@
   <div class="background" id="mainBackground"></div>
   <div class="social-box" id="mainContent">
     <h1>SOCI4LS</h1>
-    <!-- your social links here -->
+    <a class="social-link" href="https://www.instagram.com/prath4mfr" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"> Instagram
+    </a>
+    <a class="social-link" href="#" onclick="navigator.clipboard.writeText('742604865888452688'); alert('Discord ID copied!'); return false;">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Discord
+    </a>
+    <a class="social-link" href="https://x.com/PrathamPoswal" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="X"> X
+    </a>
+    <a class="social-link" href="https://youtube.com/@notsmilyjungle" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"> YouTube
+    </a>
+    <a class="social-link" href="https://open.spotify.com/user/s9s8a7ps81ln4nzxvxtfcp0yw" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/174/174872.png" alt="Spotify"> Spotify
+    </a>
+    <a class="social-link" href="https://www.reddit.com/u/EstablishmentRich970" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit"> Reddit
+    </a>
+    <a class="social-link" href="https://www.roblox.com/users/742604865/profile" target="_blank">
+      <img src="https://www.citypng.com/public/uploads/preview/hd-roblox-white-symbol-sign-icon-logo-png-701751694787435ra1r2desi8.png" alt="Roblox"> Roblox
+    </a>
   </div>
 
   <audio id="bg-music" src="9.mp3" loop></audio>
@@ -234,7 +250,7 @@
       setTimeout(() => {
         intro.style.display = "none";
         bg.style.opacity = 1;
-        content.style.opacity = 1;
+        content.classList.add("visible");
         musicControls.style.display = "flex";
 
         for (let i = 0; i < 40; i++) {
@@ -257,10 +273,10 @@
     playPauseBtn.addEventListener("click", () => {
       if (audio.paused) {
         audio.play();
-        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png"; // pause icon
+        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png";
       } else {
         audio.pause();
-        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png"; // play icon
+        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png";
       }
     });
 
