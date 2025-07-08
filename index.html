@@ -28,15 +28,30 @@
       background-repeat: no-repeat;
       background-position: center;
       animation: invertFlash 3.5s infinite;
-      z-index: -1;
+      z-index: -3;
     }
 
     @keyframes invertFlash {
-      0%, 97%, 100% {
-        filter: invert(0);
-      }
-      98% {
-        filter: invert(1);
+      0%, 97%, 100% { filter: invert(0); }
+      98% { filter: invert(1); }
+    }
+
+    .falling-cross {
+      position: fixed;
+      top: -50px;
+      width: 30px;
+      height: 30px;
+      background-image: url('https://p7.hiclipart.com/preview/189/391/642/christian-cross-gold-cross-necklace-charms-pendants-christian-cross-thumbnail.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0.8;
+      z-index: -2;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
       }
     }
 
@@ -55,6 +70,7 @@
       animation: popIn 1.5s ease-out forwards;
       animation-delay: 1.5s;
       width: 260px;
+      z-index: 1;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     }
 
@@ -69,7 +85,6 @@
       margin-bottom: 20px;
       font-size: 2em;
       font-family: 'Orbitron', sans-serif;
-      font-weight: 700;
       letter-spacing: 2px;
     }
 
@@ -102,11 +117,8 @@
       filter: brightness(0) drop-shadow(0 0 6px white);
     }
 
-    /* 📱 Mobile Fix */
     @media (max-width: 768px) {
-      .background {
-        background-position: left center;
-      }
+      .background { background-position: left center; }
 
       .social-box {
         width: 88%;
@@ -128,46 +140,47 @@
       }
     }
   </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      for (let i = 0; i < 40; i++) {
+        const cross = document.createElement("div");
+        cross.classList.add("falling-cross");
+        const size = Math.floor(Math.random() * 20) + 20;
+        cross.style.width = `${size}px`;
+        cross.style.height = `${size}px`;
+        cross.style.left = `${Math.random() * 100}vw`;
+        cross.style.animationDuration = `${Math.random() * 6 + 4}s`;
+        document.body.appendChild(cross);
+      }
+    });
+  </script>
 </head>
 <body>
   <div class="background"></div>
 
   <div class="social-box">
     <h1>SOCI4LS</h1>
-
     <a class="social-link" href="https://www.instagram.com/prath4mfr?igsh=MW52NDlxOWE5OHA4aw==" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
-      Instagram
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"> Instagram
     </a>
-
     <a class="social-link" href="#" onclick="navigator.clipboard.writeText('742604865888452688'); alert('Discord ID copied!'); return false;">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord">
-      Discord
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Discord
     </a>
-
     <a class="social-link" href="https://x.com/PrathamPoswal?t=NYN2KZT9G1vkDWoqzvuggA&s=09" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="X (Twitter)">
-      X
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="X"> X
     </a>
-
     <a class="social-link" href="https://youtube.com/@notsmilyjungle?si=-HRsBp0Dmx5_PqpO" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-      YouTube
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"> YouTube
     </a>
-
     <a class="social-link" href="https://open.spotify.com/user/s9s8a7ps81ln4nzxvxtfcp0yw" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/174/174872.png" alt="Spotify">
-      Spotify
+      <img src="https://cdn-icons-png.flaticon.com/512/174/174872.png" alt="Spotify"> Spotify
     </a>
-
     <a class="social-link" href="https://www.reddit.com/u/EstablishmentRich970/s/285XUwmisL" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit">
-      Reddit
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit"> Reddit
     </a>
-
     <a class="social-link" href="https://www.roblox.com/share?code=75df44055b274a4d92b29cd9ba8e359e&type=Profile&source=ProfileShare&stamp=1751911827813" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968959.png" alt="Roblox">
-      Roblox
+      <img src="https://www.citypng.com/public/uploads/preview/hd-new-roblox-logo-icon-png-7017516947874640u7jdms7jd.png" alt="Roblox"> Roblox
     </a>
   </div>
 </body>
