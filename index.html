@@ -12,7 +12,7 @@
       height: 100%;
       overflow: hidden;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: black;
+      background-color: black;
     }
 
     .intro-overlay {
@@ -26,34 +26,41 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 10000;
+      z-index: 9999;
       transition: opacity 0.8s ease;
     }
 
     .cross-icon {
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       background-image: url('https://png.pngtree.com/png-clipart/20230623/ourmid/pngtree-christian-cross-symbol-of-justice-png-image_7135202.png');
       background-size: contain;
       background-repeat: no-repeat;
-      animation: float 2s ease-in-out infinite;
+      animation: float 2.4s ease-in-out infinite, glowPulse 1.8s ease-in-out infinite;
+      cursor: pointer;
+    }
+
+    .click-text {
+      margin-top: 25px;
+      font-size: 1.4rem;
+      font-family: 'Orbitron', sans-serif;
+      color: white;
+      animation: glowText 1.2s ease-in-out infinite alternate;
+      cursor: pointer;
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
+      50% { transform: translateY(-12px); }
     }
 
-    .click-text {
-      margin-top: 30px;
-      font-size: 1.8rem;
-      font-family: 'Orbitron', sans-serif;
-      color: white;
-      animation: glow 1.2s ease-in-out infinite alternate;
-      cursor: pointer;
+    @keyframes glowPulse {
+      0% { filter: drop-shadow(0 0 5px #00ffff); }
+      50% { filter: drop-shadow(0 0 15px #00ffff); }
+      100% { filter: drop-shadow(0 0 5px #00ffff); }
     }
 
-    @keyframes glow {
+    @keyframes glowText {
       from { text-shadow: 0 0 5px white; }
       to { text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff; }
     }
@@ -62,16 +69,16 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       background-image: url('collest.png.jpg');
       background-size: cover;
-      background-repeat: no-repeat;
       background-position: center;
+      background-repeat: no-repeat;
       animation: invertFlash 3.5s infinite;
-      z-index: -3;
       opacity: 0;
       transition: opacity 1s ease;
+      z-index: -3;
     }
 
     @keyframes invertFlash {
@@ -157,7 +164,7 @@
       position: fixed;
       bottom: 16px;
       left: 16px;
-      display: flex;
+      display: none;
       align-items: center;
       gap: 10px;
       background-color: rgba(0, 0, 0, 0.4);
@@ -166,7 +173,6 @@
       backdrop-filter: blur(6px);
       z-index: 999;
       height: 38px;
-      display: none;
     }
 
     #music-controls button {
@@ -232,6 +238,7 @@
   <script>
     const intro = document.getElementById("intro");
     const clickText = document.getElementById("clickToEnter");
+    const crossIcon = document.getElementById("intro-cross");
     const bg = document.getElementById("mainBackground");
     const content = document.getElementById("mainContent");
     const audio = document.getElementById("bg-music");
@@ -240,10 +247,9 @@
     const playPauseIcon = document.getElementById("playPauseIcon");
     const volumeSlider = document.getElementById("volume-slider");
 
-    clickText.addEventListener("click", () => {
-      const cross = document.getElementById("intro-cross");
-      cross.style.transition = "transform 0.3s ease-out";
-      cross.style.transform = "scale(30)";
+    function enterSite() {
+      crossIcon.style.transition = "transform 0.3s ease-out";
+      crossIcon.style.transform = "scale(30)";
       intro.style.transition = "opacity 0.4s ease-out";
       intro.style.opacity = 0;
 
@@ -268,7 +274,10 @@
         audio.volume = 0.5;
         audio.play();
       }, 400);
-    });
+    }
+
+    clickText.addEventListener("click", enterSite);
+    crossIcon.addEventListener("click", enterSite);
 
     playPauseBtn.addEventListener("click", () => {
       if (audio.paused) {
