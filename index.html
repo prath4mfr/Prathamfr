@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ho(e)me Page</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-
   <style>
     html, body {
       margin: 0;
@@ -13,6 +12,7 @@
       height: 100%;
       overflow: hidden;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: black;
     }
 
     .background {
@@ -36,44 +36,39 @@
 
     .falling-cross {
       position: fixed;
-      top: -50px;
+      top: -60px;
       background-image: url('https://png.pngtree.com/png-clipart/20230623/ourmid/pngtree-christian-cross-symbol-of-justice-png-image_7135202.png');
       background-size: contain;
       background-repeat: no-repeat;
-      opacity: 0.9;
-      z-index: -2;
+      opacity: 0.92;
+      z-index: -1;
       animation: fall linear infinite;
+      pointer-events: none;
     }
 
     @keyframes fall {
-      0% { transform: translateY(-60px); }
+      0% { transform: translateY(-80px); }
       100% { transform: translateY(110vh); }
+    }
+
+    .blurred {
+      filter: blur(2px) brightness(0.6);
     }
 
     .social-box {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      opacity: 0;
+      transform: translate(-50%, -50%);
       background-color: rgba(0, 0, 0, 0.55);
       border-radius: 16px;
       padding: 20px 18px;
       color: white;
       text-align: center;
-      backdrop-filter: blur(8px);
-      animation: popIn 1.5s ease-out forwards;
-      animation-delay: 1.5s;
+      backdrop-filter: blur(10px);
       width: 260px;
-      z-index: 1;
+      z-index: 0;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-    }
-
-    @keyframes popIn {
-      to {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-      }
     }
 
     .social-box h1 {
@@ -112,37 +107,41 @@
       filter: brightness(0) drop-shadow(0 0 6px white);
     }
 
-    /* 🎵 Music Controls */
-    .music-controls {
+    #music-controls {
       position: fixed;
       bottom: 16px;
       left: 16px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px 12px;
-      border-radius: 12px;
+      gap: 8px;
+      background-color: rgba(0, 0, 0, 0.35);
+      padding: 6px 10px;
+      border-radius: 10px;
       backdrop-filter: blur(6px);
-      z-index: 10;
+      z-index: 1000;
+      height: 40px;
     }
 
-    .music-controls button {
+    #music-controls button {
       background: none;
       border: none;
-      color: white;
-      font-size: 16px;
       cursor: pointer;
+      padding: 0;
     }
 
-    .music-controls input[type="range"] {
-      width: 100px;
+    #music-controls img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) invert(1);
+    }
+
+    #volume-slider {
+      width: 80px;
+      cursor: pointer;
       accent-color: white;
     }
 
     @media (max-width: 768px) {
-      .background { background-position: left center; }
-
       .social-box {
         width: 88%;
         max-width: 280px;
@@ -162,176 +161,126 @@
         font-size: 0.95em;
       }
 
-      .music-controls {
-        bottom: 10px;
-        left: 10px;
-        gap: 8px;
-        padding: 8px 10px;
-      }
-
-      .music-controls input[type="range"] {
-        width: 80px;
+      #volume-slider {
+        width: 70px;
       }
     }
   </style>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Falling crosses
-      for (let i = 0; i < 40; i++) {
-        const cross = document.createElement("div");
-        cross.classList.add("falling-cross");
-        const size = Math.floor(Math.random() * 20) + 20;
-        cross.style.width = ${size}px;
-        cross.style.height = ${size}px;
-        cross.style.left = ${Math.random() * 100}vw;
-        cross.style.animationDuration = ${Math.random() * 6 + 5}s;
-        cross.style.animationDelay = ${Math.random() * 5}s;
-        document.body.appendChild(cross);
-      }
-
-      // Music setup
-      const audio = document.getElementById("bg-music");
-      audio.volume = 0.5;
-
-      const playPauseBtn = document.getElementById("playPauseBtn");
-      const volumeSlider = document.getElementById("volumeControl");
-
-      playPauseBtn.addEventListener("click", () => {
-        if (audio.paused) {
-          audio.play();
-          playPauseBtn.textContent = "⏸️";
-        } else {
-          audio.pause();
-          playPauseBtn.textContent = "▶️";
-        }
-      });
-
-      volumeSlider.addEventListener("input", () => {
-        audio.volume = volumeSlider.value;
-      });
-    });
-  </script>
 </head>
 <body>
   <div class="background"></div>
 
-<!-- Audio -->
-<audio id="bg-music" src="9.mp3" loop></audio>
-
-<!-- Music Controls -->
-<div id="music-controls">
-  <button id="play-pause">
-    <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Pause" id="playPauseIcon" />
-  </button>
-  <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" />
-</div>
-
-<!-- Style -->
-<style>
-  #music-controls {
-    position: fixed;
-    bottom: 16px;
-    left: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: rgba(0, 0, 0, 0.35);
-    padding: 6px 10px;
-    border-radius: 10px;
-    backdrop-filter: blur(6px);
-    z-index: 1000;
-    height: 40px;
-  }
-
-  #music-controls button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-
-  #music-controls img {
-    width: 22px;
-    height: 22px;
-    filter: brightness(0) invert(1);
-  }
-
-  #volume-slider {
-    width: 80px;
-    cursor: pointer;
-    accent-color: white;
-  }
-</style>
-
-<!-- Script -->
-<script>
-  const audio = document.getElementById('bg-music');
-  const playPauseBtn = document.getElementById('play-pause');
-  const playPauseIcon = document.getElementById('playPauseIcon');
-  const volumeSlider = document.getElementById('volume-slider');
-
-  // Initial volume
-  audio.volume = 0.5;
-
-  // Try autoplay, fallback on first click
-  window.addEventListener('load', () => {
-    const attempt = audio.play();
-    if (attempt !== undefined) {
-      attempt.catch(() => {
-        document.body.addEventListener('click', () => {
-          audio.play();
-        }, { once: true });
-      });
-    }
-  });
-
-  // Toggle play/pause
-  playPauseBtn.addEventListener('click', () => {
-    if (audio.paused) {
-      audio.play();
-      playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png"; // Pause icon
-    } else {
-      audio.pause();
-      playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png"; // Play icon
-    }
-  });
-
-  // Volume adjust
-  volumeSlider.addEventListener('input', () => {
-    audio.volume = volumeSlider.value;
-  });
-</script>
-
-
-
-
-  <!-- 🌐 Social Links -->
-  <div class="social-box">
+  <!-- Social Box -->
+  <div class="social-box" id="glass-zone">
     <h1>SOCI4LS</h1>
-    <a class="social-link" href="https://www.instagram.com/prath4mfr?igsh=MW52NDlxOWE5OHA4aw==" target="_blank">
+    <a class="social-link" href="https://www.instagram.com/prath4mfr" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"> Instagram
     </a>
     <a class="social-link" href="#" onclick="navigator.clipboard.writeText('742604865888452688'); alert('Discord ID copied!'); return false;">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Discord
     </a>
-    <a class="social-link" href="https://x.com/PrathamPoswal?t=NYN2KZT9G1vkDWoqzvuggA&s=09" target="_blank">
+    <a class="social-link" href="https://x.com/PrathamPoswal" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="X"> X
     </a>
-    <a class="social-link" href="https://youtube.com/@notsmilyjungle?si=-HRsBp0Dmx5_PqpO" target="_blank">
+    <a class="social-link" href="https://youtube.com/@notsmilyjungle" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"> YouTube
     </a>
     <a class="social-link" href="https://open.spotify.com/user/s9s8a7ps81ln4nzxvxtfcp0yw" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/174/174872.png" alt="Spotify"> Spotify
     </a>
-    <a class="social-link" href="https://www.reddit.com/u/EstablishmentRich970/s/285XUwmisL" target="_blank">
+    <a class="social-link" href="https://www.reddit.com/u/EstablishmentRich970" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit"> Reddit
     </a>
-    <a class="social-link" href="https://www.roblox.com/share?code=75df44055b274a4d92b29cd9ba8e359e&type=Profile&source=ProfileShare&stamp=1751911827813" target="_blank">
+    <a class="social-link" href="https://www.roblox.com/share?code=75df44055b274a4d92b29cd9ba8e359e" target="_blank">
       <img src="https://www.citypng.com/public/uploads/preview/hd-roblox-white-symbol-sign-icon-logo-png-701751694787435ra1r2desi8.png" alt="Roblox"> Roblox
     </a>
   </div>
+
+  <!-- Music Controls -->
+  <audio id="bg-music" src="9.mp3" loop></audio>
+  <div id="music-controls">
+    <button id="play-pause">
+      <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Pause" id="playPauseIcon" />
+    </button>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" />
+  </div>
+
+  <!-- Cross Generator Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const glassZone = document.getElementById("glass-zone").getBoundingClientRect();
+      const numCrosses = Math.floor(window.innerWidth * 0.45 / 10); // ~45% width
+
+      for (let i = 0; i < numCrosses; i++) {
+        const cross = document.createElement("div");
+        cross.classList.add("falling-cross");
+
+        const size = Math.random() * 40 + 10;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 6 + 5;
+        const delay = Math.random() * 4;
+
+        cross.style.width = `${size}px`;
+        cross.style.height = `${size}px`;
+        cross.style.left = `${left}vw`;
+        cross.style.animationDuration = `${duration}s`;
+        cross.style.animationDelay = `${delay}s`;
+
+        document.body.appendChild(cross);
+
+        // Blur effect detection using animation + observer
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              cross.classList.add("blurred");
+            } else {
+              cross.classList.remove("blurred");
+            }
+          });
+        }, {
+          root: document.querySelector('.social-box'),
+          threshold: 0.2
+        });
+
+        observer.observe(cross);
+      }
+    });
+  </script>
+
+  <!-- Music JS -->
+  <script>
+    const audio = document.getElementById('bg-music');
+    const playPauseBtn = document.getElementById('play-pause');
+    const playPauseIcon = document.getElementById('playPauseIcon');
+    const volumeSlider = document.getElementById('volume-slider');
+
+    audio.volume = 0.5;
+
+    window.addEventListener('load', () => {
+      const attempt = audio.play();
+      if (attempt !== undefined) {
+        attempt.catch(() => {
+          document.body.addEventListener('click', () => {
+            audio.play();
+          }, { once: true });
+        });
+      }
+    });
+
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png";
+      } else {
+        audio.pause();
+        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png";
+      }
+    });
+
+    volumeSlider.addEventListener('input', () => {
+      audio.volume = volumeSlider.value;
+    });
+  </script>
 </body>
 </html>
-
 
