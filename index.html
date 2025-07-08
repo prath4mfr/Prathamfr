@@ -12,7 +12,52 @@
       height: 100%;
       overflow: hidden;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: black;
     }
+
+    .intro-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      transition: opacity 0.8s ease;
+    }
+
+    .cross-icon {
+      width: 80px;
+      height: 80px;
+      background-image: url('https://png.pngtree.com/png-clipart/20230623/ourmid/pngtree-christian-cross-symbol-of-justice-png-image_7135202.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .click-text {
+      margin-top: 30px;
+      font-size: 1.8rem;
+      font-family: 'Orbitron', sans-serif;
+      color: white;
+      animation: glow 1.2s ease-in-out infinite alternate;
+      cursor: pointer;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px white; }
+      to { text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff; }
+    }
+
     .background {
       position: fixed;
       top: 0;
@@ -22,14 +67,18 @@
       background-image: url('collest.png.jpg');
       background-size: cover;
       background-repeat: no-repeat;
-      background-position: left center;
+      background-position: center;
       animation: invertFlash 3.5s infinite;
       z-index: -3;
+      opacity: 0;
+      transition: opacity 1s ease;
     }
+
     @keyframes invertFlash {
       0%, 97%, 100% { filter: invert(0); }
       98% { filter: invert(1); }
     }
+
     .falling-cross {
       position: fixed;
       top: -50px;
@@ -40,10 +89,12 @@
       z-index: -2;
       animation: fall linear infinite;
     }
+
     @keyframes fall {
       0% { transform: translateY(-60px); }
       100% { transform: translateY(110vh); }
     }
+
     .social-box {
       position: absolute;
       top: 50%;
@@ -62,18 +113,21 @@
       z-index: 1;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     }
+
     @keyframes popIn {
       to {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
       }
     }
+
     .social-box h1 {
       margin-bottom: 18px;
       font-size: 1.8em;
       font-family: 'Orbitron', sans-serif;
       letter-spacing: 2px;
     }
+
     .social-link {
       display: flex;
       align-items: center;
@@ -87,18 +141,22 @@
       color: white;
       transition: all 0.3s ease;
     }
+
     .social-link img {
       width: 24px;
       height: 24px;
       object-fit: contain;
     }
+
     .social-link:hover {
       background-color: white;
       color: black;
     }
+
     .social-link:hover img {
       filter: brightness(0) drop-shadow(0 0 6px white);
     }
+
     #music-controls {
       position: fixed;
       bottom: 16px;
@@ -112,18 +170,22 @@
       backdrop-filter: blur(6px);
       z-index: 999;
       height: 38px;
+      display: none;
     }
+
     #music-controls button {
       background: none;
       border: none;
       padding: 0;
       cursor: pointer;
     }
+
     #music-controls img {
       width: 24px;
       height: 24px;
       filter: brightness(0) invert(1);
     }
+
     #volume-slider {
       width: 80px;
       accent-color: white;
@@ -132,85 +194,86 @@
   </style>
 </head>
 <body>
-  <div class="background"></div>
-  <audio id="bg-music" src="9.mp3" autoplay muted loop></audio>
+  <div class="intro-overlay" id="intro">
+    <div class="cross-icon" id="intro-cross"></div>
+    <div class="click-text" id="clickToEnter">CL1CK</div>
+  </div>
+
+  <div class="background" id="mainBackground"></div>
+  <div class="social-box" id="mainContent">
+    <h1>SOCI4LS</h1>
+    <!-- your social links here -->
+  </div>
+
+  <audio id="bg-music" src="9.mp3" loop></audio>
   <div id="music-controls">
     <button id="play-pause">
       <img id="playPauseIcon" src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Pause" />
     </button>
     <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" />
   </div>
-  <div class="social-box">
-    <h1>SOCI4LS</h1>
-    <a class="social-link" href="https://www.instagram.com/prath4mfr?igsh=MW52NDlxOWE5OHA4aw==" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"> Instagram
-    </a>
-    <a class="social-link" href="#" onclick="navigator.clipboard.writeText('742604865888452688'); alert('Discord ID copied!'); return false;">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord"> Discord
-    </a>
-    <a class="social-link" href="https://x.com/PrathamPoswal?t=NYN2KZT9G1vkDWoqzvuggA&s=09" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="X"> X
-    </a>
-    <a class="social-link" href="https://youtube.com/@notsmilyjungle?si=-HRsBp0Dmx5_PqpO" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"> YouTube
-    </a>
-    <a class="social-link" href="https://open.spotify.com/user/s9s8a7ps81ln4nzxvxtfcp0yw" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/174/174872.png" alt="Spotify"> Spotify
-    </a>
-    <a class="social-link" href="https://www.reddit.com/u/EstablishmentRich970/s/285XUwmisL" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit"> Reddit
-    </a>
-    <a class="social-link" href="https://www.roblox.com/share?code=75df44055b274a4d92b29cd9ba8e359e&type=Profile&source=ProfileShare&stamp=1751911827813" target="_blank">
-      <img src="https://www.citypng.com/public/uploads/preview/hd-roblox-white-symbol-sign-icon-logo-png-701751694787435ra1r2desi8.png" alt="Roblox"> Roblox
-    </a>
-  </div>
+
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      for (let i = 0; i < 40; i++) {
-        const cross = document.createElement("div");
-        cross.classList.add("falling-cross");
-        const size = Math.floor(Math.random() * 20) + 20;
-        cross.style.width = `${size}px`;
-        cross.style.height = `${size}px`;
-        cross.style.left = `${Math.random() * 100}vw`;
-        cross.style.animationDuration = `${Math.random() * 6 + 5}s`;
-        cross.style.animationDelay = `${Math.random() * 5}s`;
-        document.body.appendChild(cross);
-      }
+    const intro = document.getElementById("intro");
+    const clickText = document.getElementById("clickToEnter");
+    const bg = document.getElementById("mainBackground");
+    const content = document.getElementById("mainContent");
+    const audio = document.getElementById("bg-music");
+    const musicControls = document.getElementById("music-controls");
+    const playPauseBtn = document.getElementById("play-pause");
+    const playPauseIcon = document.getElementById("playPauseIcon");
+    const volumeSlider = document.getElementById("volume-slider");
 
-      const audio = document.getElementById('bg-music');
-      const playPauseBtn = document.getElementById('play-pause');
-      const playPauseIcon = document.getElementById('playPauseIcon');
-      const volumeSlider = document.getElementById('volume-slider');
+    clickText.addEventListener("click", () => {
+      const cross = document.getElementById("intro-cross");
+      cross.style.transition = "transform 0.3s ease-out";
+      cross.style.transform = "scale(30)";
+      intro.style.transition = "opacity 0.4s ease-out";
+      intro.style.opacity = 0;
 
-      audio.volume = 0.5;
+      setTimeout(() => {
+        intro.style.display = "none";
+        bg.style.opacity = 1;
+        content.style.opacity = 1;
+        musicControls.style.display = "flex";
 
-      // Try autoplay unmuted on interaction
-      const tryUnmute = () => {
-        audio.muted = false;
-        audio.play();
-      };
-      document.addEventListener('click', tryUnmute, { once: true });
-
-      playPauseBtn.addEventListener('click', () => {
-        if (audio.paused) {
-          audio.play();
-        } else {
-          audio.pause();
+        for (let i = 0; i < 40; i++) {
+          const cross = document.createElement("div");
+          cross.classList.add("falling-cross");
+          const size = Math.floor(Math.random() * 20) + 20;
+          cross.style.width = `${size}px`;
+          cross.style.height = `${size}px`;
+          cross.style.left = `${Math.random() * 100}vw`;
+          cross.style.animationDuration = `${Math.random() * 6 + 5}s`;
+          cross.style.animationDelay = `${Math.random() * 5}s`;
+          document.body.appendChild(cross);
         }
-      });
 
-      volumeSlider.addEventListener('input', () => {
-        audio.volume = volumeSlider.value;
-      });
+        audio.volume = 0.5;
+        audio.play();
+      }, 400);
+    });
 
-      audio.addEventListener('play', () => {
-        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png";
-      });
+    playPauseBtn.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png"; // pause icon
+      } else {
+        audio.pause();
+        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png"; // play icon
+      }
+    });
 
-      audio.addEventListener('pause', () => {
-        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png";
-      });
+    volumeSlider.addEventListener("input", () => {
+      audio.volume = volumeSlider.value;
+    });
+
+    audio.addEventListener("play", () => {
+      playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png";
+    });
+
+    audio.addEventListener("pause", () => {
+      playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png";
     });
   </script>
 </body>
