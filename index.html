@@ -39,18 +39,21 @@
     .falling-cross {
       position: fixed;
       top: -50px;
-      width: 30px;
-      height: 30px;
       background-image: url('https://p7.hiclipart.com/preview/189/391/642/christian-cross-gold-cross-necklace-charms-pendants-christian-cross-thumbnail.jpg');
-      background-size: cover;
+      background-size: contain;
       background-repeat: no-repeat;
-      opacity: 0.8;
+      opacity: 0.9;
       z-index: -2;
-      animation: fall linear infinite;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
     }
 
     @keyframes fall {
-      to {
+      0% {
+        transform: translateY(-60px);
+      }
+      100% {
         transform: translateY(110vh);
       }
     }
@@ -143,14 +146,16 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      for (let i = 0; i < 40; i++) {
+      const count = 40;
+      for (let i = 0; i < count; i++) {
         const cross = document.createElement("div");
         cross.classList.add("falling-cross");
         const size = Math.floor(Math.random() * 20) + 20;
         cross.style.width = `${size}px`;
         cross.style.height = `${size}px`;
         cross.style.left = `${Math.random() * 100}vw`;
-        cross.style.animationDuration = `${Math.random() * 6 + 4}s`;
+        cross.style.animationDuration = `${Math.random() * 6 + 5}s`;
+        cross.style.animationDelay = `${Math.random() * 5}s`;
         document.body.appendChild(cross);
       }
     });
@@ -180,7 +185,7 @@
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit"> Reddit
     </a>
     <a class="social-link" href="https://www.roblox.com/share?code=75df44055b274a4d92b29cd9ba8e359e&type=Profile&source=ProfileShare&stamp=1751911827813" target="_blank">
-      <img src="https://www.citypng.com/public/uploads/preview/hd-new-roblox-logo-icon-png-7017516947874640u7jdms7jd.png" alt="Roblox"> Roblox
+      <img src="https://www.citypng.com/public/uploads/preview/hd-roblox-white-symbol-sign-icon-logo-png-701751694787435ra1r2desi8.png" alt="Roblox"> Roblox
     </a>
   </div>
 </body>
