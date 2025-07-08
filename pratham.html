@@ -3,99 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pratham</title>
+  <title>Prath4m</title>
 
-  <!-- Another Danger Graffiti Font -->
-  <link href="https://fonts.cdnfonts.com/css/another-danger" rel="stylesheet">
+  <!-- Graffiti Font: Another Tag -->
+  <link href="https://fonts.cdnfonts.com/css/another-tag" rel="stylesheet">
 
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
     }
 
-    .video-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -1;
-    }
-
-    .name-top {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Another Danger', cursive;
-      font-size: 3em;
-      color: black;
-      z-index: 5;
-      background: rgba(255, 255, 255, 0.3);
-      padding: 10px 20px;
-      border-radius: 12px;
-      backdrop-filter: blur(4px);
-    }
-
-    .overlay-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    .graffiti-name {
+      font-family: 'Another Tag', sans-serif;
+      font-size: 3.5em;
       color: white;
+      margin-top: 40px;
       text-align: center;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 30px;
-      border-radius: 16px;
-      backdrop-filter: blur(6px);
-      max-width: 90vw;
-    }
-
-    .overlay-text h1 {
-      font-size: 2.2em;
-      margin-bottom: 0.4em;
-    }
-
-    .overlay-text p {
-      font-size: 1.1em;
-      line-height: 1.6em;
     }
 
     @media (max-width: 768px) {
-      .overlay-text h1 {
-        font-size: 1.5em;
-      }
-
-      .overlay-text p {
-        font-size: 0.95em;
-      }
-
-      .name-top {
-        font-size: 2em;
-        padding: 8px 16px;
+      .graffiti-name {
+        font-size: 2.2em;
+        margin-top: 30px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Video Background -->
-  <video class="video-background" autoplay muted loop playsinline>
-    <source src="baawe.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-
-  <!-- Name at the top -->
-  <div class="name-top">PRATHAM</div>
-
-  <!-- Overlay Center Content -->
-  <div class="overlay-text">
-    <h1>PRATHAM</h1>
-    <p>BAAWE</p>
-  </div>
+  <div class="graffiti-name">Prath4m</div>
 </body>
 </html>
