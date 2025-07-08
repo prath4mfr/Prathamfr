@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PRATH4M</title>
 
-  <!-- Graffiti Font (Opium-like) -->
-  <link href="https://fonts.cdnfonts.com/css/opium" rel="stylesheet">
-
   <style>
     html, body {
       margin: 0;
@@ -16,6 +13,7 @@
       overflow: hidden;
     }
 
+    /* Video Background */
     .video-bg {
       position: fixed;
       top: 0;
@@ -26,37 +24,76 @@
       z-index: -1;
     }
 
-    .graffiti-text {
+    /* Graffiti Image Name */
+    .graffiti-image {
       position: absolute;
-      top: 6%;
+      top: 5%;
       left: 50%;
       transform: translateX(-50%);
-      font-family: 'Opium', sans-serif;
-      font-size: 6.5vw;
-      color: black;
-      text-shadow: 3px 3px 0 white;
-      z-index: 1;
-      letter-spacing: 3px;
+      width: 40vw;
+      max-width: 400px;
+      z-index: 2;
     }
 
     @media (max-width: 768px) {
-      .graffiti-text {
-        font-size: 12vw;
-        top: 5%;
+      .graffiti-image {
+        width: 65vw;
+        top: 6%;
       }
+    }
+
+    /* Fullscreen Loader */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #loader img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
     }
   </style>
 </head>
 <body>
 
+  <!-- Loading Screen -->
+  <div id="loader">
+    <img src="lunloading.jpg" alt="Loading..." />
+  </div>
+
   <!-- Video Background -->
-  <video class="video-bg" autoplay muted loop playsinline>
-    <source src="baawe.mp4" type="video/mp4">
+  <video class="video-bg" autoplay muted loop playsinline id="bgVideo">
+    <source src="baawe.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
-  <!-- Graffiti-Style Name -->
-  <div class="graffiti-text"></div>
+  <!-- Graffiti Name Image -->
+  <img src="graph.png" alt="PRATH4M" class="graffiti-image" />
+
+  <!-- JS to hide loader once video loads -->
+  <script>
+    const loader = document.getElementById('loader');
+    const video = document.getElementById('bgVideo');
+
+    video.addEventListener('canplaythrough', () => {
+      loader.classList.add('hidden');
+    });
+  </script>
 
 </body>
 </html>
