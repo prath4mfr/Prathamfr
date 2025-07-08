@@ -22,7 +22,7 @@
       background-image: url('collest.png.jpg');
       background-size: cover;
       background-repeat: no-repeat;
-      background-position: center;
+      background-position: left center;
       animation: invertFlash 3.5s infinite;
       z-index: -3;
     }
@@ -52,13 +52,13 @@
       opacity: 0;
       background-color: rgba(0, 0, 0, 0.55);
       border-radius: 16px;
-      padding: 20px 18px;
+      padding: 16px 14px;
       color: white;
       text-align: center;
       backdrop-filter: blur(8px);
       animation: popIn 1.5s ease-out forwards;
       animation-delay: 1.5s;
-      width: 260px;
+      width: 240px;
       z-index: 1;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     }
@@ -69,8 +69,8 @@
       }
     }
     .social-box h1 {
-      margin-bottom: 20px;
-      font-size: 2em;
+      margin-bottom: 18px;
+      font-size: 1.8em;
       font-family: 'Orbitron', sans-serif;
       letter-spacing: 2px;
     }
@@ -80,7 +80,7 @@
       gap: 10px;
       justify-content: flex-start;
       background-color: transparent;
-      padding: 9px 14px;
+      padding: 8px 12px;
       margin: 6px 0;
       border-radius: 12px;
       text-decoration: none;
@@ -133,10 +133,10 @@
 </head>
 <body>
   <div class="background"></div>
-  <audio id="bg-music" src="9.mp3" loop></audio>
+  <audio id="bg-music" src="9.mp3" autoplay muted loop></audio>
   <div id="music-controls">
     <button id="play-pause">
-      <img id="playPauseIcon" src="https://cdn-icons-png.flaticon.com/512/0/375.png" alt="Play" />
+      <img id="playPauseIcon" src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Pause" />
     </button>
     <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" />
   </div>
@@ -177,44 +177,40 @@
         cross.style.animationDelay = `${Math.random() * 5}s`;
         document.body.appendChild(cross);
       }
-    });
 
-    const audio = document.getElementById('bg-music');
-    const playPauseBtn = document.getElementById('play-pause');
-    const playPauseIcon = document.getElementById('playPauseIcon');
-    const volumeSlider = document.getElementById('volume-slider');
+      const audio = document.getElementById('bg-music');
+      const playPauseBtn = document.getElementById('play-pause');
+      const playPauseIcon = document.getElementById('playPauseIcon');
+      const volumeSlider = document.getElementById('volume-slider');
 
-    audio.volume = 0.5;
+      audio.volume = 0.5;
 
-    window.addEventListener('load', () => {
-      const tryPlay = audio.play();
-      if (tryPlay !== undefined) {
-        tryPlay.catch(() => {
-          document.body.addEventListener('click', () => {
-            audio.play();
-          }, { once: true });
-        });
-      }
-    });
-
-    playPauseBtn.addEventListener('click', () => {
-      if (audio.paused) {
+      // Try autoplay unmuted on interaction
+      const tryUnmute = () => {
+        audio.muted = false;
         audio.play();
-      } else {
-        audio.pause();
-      }
-    });
+      };
+      document.addEventListener('click', tryUnmute, { once: true });
 
-    volumeSlider.addEventListener('input', () => {
-      audio.volume = volumeSlider.value;
-    });
+      playPauseBtn.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      });
 
-    audio.addEventListener('play', () => {
-      playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png"; // Pause
-    });
+      volumeSlider.addEventListener('input', () => {
+        audio.volume = volumeSlider.value;
+      });
 
-    audio.addEventListener('pause', () => {
-      playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png"; // Play
+      audio.addEventListener('play', () => {
+        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/727/727245.png";
+      });
+
+      audio.addEventListener('pause', () => {
+        playPauseIcon.src = "https://cdn-icons-png.flaticon.com/512/0/375.png";
+      });
     });
   </script>
 </body>
