@@ -31,14 +31,14 @@
     }
 
     .cross-icon {
-      width: 50px;
-      height: 50px;
+      width: 90px;
+      height: 90px;
       background-image: url('https://png.pngtree.com/png-clipart/20230623/ourmid/pngtree-christian-cross-symbol-of-justice-png-image_7135202.png');
       background-size: contain;
       background-repeat: no-repeat;
       animation: float 2.4s ease-in-out infinite, glowWhite 1.8s ease-in-out infinite;
       cursor: pointer;
-      filter: drop-shadow(0 0 10px white);
+      filter: drop-shadow(0 0 15px white);
     }
 
     .click-text {
@@ -57,7 +57,7 @@
 
     @keyframes glowWhite {
       0% { filter: drop-shadow(0 0 5px white); }
-      50% { filter: drop-shadow(0 0 15px white); }
+      50% { filter: drop-shadow(0 0 20px white); }
       100% { filter: drop-shadow(0 0 5px white); }
     }
 
@@ -72,7 +72,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-image: url('.collest.png.jpg');
+      background-image: url('./collest.png.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -96,6 +96,8 @@
       opacity: 0.9;
       z-index: -2;
       animation: fall linear infinite;
+      width: 30px;
+      height: 30px;
     }
 
     @keyframes fall {
@@ -201,9 +203,8 @@
     <div class="cross-icon" id="intro-cross"></div>
     <div class="click-text" id="clickToEnter">CL1CK</div>
   </div>
-
   <div class="background" id="mainBackground"></div>
-  <div class="social-box" id="mainContent">
+
     <h1>SOCI4LS</h1>
     <a class="social-link" href="https://www.instagram.com/prath4mfr" target="_blank">
       <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"> Instagram
