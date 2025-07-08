@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pratham</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  animation: flicker 0.1s infinite alternate;  /* ⚡️ Faster flicker */
+}
+
+@keyframes flicker {
+  0% { background: black; }
+  100% { background: white; }
+}
+
+    iframe {
+      position: absolute;
+      width: 300px;
+      height: 180px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <audio src="COMEAROUND.mp3" autoplay loop></audio>
+
+  <script>
+    const videoIDs = [
+      "vwD0ewU0uZ8","kBFDaYf8GpU","-u7YErDZmxw","3V68zWvvJ6E","OADWgHqF8sw","a1UAkV1vs4Y",
+      "RhN07X4hcK4","Ka1QybRGkGo","O2jkV4BsN6U","NiqzAybAlqM","a24EUd0zeqI",
+      "xPjq75pbewI","1e0yw3kP0F4","tyWJ5MLzT7s","yCCTHUW392g","J_qvG5ODGHk",
+      "TFWXqLSr4ZM","6tI-0LBamGg","pe62zVIc4X0","Pi-OvAfQD8M","M1t3tcqvu0s",
+      "tVRTm2khwTM","_9hkXCYiEjc","FRnWtzoVR9o","Z73PBkRBMFA","XxORUYxVvVg",
+      "fXF59UWr-tA"
+    ];
+
+    videoIDs.forEach((id, index) => {
+      setTimeout(() => {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}`;
+        iframe.style.left = Math.random() * (window.innerWidth - 300) + 'px';
+        iframe.style.top = Math.random() * (window.innerHeight - 180) + 'px';
+        document.body.appendChild(iframe);
+      }, index * 1000);
+    });
+  </script>
+</body>
+</html>
