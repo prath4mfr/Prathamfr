@@ -111,19 +111,24 @@
       filter: brightness(0) drop-shadow(0 0 6px white);
     }
 
+    .know-more-container {
+      margin-top: 25px;
+      text-align: left;
+    }
+
     .know-more-btn {
-      display: block;
-      margin-top: 20px;
-      padding: 10px 16px;
-      background-color: rgba(255, 255, 255, 0.1);
+      display: inline-block;
+      padding: 8px 12px;
+      background-color: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      text-align: right;
+      border-radius: 10px;
       color: white;
       text-decoration: none;
-      font-weight: bold;
+      font-size: 0.85em;
+      font-weight: 600;
       backdrop-filter: blur(4px);
-      transition: background 0.3s ease, color 0.3s ease;
+      width: 45%;
+      transition: all 0.3s ease;
     }
 
     .know-more-btn:hover {
@@ -131,30 +136,37 @@
       color: black;
     }
 
-    .music-controls {
+    #music-controls {
       position: fixed;
       bottom: 16px;
       left: 16px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px 12px;
-      border-radius: 12px;
+      gap: 8px;
+      background-color: rgba(0, 0, 0, 0.35);
+      padding: 6px 10px;
+      border-radius: 10px;
       backdrop-filter: blur(6px);
-      z-index: 10;
+      z-index: 1000;
+      height: 40px;
     }
 
-    .music-controls button {
+    #music-controls button {
       background: none;
       border: none;
-      color: white;
-      font-size: 16px;
       cursor: pointer;
+      padding: 0;
     }
 
-    .music-controls input[type="range"] {
-      width: 100px;
+    #music-controls img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) invert(1);
+    }
+
+    #volume-slider {
+      width: 80px;
+      cursor: pointer;
       accent-color: white;
     }
 
@@ -191,40 +203,6 @@
         width: 80px;
       }
     }
-
-    #music-controls {
-      position: fixed;
-      bottom: 16px;
-      left: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background-color: rgba(0, 0, 0, 0.35);
-      padding: 6px 10px;
-      border-radius: 10px;
-      backdrop-filter: blur(6px);
-      z-index: 1000;
-      height: 40px;
-    }
-
-    #music-controls button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-    }
-
-    #music-controls img {
-      width: 22px;
-      height: 22px;
-      filter: brightness(0) invert(1);
-    }
-
-    #volume-slider {
-      width: 80px;
-      cursor: pointer;
-      accent-color: white;
-    }
   </style>
 </head>
 <body>
@@ -239,7 +217,7 @@
     <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" />
   </div>
 
-  <!-- 🌐 Social Links Box -->
+  <!-- Social Box -->
   <div class="social-box">
     <h1>SOCI4LS</h1>
     <a class="social-link" href="https://www.instagram.com/prath4mfr?igsh=MW52NDlxOWE5OHA4aw==" target="_blank">
@@ -264,13 +242,16 @@
       <img src="https://www.citypng.com/public/uploads/preview/hd-roblox-white-symbol-sign-icon-logo-png-701751694787435ra1r2desi8.png" alt="Roblox"> Roblox
     </a>
 
-    <!-- NEW BUTTON HERE -->
-    <a href="pratham.html" class="know-more-btn">Know More About Pratham &gt;&gt;&gt;</a>
+    <!-- NEW BUTTON -->
+    <div class="know-more-container">
+      <a href="pratham.html" class="know-more-btn">Know More About Pratham &gt;&gt;&gt;</a>
+    </div>
   </div>
 
-  <!-- Cross Falling Script -->
+  <!-- Scripts -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      // Falling crosses
       for (let i = 0; i < 40; i++) {
         const cross = document.createElement("div");
         cross.classList.add("falling-cross");
