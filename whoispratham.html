@@ -12,7 +12,7 @@
       height: 100%;
       overflow: hidden;
       font-family: 'Share Tech Mono', monospace;
-      background: black;
+      background-color: black;
     }
 
     .background {
@@ -21,12 +21,12 @@
       left: 0;
       height: 100%;
       width: 100%;
-      z-index: -2;
+      z-index: -10;
     }
 
     .background img {
-      width: 100%;
       height: 100%;
+      width: 100%;
       object-fit: cover;
     }
 
@@ -86,13 +86,7 @@
       position: absolute;
       width: 120px;
       pointer-events: none;
-      animation: wobble 1s ease-in-out infinite alternate;
-      z-index: 3;
-    }
-
-    @keyframes wobble {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(5px); }
+      z-index: 5;
     }
 
     @media (max-width: 768px) {
@@ -112,6 +106,7 @@
   </style>
 </head>
 <body>
+
   <!-- Background -->
   <div class="background">
     <img src="bgbg.jpg" alt="Background" />
@@ -157,31 +152,42 @@
       const direction = directions[Math.floor(Math.random() * directions.length)];
 
       const duration = 5 + Math.random() * 3;
-      let rotation = 0, keyframes = [];
+      let startStyle = {}, keyframes = [];
 
       if (direction === 'left-right') {
         img.style.top = `${Math.random() * 80}vh`;
         img.style.left = '-150px';
-        rotation = 0;
-        keyframes = [{ transform: 'translateX(0)' }, { transform: 'translateX(120vw)' }];
+        img.style.transform = 'rotate(0deg)';
+        keyframes = [
+          { transform: 'translateX(0) rotate(0deg)' },
+          { transform: 'translateX(120vw) rotate(0deg)' }
+        ];
       } else if (direction === 'right-left') {
         img.style.top = `${Math.random() * 80}vh`;
         img.style.left = '100vw';
-        rotation = 180;
-        keyframes = [{ transform: 'translateX(0)' }, { transform: 'translateX(-120vw)' }];
+        img.style.transform = 'rotate(180deg)';
+        keyframes = [
+          { transform: 'translateX(0) rotate(180deg)' },
+          { transform: 'translateX(-120vw) rotate(180deg)' }
+        ];
       } else if (direction === 'top-bottom') {
         img.style.left = `${Math.random() * 80}vw`;
         img.style.top = '-150px';
-        rotation = 90;
-        keyframes = [{ transform: 'translateY(0)' }, { transform: 'translateY(120vh)' }];
+        img.style.transform = 'rotate(90deg)';
+        keyframes = [
+          { transform: 'translateY(0) rotate(90deg)' },
+          { transform: 'translateY(120vh) rotate(90deg)' }
+        ];
       } else if (direction === 'bottom-top') {
         img.style.left = `${Math.random() * 80}vw`;
         img.style.top = '100vh';
-        rotation = 270;
-        keyframes = [{ transform: 'translateY(0)' }, { transform: 'translateY(-120vh)' }];
+        img.style.transform = 'rotate(270deg)';
+        keyframes = [
+          { transform: 'translateY(0) rotate(270deg)' },
+          { transform: 'translateY(-120vh) rotate(270deg)' }
+        ];
       }
 
-      img.style.transform = `rotate(${rotation}deg)`;
       document.body.appendChild(img);
 
       img.animate(keyframes, {
