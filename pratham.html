@@ -24,7 +24,7 @@
       z-index: -1;
     }
 
-    /* Graffiti Image - shifted more left */
+    /* Graffiti Image */
     .graffiti-image {
       position: absolute;
       top: 5%;
@@ -83,13 +83,42 @@
       text-decoration: none;
       font-family: 'Segoe UI', sans-serif;
       backdrop-filter: blur(6px);
-      z-index: 100;
+      z-index: 10;
       transition: all 0.3s ease;
     }
 
     .back-button:hover {
       background: rgba(255, 255, 255, 0.85);
       color: black;
+    }
+
+    /* Who is Pratham Button Box */
+    .whois-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 12px;
+      border-radius: 14px;
+      backdrop-filter: blur(8px);
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .whois-box:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .whois-box img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .whois-box img {
+        height: 32px;
+      }
     }
   </style>
 </head>
@@ -112,7 +141,12 @@
   <!-- Back Button -->
   <a href="index.html" class="back-button">BACK</a>
 
-  <!-- JS to hide loader once video loads -->
+  <!-- Whois Pratham Button -->
+  <a href="whoispratham.html" class="whois-box">
+    <img src="whoispratham.png" alt="Who is Pratham?" />
+  </a>
+
+  <!-- JS to hide loader -->
   <script>
     const loader = document.getElementById('loader');
     const video = document.getElementById('bgVideo');
