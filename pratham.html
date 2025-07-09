@@ -14,47 +14,27 @@
       background: black;
     }
 
-    /* Video Background */
-    .video-bg {
+    /* Background Video */
+    #bgVideo {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       z-index: -1;
     }
 
-    /* Graffiti Image */
-    .graffiti-image {
-      position: absolute;
-      top: 5%;
-      left: 40%;
-      transform: translateX(-60%);
-      width: 40vw;
-      max-width: 400px;
-      z-index: 2;
-    }
-
-    @media (max-width: 768px) {
-      .graffiti-image {
-        width: 65vw;
-        top: 6%;
-        left: 40%;
-        transform: translateX(-60%);
-      }
-    }
-
-    /* Fullscreen Loader */
+    /* Loader */
     #loader {
       position: fixed;
       inset: 0;
       background: black;
-      z-index: 9999;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
     }
 
     #loader img {
@@ -67,39 +47,61 @@
       opacity: 0;
       visibility: hidden;
     }
+
+    /* Graffiti Image */
+    .graffiti-image {
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40vw;
+      max-width: 420px;
+      z-index: 10;
+    }
+
+    @media (max-width: 768px) {
+      .graffiti-image {
+        width: 65vw;
+        top: 6%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      #loader img {
+        object-position: center center;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Loading Screen -->
+  <!-- Loader -->
   <div id="loader">
     <img src="lunloading.jpg" alt="Loading..." />
   </div>
 
   <!-- Video Background -->
-  <video class="video-bg" autoplay muted loop playsinline preload="auto" id="bgVideo">
+  <video id="bgVideo" autoplay muted loop playsinline preload="auto">
     <source src="baawe.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
-  <!-- Graffiti Name Image -->
+  <!-- Name Image -->
   <img src="graph.png" alt="PRATH4M" class="graffiti-image" />
 
-  <!-- JS to hide loader when video loads or fails -->
+  <!-- JS to Hide Loader -->
   <script>
-    const loader = document.getElementById('loader');
     const video = document.getElementById('bgVideo');
+    const loader = document.getElementById('loader');
 
-    // When video is ready, hide loader
     video.addEventListener('canplaythrough', () => {
       loader.classList.add('hidden');
     });
 
-    // If video fails, also hide loader
-    video.onerror = () => {
-      console.error("Video failed to load.");
+    video.addEventListener('error', () => {
+      console.error("Video load failed.");
       loader.classList.add('hidden');
-    };
+    });
   </script>
 
 </body>
