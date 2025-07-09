@@ -9,30 +9,45 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      background: black url('bgbg.jpg') no-repeat center center fixed;
-      background-size: cover;
       font-family: 'Share Tech Mono', monospace;
       color: yellow;
       overflow: hidden;
-    }/* PC video background */
-#bgvid {
+      background: black;
+    }/* Background video for PC */
+#bgVideo {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
-  min-width: 100vw;
-  min-height: 100vh;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   z-index: -1;
-  display: none;
 }
 
+/* Background image for Mobile */
+#mobileBg {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* Show video on PC */
 @media (min-width: 769px) {
-  #bgvid {
+  #bgVideo {
     display: block;
   }
+}
 
-  html, body {
-    background: none;
+/* Show static background on mobile */
+@media (max-width: 768px) {
+  #mobileBg {
+    display: block;
   }
 }
 
@@ -61,7 +76,6 @@
   position: absolute;
   bottom: -100vh;
   width: 100%;
-  perspective: 500px;
   z-index: 1;
   animation: fadeInCrawl 6s forwards;
   animation-delay: 5.5s;
@@ -75,14 +89,17 @@
 }
 
 .crawl {
-  transform-origin: 50% 100%;
-  transform: rotateX(25deg);
   font-size: 1.6em;
   line-height: 2.4em;
   text-align: center;
   max-width: 80vw;
   margin: auto;
-  animation: crawlUp 120s linear forwards;
+  animation: scrollUp 120s linear forwards;
+}
+
+@keyframes scrollUp {
+  0% { transform: translateY(100vh); }
+  100% { transform: translateY(-800vh); }
 }
 
 .crawl img {
@@ -90,11 +107,6 @@
   max-width: 300px;
   width: 60%;
   margin: 20px auto;
-}
-
-@keyframes crawlUp {
-  0% { transform: rotateX(25deg) translateY(100vh); }
-  100% { transform: rotateX(25deg) translateY(-800vh); }
 }
 
 .controls {
@@ -138,12 +150,12 @@
   </style>
 </head>
 <body>
-  <!-- PC Video Background -->
-  <video autoplay loop muted playsinline id="bgvid">
-    <source src="starlun.mp4" type="video/mp4" />
-  </video>  <!-- Title Zoom-Out -->  <div class="title-intro">
+  <!-- Background Video for PC -->
+  <video id="bgVideo" autoplay muted loop>
+    <source src="starlun.mp4" type="video/mp4">
+  </video>  <!-- Static Background for Mobile -->  <img id="mobileBg" src="bgbg.jpg" alt="Background" />  <!-- Title Zoom-Out -->  <div class="title-intro">
     <img src="who.png" alt="Who is Pratham Title" width="500" />
-  </div>  <!-- Star Wars Crawl -->  <div class="crawl-wrapper">
+  </div>  <!-- Crawl Content -->  <div class="crawl-wrapper">
     <div class="crawl" id="crawlText">
       <p>A long time ago, in a galaxy not so far away...</p>
       <p>There lived a curious soul named Pratham.</p>
