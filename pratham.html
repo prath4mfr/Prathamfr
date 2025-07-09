@@ -24,24 +24,22 @@
       z-index: -1;
     }
 
-    /* Graffiti Image Name with subtle white border */
+    /* Graffiti Image - slightly left */
     .graffiti-image {
       position: absolute;
       top: 5%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-53%);
       width: 40vw;
       max-width: 400px;
       z-index: 2;
-      border: 1px solid rgba(255, 255, 255, 0.2); /* thin white border */
-      box-shadow: 0 0 4px rgba(255, 255, 255, 0.05); /* soft glow */
-      border-radius: 4px;
     }
 
     @media (max-width: 768px) {
       .graffiti-image {
         width: 65vw;
         top: 6%;
+        transform: translateX(-53%);
       }
     }
 
