@@ -10,27 +10,38 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      width: 100%;
+      overflow: hidden;
       font-family: 'Share Tech Mono', monospace;
-      background-color: black;
-      overflow-y: auto;
+      background: black;
     }
 
-    .background {
+    /* Starfield Background */
+    .stars {
       position: fixed;
       top: 0;
       left: 0;
-      height: 100%;
-      width: 100%;
-      z-index: -1;
-      pointer-events: none;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      z-index: -10;
+      overflow: hidden;
     }
 
-    .background img {
+    .stars::after {
+      content: '';
+      position: absolute;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      display: block;
+      background-image: radial-gradient(white 1px, transparent 1px);
+      background-size: 3px 3px;
+      opacity: 0.2;
+      animation: twinkle 8s infinite linear;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.2; }
+      50% { opacity: 0.4; }
+      100% { opacity: 0.2; }
     }
 
     .back-button {
@@ -53,6 +64,22 @@
       color: black;
     }
 
+    .scroll-wrapper {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      z-index: 1;
+      mask-image: linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);
+    }
+
+    .scroll-container {
+      width: 100%;
+      animation: scrollUp 30s linear infinite;
+    }
+
     .scroll-text {
       color: yellow;
       font-size: 1em;
@@ -61,14 +88,6 @@
       width: 90%;
       max-width: 600px;
       margin: 0 auto;
-      padding-top: 100vh;
-      animation: fadein 2s ease-in-out;
-      z-index: 2;
-    }
-
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .portrait-image {
@@ -80,17 +99,21 @@
     .left-img { float: left; clear: both; }
     .right-img { float: right; clear: both; }
 
+    @keyframes scrollUp {
+      0% { transform: translateY(100vh); }
+      100% { transform: translateY(-300vh); }
+    }
+
     .flyer {
       position: absolute;
       width: 120px;
       pointer-events: none;
-      z-index: 3;
+      z-index: 5;
     }
 
     @media (max-width: 768px) {
       .scroll-text {
-        font-size: 0.85em;
-        padding-top: 50vh;
+        font-size: 0.8em;
       }
       .portrait-image {
         width: 60%;
@@ -106,34 +129,36 @@
 </head>
 <body>
 
-  <!-- Background -->
-  <div class="background">
-    <img src="bgbg.jpg" alt="Background" onerror="document.body.style.background='black'" />
-  </div>
+  <!-- Stars Background -->
+  <div class="stars"></div>
 
   <!-- Back Button -->
   <a href="pratham.html" class="back-button">BACK</a>
 
-  <!-- Scrolling Text -->
-  <div class="scroll-text">
-    <p>A long time ago, in a galaxy not so far away...</p>
-    <p>There lived a curious soul named Pratham.</p>
-    <p>As of today, he has existed for approximately 519,837,600 seconds, which in Earth terms means he's definitely old enough to know better, but still young enough to do it anyway.</p>
-    <p>Born in the ever-buzzing heart of Delhi, Pratham decided one day — out of sheer boredom and an undeniable urge to flex his web skills — to create a website. Why? Because he could.</p>
-    <img src="prathu1.png" alt="Portrait 1" class="portrait-image right-img" />
-    <p>But there's more to him than just HTML and existential time calculations.</p>
-    <p>He claims to have massive connections — the kind that stretch across dimensions.</p>
-    <img src="prathu2.png" alt="Portrait 2" class="portrait-image left-img" />
-    <p>He's had chai with Modi, handshake deals with Trump, arm-wrestled Putin, and taken late-night drives with Batman (the Batmobile has great bass, by the way).</p>
-    <img src="prathu3.png" alt="Portrait 3" class="portrait-image right-img" />
-    <p>And somehow, in all of this, he's still besties with Hello Kitty.</p>
-    <p>Whether it's fact or fiction, truth or troll — one thing's clear:</p>
-    <p>This is Pratham’s universe.</p>
-    <p>And we’re all just browsing in it.</p>
-    <p>And yet... people ask — who is Pratham?</p>
+  <!-- Manual Scroll + Auto Scroll -->
+  <div class="scroll-wrapper">
+    <div class="scroll-container">
+      <div class="scroll-text">
+        <p>A long time ago, in a galaxy not so far away...</p>
+        <p>There lived a curious soul named Pratham.</p>
+        <p>As of today, he has existed for approximately 519,837,600 seconds, which in Earth terms means he's definitely old enough to know better, but still young enough to do it anyway.</p>
+        <p>Born in the ever-buzzing heart of Delhi, Pratham decided one day — out of sheer boredom and an undeniable urge to flex his web skills — to create a website. Why? Because he could.</p>
+        <img src="prathu1.png" alt="Portrait 1" class="portrait-image right-img" />
+        <p>But there's more to him than just HTML and existential time calculations.</p>
+        <p>He claims to have massive connections — the kind that stretch across dimensions.</p>
+        <img src="prathu2.png" alt="Portrait 2" class="portrait-image left-img" />
+        <p>He's had chai with Modi, handshake deals with Trump, arm-wrestled Putin, and taken late-night drives with Batman (the Batmobile has great bass, by the way).</p>
+        <img src="prathu3.png" alt="Portrait 3" class="portrait-image right-img" />
+        <p>And somehow, in all of this, he's still besties with Hello Kitty.</p>
+        <p>Whether it's fact or fiction, truth or troll — one thing's clear:</p>
+        <p>This is Pratham’s universe.</p>
+        <p>And we’re all just browsing in it.</p>
+        <p>And yet... people ask — who is Pratham?</p>
+      </div>
+    </div>
   </div>
 
-  <!-- Flying Udaan Image -->
+  <!-- Flying udaan1.png -->
   <script>
     let flyerExists = false;
 
@@ -145,53 +170,50 @@
       img.src = 'udaan1.png';
       img.className = 'flyer';
 
-      const direction = ['left-right', 'right-left', 'top-bottom', 'bottom-top'][Math.floor(Math.random() * 4)];
-      let keyframes = [];
-      let duration = 5000 + Math.random() * 3000;
+      const directions = ['left-right', 'right-left', 'top-bottom', 'bottom-top'];
+      const direction = directions[Math.floor(Math.random() * directions.length)];
 
-      switch (direction) {
-        case 'left-right':
-          img.style.top = `${Math.random() * 80}vh`;
-          img.style.left = '-150px';
-          img.style.transform = 'rotate(0deg)';
-          keyframes = [
-            { transform: 'translateX(0) rotate(0deg)' },
-            { transform: 'translateX(120vw) rotate(0deg)' }
-          ];
-          break;
-        case 'right-left':
-          img.style.top = `${Math.random() * 80}vh`;
-          img.style.left = '100vw';
-          img.style.transform = 'rotate(180deg)';
-          keyframes = [
-            { transform: 'translateX(0) rotate(180deg)' },
-            { transform: 'translateX(-120vw) rotate(180deg)' }
-          ];
-          break;
-        case 'top-bottom':
-          img.style.left = `${Math.random() * 80}vw`;
-          img.style.top = '-150px';
-          img.style.transform = 'rotate(90deg)';
-          keyframes = [
-            { transform: 'translateY(0) rotate(90deg)' },
-            { transform: 'translateY(120vh) rotate(90deg)' }
-          ];
-          break;
-        case 'bottom-top':
-          img.style.left = `${Math.random() * 80}vw`;
-          img.style.top = '100vh';
-          img.style.transform = 'rotate(270deg)';
-          keyframes = [
-            { transform: 'translateY(0) rotate(270deg)' },
-            { transform: 'translateY(-120vh) rotate(270deg)' }
-          ];
-          break;
+      const duration = 5 + Math.random() * 3;
+      let keyframes = [];
+
+      if (direction === 'left-right') {
+        img.style.top = `${Math.random() * 80}vh`;
+        img.style.left = '-150px';
+        img.style.transform = 'rotate(0deg)';
+        keyframes = [
+          { transform: 'translateX(0) rotate(0deg)' },
+          { transform: 'translateX(120vw) rotate(0deg)' }
+        ];
+      } else if (direction === 'right-left') {
+        img.style.top = `${Math.random() * 80}vh`;
+        img.style.left = '100vw';
+        img.style.transform = 'rotate(180deg)';
+        keyframes = [
+          { transform: 'translateX(0) rotate(180deg)' },
+          { transform: 'translateX(-120vw) rotate(180deg)' }
+        ];
+      } else if (direction === 'top-bottom') {
+        img.style.left = `${Math.random() * 80}vw`;
+        img.style.top = '-150px';
+        img.style.transform = 'rotate(90deg)';
+        keyframes = [
+          { transform: 'translateY(0) rotate(90deg)' },
+          { transform: 'translateY(120vh) rotate(90deg)' }
+        ];
+      } else if (direction === 'bottom-top') {
+        img.style.left = `${Math.random() * 80}vw`;
+        img.style.top = '100vh';
+        img.style.transform = 'rotate(270deg)';
+        keyframes = [
+          { transform: 'translateY(0) rotate(270deg)' },
+          { transform: 'translateY(-120vh) rotate(270deg)' }
+        ];
       }
 
       document.body.appendChild(img);
 
       img.animate(keyframes, {
-        duration: duration,
+        duration: duration * 1000,
         easing: 'linear',
         fill: 'forwards'
       });
@@ -199,7 +221,7 @@
       setTimeout(() => {
         img.remove();
         flyerExists = false;
-      }, duration);
+      }, duration * 1000);
     }
 
     setInterval(createFlyingImage, 4000);
