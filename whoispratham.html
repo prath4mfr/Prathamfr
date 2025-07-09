@@ -15,36 +15,32 @@
       background: black;
     }
 
-    /* Starfield Background Layers */
-    .stars, .stars2, .stars3 {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-repeat: repeat;
-      z-index: -10;
-    }
+    /* Starfield container */
+.stars {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: -10;
+  overflow: hidden;
+}
 
-    .stars {
-      background-image: url('https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/stars.png');
-      animation: moveStars 200s linear infinite;
-    }
+.stars::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  box-shadow:
+    /* generate random stars */ 
+    1000 randomized points;
+  animation: twinkle 5s infinite alternate;
+}
 
-    .stars2 {
-      background-image: url('https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/stars2.png');
-      animation: moveStars 400s linear infinite;
-    }
+/* Simple twinkle */
+@keyframes twinkle {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
 
-    .stars3 {
-      background-image: url('https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/stars3.png');
-      animation: moveStars 600s linear infinite;
-    }
-
-    @keyframes moveStars {
-      from { background-position: 0 0; }
-      to { background-position: -10000px 5000px; }
-    }
 
     .back-button {
       position: fixed;
