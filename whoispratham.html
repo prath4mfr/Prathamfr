@@ -3,134 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Who is PRATH4M?</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <title>Who is Pratham</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
+      width: 100%;
       overflow: hidden;
-      font-family: 'Orbitron', sans-serif;
-      background: url('bgbg.jpg') no-repeat center center/cover;
     }
 
-    /* Scrolling Text */
-    .scrolling-text {
-      position: absolute;
-      bottom: -100%;
-      width: 100%;
-      text-align: center;
-      color: yellow;
-      font-size: 1.2rem;
-      animation: scrollUp 90s linear infinite;
-      white-space: pre-wrap;
-      padding: 0 10vw;
-    }
-
-    @keyframes scrollUp {
-      0% { bottom: -100%; }
-      100% { bottom: 100%; }
-    }
-
-    /* Flying Image */
-    .udaan {
-      position: absolute;
-      bottom: -100px;
-      width: 80px;
-      animation: flyUp 10s linear infinite;
-    }
-
-    @keyframes flyUp {
-      0% {
-        transform: translateY(100vh) translateX(0);
-        left: calc(10% + 80% * random);
-      }
-      100% {
-        transform: translateY(-150px) translateX(0);
-        left: calc(10% + 80% * random);
-      }
-    }
-
-    /* Large Title */
-    .big-title {
-      position: absolute;
-      bottom: 10%;
-      width: 100%;
-      text-align: center;
-      color: yellow;
-      font-size: 3rem;
-      text-transform: uppercase;
-    }
-
-    .big-title span {
-      display: block;
-    }
-
-    /* Back Button */
-    .back-button {
+    .background {
       position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: rgba(0, 0, 0, 0.45);
-      color: white;
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-size: 1rem;
-      text-decoration: none;
-      font-family: 'Segoe UI', sans-serif;
-      backdrop-filter: blur(6px);
-      z-index: 10;
-      transition: all 0.3s ease;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
     }
 
-    .back-button:hover {
-      background: rgba(255, 255, 255, 0.85);
-      color: black;
+    .background img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
     }
   </style>
 </head>
 <body>
-
-  <!-- Flying Udaan -->
-  <img src="udaan1.png" alt="Flying" class="udaan" />
-
-  <!-- Scrolling Paragraph -->
-  <div class="scrolling-text">
-    A long time ago, in a galaxy not so far away...
-
-    There lived a curious soul named Pratham.
-
-    As of today, he has existed for approximately 519,837,600 seconds, which in Earth terms means he's definitely old enough to know better, but still young enough to do it anyway.
-
-    Born in the ever-buzzing heart of Delhi, Pratham decided one day — out of sheer boredom and an undeniable urge to flex his web skills — to create a website. Why? Because he could.
-
-    But there's more to him than just HTML and existential time calculations.
-
-    He claims to have massive connections — the kind that stretch across dimensions.
-
-    He's had chai with Modi, handshake deals with Trump, arm-wrestled Putin, and taken late-night drives with Batman (the Batmobile has great bass, by the way).
-
-    And somehow, in all of this, he's still besties with Hello Kitty.
-
-    Whether it's fact or fiction, truth or troll — one thing's clear:
-
-    This is Pratham’s universe.
-
-    And we’re all just browsing in it.
-
-    And yet... people ask — who is Pratham?
+  <div class="background">
+    <img src="bgbg.jpg" alt="Background" />
   </div>
-
-  <!-- Title -->
-  <div class="big-title">
-    <span>WHO IS</span>
-    <span>PRATHAM?</span>
-  </div>
-
-  <!-- Back Button -->
-  <a href="pratham.html" class="back-button">BACK</a>
-
 </body>
 </html>
