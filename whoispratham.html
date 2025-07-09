@@ -10,18 +10,18 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      width: 100%;
       overflow: hidden;
       font-family: 'Share Tech Mono', monospace;
+      background: black;
     }
 
     .background {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
       height: 100vh;
-      z-index: -1;
+      width: 100vw;
+      z-index: -2;
     }
 
     .background img {
@@ -40,10 +40,9 @@
       border-radius: 12px;
       font-size: 1rem;
       text-decoration: none;
-      font-family: 'Segoe UI', sans-serif;
       backdrop-filter: blur(6px);
       z-index: 10;
-      transition: all 0.3s ease;
+      transition: 0.3s ease;
     }
 
     .back-button:hover {
@@ -51,80 +50,86 @@
       color: black;
     }
 
-    .flyer {
-      position: absolute;
-      width: 120px;
-      height: auto;
-      z-index: 2;
-      pointer-events: none;
-    }
-
     .scroll-container {
       position: absolute;
       top: 0;
-      height: 100%;
       width: 100%;
-      overflow-y: scroll;
-      mask-image: linear-gradient(to top, transparent, black 10%, black 90%, transparent);
-      -webkit-mask-image: linear-gradient(to top, transparent, black 10%, black 90%, transparent);
-      z-index: 3;
+      height: 100%;
+      overflow: hidden;
+      z-index: 2;
     }
 
     .scroll-text {
-  width: 90%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding-top: 5vh;
-  color: yellow;
-  font-size: 1em;
-  text-align: center;
-  line-height: 1.8em;
-  animation: scrollUp 20s linear infinite;
-  animation-delay: 2s;
-}
+      color: yellow;
+      font-size: 1em;
+      line-height: 1.8em;
+      text-align: center;
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding-top: 5vh;
+      animation: scrollUp 20s linear infinite;
+      animation-delay: 2s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
 
+    @keyframes scrollUp {
+      0% { transform: translateY(100%); opacity: 0; }
+      5% { opacity: 1; }
+      100% { transform: translateY(-250%); opacity: 1; }
+    }
 
     .portrait-image {
       width: 40%;
       max-width: 200px;
-      position: relative;
-    }
-
-    .left-img {
-      float: left;
       margin: 20px;
     }
 
-    .right-img {
-      float: right;
-      margin: 20px;
+    .left-img { float: left; clear: both; }
+    .right-img { float: right; clear: both; }
+
+    .flyer {
+      position: absolute;
+      width: 120px;
+      pointer-events: none;
+      animation: wobble 1s ease-in-out infinite alternate;
+      z-index: 3;
     }
 
-    @keyframes scrollUp {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-250%); }
-}
-
+    @keyframes wobble {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(5px); }
     }
 
     @media (max-width: 768px) {
       .scroll-text {
-        font-size: 0.75em;
-        padding-top: 10vh;
+        font-size: 0.8em;
+        padding-top: 8vh;
+        animation: scrollUp 24s linear infinite;
       }
       .portrait-image {
         width: 60%;
+        display: block;
+        margin: 20px auto;
+        float: none;
+      }
+      .left-img, .right-img {
+        float: none;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Background -->
   <div class="background">
     <img src="bgbg.jpg" alt="Background" />
   </div>
 
+  <!-- Back Button -->
   <a href="pratham.html" class="back-button">BACK</a>
 
+  <!-- Text Scroll -->
   <div class="scroll-container">
     <div class="scroll-text">
       <p>A long time ago, in a galaxy not so far away...</p>
@@ -145,6 +150,7 @@
     </div>
   </div>
 
+  <!-- Flying Udaan Image -->
   <script>
     let flyerExists = false;
 
@@ -160,49 +166,36 @@
       const direction = directions[Math.floor(Math.random() * directions.length)];
 
       const duration = 5 + Math.random() * 3;
-      let keyframes = [];
-      let initialTransform = '';
+      let rotation = 0, keyframes = [];
 
       if (direction === 'left-right') {
         img.style.top = `${Math.random() * 80}vh`;
         img.style.left = '-150px';
-        initialTransform = 'rotate(0deg)';
-        keyframes = [
-          { transform: 'translateX(0) rotate(0deg)' },
-          { transform: 'translateX(120vw) rotate(0deg)' }
-        ];
+        rotation = 0;
+        keyframes = [{ transform: 'translateX(0)' }, { transform: 'translateX(120vw)' }];
       } else if (direction === 'right-left') {
         img.style.top = `${Math.random() * 80}vh`;
         img.style.left = '100vw';
-        initialTransform = 'rotate(180deg)';
-        keyframes = [
-          { transform: 'translateX(0) rotate(180deg)' },
-          { transform: 'translateX(-120vw) rotate(180deg)' }
-        ];
+        rotation = 180;
+        keyframes = [{ transform: 'translateX(0)' }, { transform: 'translateX(-120vw)' }];
       } else if (direction === 'top-bottom') {
         img.style.left = `${Math.random() * 80}vw`;
         img.style.top = '-150px';
-        initialTransform = 'rotate(90deg)';
-        keyframes = [
-          { transform: 'translateY(0) rotate(90deg)' },
-          { transform: 'translateY(120vh) rotate(90deg)' }
-        ];
+        rotation = 90;
+        keyframes = [{ transform: 'translateY(0)' }, { transform: 'translateY(120vh)' }];
       } else if (direction === 'bottom-top') {
         img.style.left = `${Math.random() * 80}vw`;
         img.style.top = '100vh';
-        initialTransform = 'rotate(270deg)';
-        keyframes = [
-          { transform: 'translateY(0) rotate(270deg)' },
-          { transform: 'translateY(-120vh) rotate(270deg)' }
-        ];
+        rotation = 270;
+        keyframes = [{ transform: 'translateY(0)' }, { transform: 'translateY(-120vh)' }];
       }
 
-      img.style.transform = initialTransform;
+      img.style.transform = `rotate(${rotation}deg)`;
       document.body.appendChild(img);
 
       img.animate(keyframes, {
         duration: duration * 1000,
-        easing: 'ease-in-out',
+        easing: 'linear',
         fill: 'forwards'
       });
 
