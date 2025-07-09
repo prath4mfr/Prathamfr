@@ -27,11 +27,77 @@
       height: 100vh;
       object-fit: cover;
     }
+
+    .back-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.45);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 1rem;
+      text-decoration: none;
+      font-family: 'Segoe UI', sans-serif;
+      backdrop-filter: blur(6px);
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.85);
+      color: black;
+    }
+
+    .flyer {
+      position: absolute;
+      top: 0;
+      left: -200px;
+      width: 120px;
+      height: auto;
+      z-index: 2;
+      pointer-events: none;
+      animation: fly-straight linear forwards;
+    }
+
+    @keyframes fly-straight {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(120vw);
+      }
+    }
   </style>
 </head>
 <body>
   <div class="background">
     <img src="bgbg.jpg" alt="Background" />
   </div>
+
+  <a href="pratham.html" class="back-button">BACK</a>
+
+  <img src="udaan1.png" class="flyer" style="top: calc(20% + (60 * (Math.random()))px); animation-duration: calc(5s + 3s * Math.random());" />
+
+  <script>
+    function createFlyingImage() {
+      const img = document.createElement('img');
+      img.src = 'udaan1.png';
+      img.className = 'flyer';
+      const topPosition = Math.random() * window.innerHeight * 0.8;
+      const duration = 5 + Math.random() * 3;
+
+      img.style.top = `${topPosition}px`;
+      img.style.animationDuration = `${duration}s`;
+
+      document.body.appendChild(img);
+
+      setTimeout(() => {
+        img.remove();
+      }, duration * 1000);
+    }
+
+    setInterval(createFlyingImage, 4000);
+  </script>
 </body>
 </html>
