@@ -13,7 +13,6 @@
       overflow: hidden;
     }
 
-    /* Loading screen */
     #loading {
       position: fixed;
       width: 100vw;
@@ -23,7 +22,6 @@
       z-index: 1000;
     }
 
-    /* Video */
     video {
       position: fixed;
       top: 50%;
@@ -35,7 +33,6 @@
       z-index: 0;
     }
 
-    /* Back button */
     .back-button {
       position: fixed;
       bottom: 20px;
@@ -57,7 +54,6 @@
       color: black;
     }
 
-    /* Portrait warning */
     .rotate-warning {
       position: fixed;
       top: 0;
@@ -104,51 +100,64 @@
       60% { transform: rotate(90deg); }
       100% { transform: rotate(0deg); }
     }
+
+    /* Tap to Start Overlay */
+    #startOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: black;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+    #startOverlay p {
+      font-size: 1.4rem;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Loading screen -->
+  <!-- Loading Screen -->
   <div id="loading"></div>
 
-  <!-- Video -->
-  <video id="bgVideo" autoplay muted playsinline>
+  <!-- Tap to Start -->
+  <div id="startOverlay">
+    <p>Tap anywhere to start the experience</p>
+    <p style="font-size: 1rem; opacity: 0.6;">(with video and sound)</p>
+  </div>
+
+  <!-- Background Video -->
+  <video id="bgVideo" playsinline muted>
     <source src="starlun.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
-  <!-- Audio -->
-  <audio id="bgAudio" src="lunwar.mp3"></audio>
+  <!-- Background Audio -->
+  <audio id="bgAudio" src="starlun.mp3"></audio>
 
-  <!-- Back button -->
+  <!-- Back Button -->
   <a href="pratham.html" class="back-button">BACK</a>
 
-  <!-- Rotate warning -->
+  <!-- Portrait Warning -->
   <div class="rotate-warning" id="rotateMsg">
     <div class="phone-icon"></div>
-    <p>Please rotate your phone to <strong>landscape</strong> mode for the best experience.</p>
+    <p>Please rotate your phone to <strong>landscape</strong> mode.</p>
   </div>
 
   <script>
     const video = document.getElementById("bgVideo");
     const audio = document.getElementById("bgAudio");
     const loading = document.getElementById("loading");
+    const overlay = document.getElementById("startOverlay");
 
-    // Remove loading screen when video can play
-    video.addEventListener("canplay", () => {
-      loading.style.display = "none";
-      audio.play().catch(() => {}); // Play audio silently if blocked
-    });
-
-    // Restart audio only when video restarts
-    video.addEventListener("ended", () => {
-      video.currentTime = 0;
-      video.play();
-      audio.currentTime = 0;
-      audio.play();
-    });
-
-    // Responsive rotate warning
     function checkOrientation() {
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       const rotateMsg = document.getElementById("rotateMsg");
@@ -160,9 +169,38 @@
       }
     }
 
+    // Show/hide rotate warning
     window.addEventListener("load", checkOrientation);
     window.addEventListener("resize", checkOrientation);
     window.addEventListener("orientationchange", checkOrientation);
+
+    // Remove loading when video is ready
+    video.addEventListener("canplay", () => {
+      loading.style.display = "none";
+    });
+
+    // Start experience after tap
+    function enablePlayback() {
+      overlay.style.display = "none";
+      video.muted = false;
+      video.currentTime = 0;
+      audio.currentTime = 0;
+
+      video.play().catch(() => {});
+      audio.play().catch(() => {});
+
+      // Loop sync
+      video.addEventListener("ended", () => {
+        video.currentTime = 0;
+        audio.currentTime = 0;
+        video.play();
+        audio.play();
+      });
+    }
+
+    // Wait for user tap
+    document.addEventListener("click", enablePlayback, { once: true });
+    document.addEventListener("touchstart", enablePlayback, { once: true });
   </script>
 
 </body>
