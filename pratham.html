@@ -11,6 +11,7 @@
       padding: 0;
       height: 100%;
       overflow: hidden;
+      background: black;
     }
 
     /* Video Background */
@@ -32,7 +33,11 @@
       transform: translateX(-50%);
       width: 40vw;
       max-width: 400px;
+      height: auto;
       z-index: 2;
+      border: 1px solid rgba(255, 255, 255, 0.2); /* thin white border */
+      box-shadow: 0 0 4px rgba(255, 255, 255, 0.05); /* soft shadow */
+      border-radius: 4px;
     }
 
     @media (max-width: 768px) {
@@ -42,13 +47,10 @@
       }
     }
 
-    /* Fullscreen Loader */
+    /* Loader Screen */
     #loader {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      inset: 0;
       background: black;
       z-index: 9999;
       display: flex;
@@ -58,6 +60,9 @@
     }
 
     #loader img {
+      position: absolute;
+      inset: 0;
+      margin: auto;
       width: 100vw;
       height: 100vh;
       object-fit: cover;
@@ -71,7 +76,7 @@
 </head>
 <body>
 
-  <!-- Loading Screen -->
+  <!-- Loader Screen -->
   <div id="loader">
     <img src="lunloading.jpg" alt="Loading..." />
   </div>
@@ -82,10 +87,10 @@
     Your browser does not support the video tag.
   </video>
 
-  <!-- Graffiti Name Image -->
+  <!-- Graffiti Logo -->
   <img src="graph.png" alt="PRATH4M" class="graffiti-image" />
 
-  <!-- JS to hide loader once video loads -->
+  <!-- JS: Hide loader when video is ready -->
   <script>
     const loader = document.getElementById('loader');
     const video = document.getElementById('bgVideo');
