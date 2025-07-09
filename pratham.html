@@ -11,30 +11,52 @@
       padding: 0;
       height: 100%;
       overflow: hidden;
-      background: black;
     }
 
-    /* Background Video */
-    #bgVideo {
+    /* Video Background */
+    .video-bg {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       object-fit: cover;
       z-index: -1;
     }
 
-    /* Loader */
+    /* Graffiti Image - shifted more left */
+    .graffiti-image {
+      position: absolute;
+      top: 5%;
+      left: 40%;
+      transform: translateX(-60%);
+      width: 40vw;
+      max-width: 400px;
+      z-index: 2;
+    }
+
+    @media (max-width: 768px) {
+      .graffiti-image {
+        width: 65vw;
+        top: 6%;
+        left: 60%;
+        transform: translateX(-60%);
+      }
+    }
+
+    /* Fullscreen Loader */
     #loader {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background: black;
+      z-index: 9999;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
     #loader img {
@@ -47,59 +69,30 @@
       opacity: 0;
       visibility: hidden;
     }
-
-    /* Graffiti Image */
-    .graffiti-image {
-      position: absolute;
-      top: 5%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40vw;
-      max-width: 420px;
-      z-index: 10;
-    }
-
-    @media (max-width: 768px) {
-      .graffiti-image {
-        width: 65vw;
-        top: 6%;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-
-      #loader img {
-        object-position: center center;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Loader -->
+  <!-- Loading Screen -->
   <div id="loader">
     <img src="lunloading.jpg" alt="Loading..." />
   </div>
 
   <!-- Video Background -->
-  <video id="bgVideo" autoplay muted loop playsinline preload="auto">
+  <video class="video-bg" autoplay muted loop playsinline id="bgVideo">
     <source src="baawe.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
-  <!-- Name Image -->
+  <!-- Graffiti Name Image -->
   <img src="graph.png" alt="PRATH4M" class="graffiti-image" />
 
-  <!-- JS to Hide Loader -->
+  <!-- JS to hide loader once video loads -->
   <script>
-    const video = document.getElementById('bgVideo');
     const loader = document.getElementById('loader');
+    const video = document.getElementById('bgVideo');
 
     video.addEventListener('canplaythrough', () => {
-      loader.classList.add('hidden');
-    });
-
-    video.addEventListener('error', () => {
-      console.error("Video load failed.");
       loader.classList.add('hidden');
     });
   </script>
