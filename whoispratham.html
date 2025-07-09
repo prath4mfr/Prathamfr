@@ -22,7 +22,7 @@
       height: 100vh;
       object-fit: contain;
       background-color: black;
-      z-index: -1;
+      z-index: 0;
     }
 
     .back-button {
@@ -52,16 +52,23 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.95);
       color: white;
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 1.5rem;
       display: none;
       justify-content: center;
       align-items: center;
       text-align: center;
       padding: 20px;
       box-sizing: border-box;
-      z-index: 10;
+      z-index: 5;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -78,7 +85,7 @@
 
   <!-- Portrait Warning -->
   <div class="rotate-warning" id="rotateMsg">
-    Please rotate your phone to <strong>landscape</strong> for the best experience.
+    📱 Please rotate your phone to <strong>landscape mode</strong><br>for the best experience.
   </div>
 
   <script>
