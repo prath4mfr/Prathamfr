@@ -25,8 +25,8 @@
     }
 
     .background img {
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
     }
 
@@ -59,23 +59,6 @@
       pointer-events: none;
     }
 
-    .scroll-text {
-      position: absolute;
-      bottom: -100%;
-      width: 100%;
-      color: yellow;
-      font-size: 1.2em;
-      text-align: center;
-      line-height: 2em;
-      animation: scrollUp 60s linear infinite;
-      z-index: 3;
-    }
-
-    @keyframes scrollUp {
-      0% { bottom: -100%; }
-      100% { bottom: 100%; }
-    }
-
     .scroll-container {
       position: absolute;
       top: 0;
@@ -84,6 +67,42 @@
       overflow-y: scroll;
       mask-image: linear-gradient(to top, transparent, black 10%, black 90%, transparent);
       -webkit-mask-image: linear-gradient(to top, transparent, black 10%, black 90%, transparent);
+      z-index: 3;
+    }
+
+    .scroll-text {
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding-top: 100vh;
+      color: yellow;
+      font-size: 1em;
+      text-align: center;
+      line-height: 1.8em;
+      animation: scrollUp 80s linear infinite;
+    }
+
+    .portrait-image {
+      width: 60%;
+      max-width: 300px;
+      margin: 40px auto;
+      display: block;
+      border-radius: 12px;
+    }
+
+    @keyframes scrollUp {
+      0% { transform: translateY(100%); }
+      100% { transform: translateY(-100%); }
+    }
+
+    @media (max-width: 768px) {
+      .scroll-text {
+        font-size: 0.85em;
+      }
+
+      .portrait-image {
+        width: 80%;
+      }
     }
   </style>
 </head>
@@ -100,11 +119,14 @@
       <p>There lived a curious soul named Pratham.</p>
       <p>As of today, he has existed for approximately 519,837,600 seconds, which in Earth terms means he's definitely old enough to know better, but still young enough to do it anyway.</p>
       <p>Born in the ever-buzzing heart of Delhi, Pratham decided one day — out of sheer boredom and an undeniable urge to flex his web skills — to create a website. Why? Because he could.</p>
+      <img src="prathu1.png" alt="Portrait 1" class="portrait-image" />
       <p>But there's more to him than just HTML and existential time calculations.</p>
       <p>He claims to have massive connections — the kind that stretch across dimensions.</p>
       <p>He's had chai with Modi, handshake deals with Trump, arm-wrestled Putin, and taken late-night drives with Batman (the Batmobile has great bass, by the way).</p>
+      <img src="prathu2.png" alt="Portrait 2" class="portrait-image" />
       <p>And somehow, in all of this, he's still besties with Hello Kitty.</p>
       <p>Whether it's fact or fiction, truth or troll — one thing's clear:</p>
+      <img src="prathu3.png" alt="Portrait 3" class="portrait-image" />
       <p>This is Pratham’s universe.</p>
       <p>And we’re all just browsing in it.</p>
       <p>And yet... people ask — who is Pratham?</p>
@@ -135,7 +157,7 @@
         initialTransform = 'rotate(0deg)';
         keyframes = [
           { transform: 'translateX(0) rotate(0deg)' },
-          { transform: 'translateX(120vw) rotate(2deg)' }
+          { transform: 'translateX(120vw) rotate(0deg)' }
         ];
       } else if (direction === 'right-left') {
         img.style.top = `${Math.random() * 80}vh`;
@@ -143,7 +165,7 @@
         initialTransform = 'scaleX(-1) rotate(0deg)';
         keyframes = [
           { transform: 'translateX(0) scaleX(-1) rotate(0deg)' },
-          { transform: 'translateX(-120vw) scaleX(-1) rotate(-2deg)' }
+          { transform: 'translateX(-120vw) scaleX(-1) rotate(0deg)' }
         ];
       } else if (direction === 'top-bottom') {
         img.style.left = `${Math.random() * 80}vw`;
@@ -151,15 +173,15 @@
         initialTransform = 'rotate(90deg)';
         keyframes = [
           { transform: 'translateY(0) rotate(90deg)' },
-          { transform: 'translateY(120vh) rotate(92deg)' }
+          { transform: 'translateY(120vh) rotate(90deg)' }
         ];
       } else if (direction === 'bottom-top') {
         img.style.left = `${Math.random() * 80}vw`;
         img.style.top = '100vh';
-        initialTransform = 'scaleY(-1) rotate(270deg)';
+        initialTransform = 'rotate(270deg)';
         keyframes = [
-          { transform: 'translateY(0) scaleY(-1) rotate(270deg)' },
-          { transform: 'translateY(-120vh) scaleY(-1) rotate(268deg)' }
+          { transform: 'translateY(0) rotate(270deg)' },
+          { transform: 'translateY(-120vh) rotate(270deg)' }
         ];
       }
 
