@@ -11,6 +11,7 @@
       padding: 0;
       height: 100%;
       overflow: hidden;
+      background: black;
     }
 
     /* Video Background */
@@ -24,11 +25,11 @@
       z-index: -1;
     }
 
-    /* Graffiti Image - shifted more left */
+    /* Graffiti Image - more to the left */
     .graffiti-image {
       position: absolute;
       top: 5%;
-      left: 60%;
+      left: 40%;
       transform: translateX(-60%);
       width: 40vw;
       max-width: 400px;
@@ -39,7 +40,7 @@
       .graffiti-image {
         width: 65vw;
         top: 6%;
-        left: 60%;
+        left: 40%;
         transform: translateX(-60%);
       }
     }
@@ -47,10 +48,7 @@
     /* Fullscreen Loader */
     #loader {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      inset: 0;
       background: black;
       z-index: 9999;
       display: flex;
