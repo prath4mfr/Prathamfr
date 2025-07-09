@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Who is Pratham</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
@@ -11,6 +12,7 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
+      font-family: 'Share Tech Mono', monospace;
     }
 
     .background {
@@ -56,6 +58,33 @@
       z-index: 2;
       pointer-events: none;
     }
+
+    .scroll-text {
+      position: absolute;
+      bottom: -100%;
+      width: 100%;
+      color: yellow;
+      font-size: 1.2em;
+      text-align: center;
+      line-height: 2em;
+      animation: scrollUp 60s linear infinite;
+      z-index: 3;
+    }
+
+    @keyframes scrollUp {
+      0% { bottom: -100%; }
+      100% { bottom: 100%; }
+    }
+
+    .scroll-container {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      overflow-y: scroll;
+      mask-image: linear-gradient(to top, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to top, transparent, black 10%, black 90%, transparent);
+    }
   </style>
 </head>
 <body>
@@ -64,6 +93,23 @@
   </div>
 
   <a href="pratham.html" class="back-button">BACK</a>
+
+  <div class="scroll-container">
+    <div class="scroll-text">
+      <p>A long time ago, in a galaxy not so far away...</p>
+      <p>There lived a curious soul named Pratham.</p>
+      <p>As of today, he has existed for approximately 519,837,600 seconds, which in Earth terms means he's definitely old enough to know better, but still young enough to do it anyway.</p>
+      <p>Born in the ever-buzzing heart of Delhi, Pratham decided one day — out of sheer boredom and an undeniable urge to flex his web skills — to create a website. Why? Because he could.</p>
+      <p>But there's more to him than just HTML and existential time calculations.</p>
+      <p>He claims to have massive connections — the kind that stretch across dimensions.</p>
+      <p>He's had chai with Modi, handshake deals with Trump, arm-wrestled Putin, and taken late-night drives with Batman (the Batmobile has great bass, by the way).</p>
+      <p>And somehow, in all of this, he's still besties with Hello Kitty.</p>
+      <p>Whether it's fact or fiction, truth or troll — one thing's clear:</p>
+      <p>This is Pratham’s universe.</p>
+      <p>And we’re all just browsing in it.</p>
+      <p>And yet... people ask — who is Pratham?</p>
+    </div>
+  </div>
 
   <script>
     let flyerExists = false;
