@@ -25,7 +25,7 @@
       z-index: -1;
     }
 
-    /* Graffiti Image - more to the left */
+    /* Graffiti Image */
     .graffiti-image {
       position: absolute;
       top: 5%;
@@ -77,7 +77,7 @@
   </div>
 
   <!-- Video Background -->
-  <video class="video-bg" autoplay muted loop playsinline id="bgVideo">
+  <video class="video-bg" autoplay muted loop playsinline preload="auto" id="bgVideo">
     <source src="baawe.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
@@ -85,14 +85,21 @@
   <!-- Graffiti Name Image -->
   <img src="graph.png" alt="PRATH4M" class="graffiti-image" />
 
-  <!-- JS to hide loader once video loads -->
+  <!-- JS to hide loader when video loads or fails -->
   <script>
     const loader = document.getElementById('loader');
     const video = document.getElementById('bgVideo');
 
+    // When video is ready, hide loader
     video.addEventListener('canplaythrough', () => {
       loader.classList.add('hidden');
     });
+
+    // If video fails, also hide loader
+    video.onerror = () => {
+      console.error("Video failed to load.");
+      loader.classList.add('hidden');
+    };
   </script>
 
 </body>
