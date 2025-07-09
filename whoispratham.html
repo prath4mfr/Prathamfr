@@ -79,15 +79,23 @@
       font-size: 1em;
       text-align: center;
       line-height: 1.8em;
-      animation: scrollUp 80s linear infinite;
+      animation: scrollUp 6s linear infinite;
     }
 
     .portrait-image {
-      width: 60%;
-      max-width: 300px;
-      margin: 40px auto;
-      display: block;
-      border-radius: 12px;
+      width: 40%;
+      max-width: 200px;
+      position: relative;
+    }
+
+    .left-img {
+      float: left;
+      margin: 20px;
+    }
+
+    .right-img {
+      float: right;
+      margin: 20px;
     }
 
     @keyframes scrollUp {
@@ -97,11 +105,10 @@
 
     @media (max-width: 768px) {
       .scroll-text {
-        font-size: 0.85em;
+        font-size: 0.75em;
       }
-
       .portrait-image {
-        width: 80%;
+        width: 60%;
       }
     }
   </style>
@@ -119,14 +126,14 @@
       <p>There lived a curious soul named Pratham.</p>
       <p>As of today, he has existed for approximately 519,837,600 seconds, which in Earth terms means he's definitely old enough to know better, but still young enough to do it anyway.</p>
       <p>Born in the ever-buzzing heart of Delhi, Pratham decided one day — out of sheer boredom and an undeniable urge to flex his web skills — to create a website. Why? Because he could.</p>
-      <img src="prathu1.png" alt="Portrait 1" class="portrait-image" />
+      <img src="prathu1.png" alt="Portrait 1" class="portrait-image right-img" />
       <p>But there's more to him than just HTML and existential time calculations.</p>
       <p>He claims to have massive connections — the kind that stretch across dimensions.</p>
+      <img src="prathu2.png" alt="Portrait 2" class="portrait-image left-img" />
       <p>He's had chai with Modi, handshake deals with Trump, arm-wrestled Putin, and taken late-night drives with Batman (the Batmobile has great bass, by the way).</p>
-      <img src="prathu2.png" alt="Portrait 2" class="portrait-image" />
+      <img src="prathu3.png" alt="Portrait 3" class="portrait-image right-img" />
       <p>And somehow, in all of this, he's still besties with Hello Kitty.</p>
       <p>Whether it's fact or fiction, truth or troll — one thing's clear:</p>
-      <img src="prathu3.png" alt="Portrait 3" class="portrait-image" />
       <p>This is Pratham’s universe.</p>
       <p>And we’re all just browsing in it.</p>
       <p>And yet... people ask — who is Pratham?</p>
@@ -162,10 +169,10 @@
       } else if (direction === 'right-left') {
         img.style.top = `${Math.random() * 80}vh`;
         img.style.left = '100vw';
-        initialTransform = 'scaleX(-1) rotate(0deg)';
+        initialTransform = 'rotate(180deg)';
         keyframes = [
-          { transform: 'translateX(0) scaleX(-1) rotate(0deg)' },
-          { transform: 'translateX(-120vw) scaleX(-1) rotate(0deg)' }
+          { transform: 'translateX(0) rotate(180deg)' },
+          { transform: 'translateX(-120vw) rotate(180deg)' }
         ];
       } else if (direction === 'top-bottom') {
         img.style.left = `${Math.random() * 80}vw`;
