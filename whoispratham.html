@@ -10,9 +10,10 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
+      width: 100%;
       font-family: 'Share Tech Mono', monospace;
       background-color: black;
+      overflow-y: auto;
     }
 
     .background {
@@ -21,12 +22,13 @@
       left: 0;
       height: 100%;
       width: 100%;
-      z-index: -100;
+      z-index: -1;
+      pointer-events: none;
     }
 
     .background img {
-      height: 100%;
       width: 100%;
+      height: 100%;
       object-fit: cover;
       display: block;
     }
@@ -51,14 +53,6 @@
       color: black;
     }
 
-    .scroll-container {
-      position: absolute;
-      bottom: -100%;
-      width: 100%;
-      animation: scrollUp 25s linear forwards;
-      z-index: 2;
-    }
-
     .scroll-text {
       color: yellow;
       font-size: 1em;
@@ -67,12 +61,14 @@
       width: 90%;
       max-width: 600px;
       margin: 0 auto;
+      padding-top: 100vh;
+      animation: fadein 2s ease-in-out;
+      z-index: 2;
     }
 
-    @keyframes scrollUp {
-      0% { transform: translateY(100vh); opacity: 0; }
-      5% { opacity: 1; }
-      100% { transform: translateY(-250vh); }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .portrait-image {
@@ -88,12 +84,13 @@
       position: absolute;
       width: 120px;
       pointer-events: none;
-      z-index: 5;
+      z-index: 3;
     }
 
     @media (max-width: 768px) {
       .scroll-text {
-        font-size: 0.8em;
+        font-size: 0.85em;
+        padding-top: 50vh;
       }
       .portrait-image {
         width: 60%;
@@ -111,31 +108,29 @@
 
   <!-- Background -->
   <div class="background">
-    <img src="bgbg.jpg" alt="Background" onerror="this.style.display='none';document.body.style.background='black';"/>
+    <img src="bgbg.jpg" alt="Background" onerror="document.body.style.background='black'" />
   </div>
 
   <!-- Back Button -->
   <a href="pratham.html" class="back-button">BACK</a>
 
   <!-- Scrolling Text -->
-  <div class="scroll-container">
-    <div class="scroll-text">
-      <p>A long time ago, in a galaxy not so far away...</p>
-      <p>There lived a curious soul named Pratham.</p>
-      <p>As of today, he has existed for approximately 519,837,600 seconds, which in Earth terms means he's definitely old enough to know better, but still young enough to do it anyway.</p>
-      <p>Born in the ever-buzzing heart of Delhi, Pratham decided one day — out of sheer boredom and an undeniable urge to flex his web skills — to create a website. Why? Because he could.</p>
-      <img src="prathu1.png" alt="Portrait 1" class="portrait-image right-img" />
-      <p>But there's more to him than just HTML and existential time calculations.</p>
-      <p>He claims to have massive connections — the kind that stretch across dimensions.</p>
-      <img src="prathu2.png" alt="Portrait 2" class="portrait-image left-img" />
-      <p>He's had chai with Modi, handshake deals with Trump, arm-wrestled Putin, and taken late-night drives with Batman (the Batmobile has great bass, by the way).</p>
-      <img src="prathu3.png" alt="Portrait 3" class="portrait-image right-img" />
-      <p>And somehow, in all of this, he's still besties with Hello Kitty.</p>
-      <p>Whether it's fact or fiction, truth or troll — one thing's clear:</p>
-      <p>This is Pratham’s universe.</p>
-      <p>And we’re all just browsing in it.</p>
-      <p>And yet... people ask — who is Pratham?</p>
-    </div>
+  <div class="scroll-text">
+    <p>A long time ago, in a galaxy not so far away...</p>
+    <p>There lived a curious soul named Pratham.</p>
+    <p>As of today, he has existed for approximately 519,837,600 seconds, which in Earth terms means he's definitely old enough to know better, but still young enough to do it anyway.</p>
+    <p>Born in the ever-buzzing heart of Delhi, Pratham decided one day — out of sheer boredom and an undeniable urge to flex his web skills — to create a website. Why? Because he could.</p>
+    <img src="prathu1.png" alt="Portrait 1" class="portrait-image right-img" />
+    <p>But there's more to him than just HTML and existential time calculations.</p>
+    <p>He claims to have massive connections — the kind that stretch across dimensions.</p>
+    <img src="prathu2.png" alt="Portrait 2" class="portrait-image left-img" />
+    <p>He's had chai with Modi, handshake deals with Trump, arm-wrestled Putin, and taken late-night drives with Batman (the Batmobile has great bass, by the way).</p>
+    <img src="prathu3.png" alt="Portrait 3" class="portrait-image right-img" />
+    <p>And somehow, in all of this, he's still besties with Hello Kitty.</p>
+    <p>Whether it's fact or fiction, truth or troll — one thing's clear:</p>
+    <p>This is Pratham’s universe.</p>
+    <p>And we’re all just browsing in it.</p>
+    <p>And yet... people ask — who is Pratham?</p>
   </div>
 
   <!-- Flying Udaan Image -->
@@ -158,6 +153,7 @@
         case 'left-right':
           img.style.top = `${Math.random() * 80}vh`;
           img.style.left = '-150px';
+          img.style.transform = 'rotate(0deg)';
           keyframes = [
             { transform: 'translateX(0) rotate(0deg)' },
             { transform: 'translateX(120vw) rotate(0deg)' }
@@ -166,6 +162,7 @@
         case 'right-left':
           img.style.top = `${Math.random() * 80}vh`;
           img.style.left = '100vw';
+          img.style.transform = 'rotate(180deg)';
           keyframes = [
             { transform: 'translateX(0) rotate(180deg)' },
             { transform: 'translateX(-120vw) rotate(180deg)' }
@@ -174,6 +171,7 @@
         case 'top-bottom':
           img.style.left = `${Math.random() * 80}vw`;
           img.style.top = '-150px';
+          img.style.transform = 'rotate(90deg)';
           keyframes = [
             { transform: 'translateY(0) rotate(90deg)' },
             { transform: 'translateY(120vh) rotate(90deg)' }
@@ -182,6 +180,7 @@
         case 'bottom-top':
           img.style.left = `${Math.random() * 80}vw`;
           img.style.top = '100vh';
+          img.style.transform = 'rotate(270deg)';
           keyframes = [
             { transform: 'translateY(0) rotate(270deg)' },
             { transform: 'translateY(-120vh) rotate(270deg)' }
