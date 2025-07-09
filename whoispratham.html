@@ -13,6 +13,17 @@
       overflow: hidden;
     }
 
+    /* Loading screen */
+    #loading {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: url('lunloading.jpg') center center no-repeat;
+      background-size: cover;
+      z-index: 1000;
+    }
+
+    /* Video */
     video {
       position: fixed;
       top: 50%;
@@ -21,10 +32,10 @@
       width: 100vw;
       height: 100vh;
       object-fit: contain;
-      background-color: black;
       z-index: 0;
     }
 
+    /* Back button */
     .back-button {
       position: fixed;
       bottom: 20px;
@@ -46,6 +57,7 @@
       color: black;
     }
 
+    /* Portrait warning */
     .rotate-warning {
       position: fixed;
       top: 0;
@@ -55,40 +67,88 @@
       background: rgba(0, 0, 0, 0.95);
       color: white;
       font-family: 'Segoe UI', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       display: none;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       text-align: center;
-      padding: 20px;
-      box-sizing: border-box;
-      z-index: 5;
-      animation: fadeIn 0.5s ease;
+      z-index: 10;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .rotate-warning .phone-icon {
+      width: 80px;
+      height: 120px;
+      border: 3px solid white;
+      border-radius: 15px;
+      position: relative;
+      margin-bottom: 20px;
+      animation: rotatePhone 2.5s infinite ease-in-out;
+    }
+
+    .rotate-warning .phone-icon::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes rotatePhone {
+      0% { transform: rotate(0deg); }
+      30% { transform: rotate(90deg); }
+      60% { transform: rotate(90deg); }
+      100% { transform: rotate(0deg); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background Video -->
-  <video autoplay loop muted playsinline>
+  <!-- Loading screen -->
+  <div id="loading"></div>
+
+  <!-- Video -->
+  <video id="bgVideo" autoplay muted playsinline>
     <source src="starlun.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
-  <!-- Back Button -->
+  <!-- Audio -->
+  <audio id="bgAudio" src="starlun.mp3"></audio>
+
+  <!-- Back button -->
   <a href="pratham.html" class="back-button">BACK</a>
 
-  <!-- Portrait Warning -->
+  <!-- Rotate warning -->
   <div class="rotate-warning" id="rotateMsg">
-    📱 Please rotate your phone to <strong>landscape mode</strong><br>for the best experience.
+    <div class="phone-icon"></div>
+    <p>Please rotate your phone to <strong>landscape</strong> mode for the best experience.</p>
   </div>
 
   <script>
+    const video = document.getElementById("bgVideo");
+    const audio = document.getElementById("bgAudio");
+    const loading = document.getElementById("loading");
+
+    // Remove loading screen when video can play
+    video.addEventListener("canplay", () => {
+      loading.style.display = "none";
+      audio.play().catch(() => {}); // Play audio silently if blocked
+    });
+
+    // Restart audio only when video restarts
+    video.addEventListener("ended", () => {
+      video.currentTime = 0;
+      video.play();
+      audio.currentTime = 0;
+      audio.play();
+    });
+
+    // Responsive rotate warning
     function checkOrientation() {
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       const rotateMsg = document.getElementById("rotateMsg");
