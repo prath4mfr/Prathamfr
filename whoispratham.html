@@ -80,46 +80,49 @@
       const direction = directions[Math.floor(Math.random() * directions.length)];
 
       const duration = 5 + Math.random() * 3;
-
-      let keyframes = '';
+      let keyframes = [];
+      let initialTransform = '';
 
       if (direction === 'left-right') {
         img.style.top = `${Math.random() * 80}vh`;
         img.style.left = '-150px';
+        initialTransform = 'rotate(0deg)';
         keyframes = [
-          { transform: 'translateX(0)' },
-          { transform: 'translateX(120vw)' }
+          { transform: 'translateX(0) rotate(0deg)' },
+          { transform: 'translateX(120vw) rotate(2deg)' }
         ];
       } else if (direction === 'right-left') {
         img.style.top = `${Math.random() * 80}vh`;
         img.style.left = '100vw';
-        img.style.transform = 'scaleX(-1)';
+        initialTransform = 'scaleX(-1) rotate(0deg)';
         keyframes = [
-          { transform: 'translateX(0)' },
-          { transform: 'translateX(-120vw)' }
+          { transform: 'translateX(0) scaleX(-1) rotate(0deg)' },
+          { transform: 'translateX(-120vw) scaleX(-1) rotate(-2deg)' }
         ];
       } else if (direction === 'top-bottom') {
         img.style.left = `${Math.random() * 80}vw`;
         img.style.top = '-150px';
+        initialTransform = 'rotate(90deg)';
         keyframes = [
-          { transform: 'translateY(0)' },
-          { transform: 'translateY(120vh)' }
+          { transform: 'translateY(0) rotate(90deg)' },
+          { transform: 'translateY(120vh) rotate(92deg)' }
         ];
       } else if (direction === 'bottom-top') {
         img.style.left = `${Math.random() * 80}vw`;
         img.style.top = '100vh';
-        img.style.transform = 'scaleY(-1)';
+        initialTransform = 'scaleY(-1) rotate(270deg)';
         keyframes = [
-          { transform: 'translateY(0)' },
-          { transform: 'translateY(-120vh)' }
+          { transform: 'translateY(0) scaleY(-1) rotate(270deg)' },
+          { transform: 'translateY(-120vh) scaleY(-1) rotate(268deg)' }
         ];
       }
 
+      img.style.transform = initialTransform;
       document.body.appendChild(img);
 
       img.animate(keyframes, {
         duration: duration * 1000,
-        easing: 'linear',
+        easing: 'ease-in-out',
         fill: 'forwards'
       });
 
