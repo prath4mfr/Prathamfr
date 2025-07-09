@@ -51,22 +51,10 @@
 
     .flyer {
       position: absolute;
-      top: 0;
-      left: -200px;
       width: 120px;
       height: auto;
       z-index: 2;
       pointer-events: none;
-      animation: fly-straight linear forwards;
-    }
-
-    @keyframes fly-straight {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(120vw);
-      }
     }
   </style>
 </head>
@@ -77,23 +65,67 @@
 
   <a href="pratham.html" class="back-button">BACK</a>
 
-  <img src="udaan1.png" class="flyer" style="top: calc(20% + (60 * (Math.random()))px); animation-duration: calc(5s + 3s * Math.random());" />
-
   <script>
+    let flyerExists = false;
+
     function createFlyingImage() {
+      if (flyerExists) return;
+      flyerExists = true;
+
       const img = document.createElement('img');
       img.src = 'udaan1.png';
       img.className = 'flyer';
-      const topPosition = Math.random() * window.innerHeight * 0.8;
+
+      const directions = ['left-right', 'right-left', 'top-bottom', 'bottom-top'];
+      const direction = directions[Math.floor(Math.random() * directions.length)];
+
       const duration = 5 + Math.random() * 3;
 
-      img.style.top = `${topPosition}px`;
-      img.style.animationDuration = `${duration}s`;
+      let keyframes = '';
+
+      if (direction === 'left-right') {
+        img.style.top = `${Math.random() * 80}vh`;
+        img.style.left = '-150px';
+        keyframes = [
+          { transform: 'translateX(0)' },
+          { transform: 'translateX(120vw)' }
+        ];
+      } else if (direction === 'right-left') {
+        img.style.top = `${Math.random() * 80}vh`;
+        img.style.left = '100vw';
+        img.style.transform = 'scaleX(-1)';
+        keyframes = [
+          { transform: 'translateX(0)' },
+          { transform: 'translateX(-120vw)' }
+        ];
+      } else if (direction === 'top-bottom') {
+        img.style.left = `${Math.random() * 80}vw`;
+        img.style.top = '-150px';
+        keyframes = [
+          { transform: 'translateY(0)' },
+          { transform: 'translateY(120vh)' }
+        ];
+      } else if (direction === 'bottom-top') {
+        img.style.left = `${Math.random() * 80}vw`;
+        img.style.top = '100vh';
+        img.style.transform = 'scaleY(-1)';
+        keyframes = [
+          { transform: 'translateY(0)' },
+          { transform: 'translateY(-120vh)' }
+        ];
+      }
 
       document.body.appendChild(img);
 
+      img.animate(keyframes, {
+        duration: duration * 1000,
+        easing: 'linear',
+        fill: 'forwards'
+      });
+
       setTimeout(() => {
         img.remove();
+        flyerExists = false;
       }, duration * 1000);
     }
 
