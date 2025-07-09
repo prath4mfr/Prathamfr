@@ -92,32 +92,34 @@
       color: black;
     }
 
-    /* Who is Pratham Button Box */
-    .whois-box {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
+    /* Who is Pratham Button Centered */
+    .whois-link {
+      position: absolute;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background: rgba(255, 255, 255, 0.2);
-      padding: 8px 12px;
-      border-radius: 14px;
       backdrop-filter: blur(8px);
-      z-index: 10;
-      transition: all 0.3s ease;
+      padding: 6px 10px;
+      border-radius: 12px;
+      z-index: 3;
     }
 
-    .whois-box:hover {
-      background: rgba(255, 255, 255, 0.35);
-    }
-
-    .whois-box img {
-      height: 40px;
+    .whois-link img {
+      height: 36px;
       width: auto;
       display: block;
     }
 
     @media (max-width: 768px) {
-      .whois-box img {
-        height: 32px;
+      .whois-link {
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .whois-link img {
+        height: 30px;
       }
     }
   </style>
@@ -138,13 +140,13 @@
   <!-- Graffiti Name Image -->
   <img src="graph.png" alt="PRATH4M" class="graffiti-image" />
 
-  <!-- Back Button -->
-  <a href="index.html" class="back-button">BACK</a>
-
-  <!-- Whois Pratham Button -->
-  <a href="whoispratham.html" class="whois-box">
+  <!-- Who is Pratham Button -->
+  <a href="whoispratham.html" class="whois-link">
     <img src="whoispratham.png" alt="Who is Pratham?" />
   </a>
+
+  <!-- Back Button -->
+  <a href="index.html" class="back-button">BACK</a>
 
   <!-- JS to hide loader -->
   <script>
