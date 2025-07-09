@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,188 +9,108 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
-      font-family: 'Share Tech Mono', monospace;
       background: black url('bgbg.jpg') no-repeat center center fixed;
       background-size: cover;
-    }
-
-    .back-button {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: rgba(0, 0, 0, 0.45);
-      color: white;
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-size: 1rem;
-      text-decoration: none;
-      backdrop-filter: blur(6px);
-      z-index: 10;
-      transition: 0.3s ease;
-    }
-
-    .back-button:hover {
-      background: rgba(255, 255, 255, 0.85);
-      color: black;
-    }
-
-    .scroll-wrapper {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow-y: auto;
-      z-index: 1;
-      mask-image: linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);
-    }
-
-    .scroll-container {
-      width: 100%;
-      animation: scrollUp 30s linear infinite;
-    }
-
-    .scroll-text {
+      font-family: 'Share Tech Mono', monospace;
       color: yellow;
-      font-size: 1em;
-      line-height: 1.8em;
-      text-align: center;
-      width: 90%;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+      overflow: hidden;
+    }.title-intro {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  z-index: 5;
+  opacity: 1;
+  animation: zoomOut 5s forwards;
+}
 
-    .portrait-image {
-      width: 40%;
-      max-width: 200px;
-      margin: 20px;
-    }
+@keyframes zoomOut {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -200%) scale(0.1);
+    opacity: 0;
+  }
+}
 
-    .left-img { float: left; clear: both; }
-    .right-img { float: right; clear: both; }
+.crawl-wrapper {
+  position: absolute;
+  bottom: -100vh;
+  width: 100%;
+  perspective: 400px;
+}
 
-    @keyframes scrollUp {
-      0% { transform: translateY(100vh); }
-      100% { transform: translateY(-300vh); }
-    }
+.crawl {
+  transform-origin: 50% 100%;
+  transform: rotateX(25deg);
+  font-size: 1.2em;
+  line-height: 2em;
+  text-align: center;
+  max-width: 600px;
+  margin: auto;
+  animation: crawlUp 120s linear forwards;
+}
 
-    .flyer {
-      position: absolute;
-      width: 120px;
-      pointer-events: none;
-      z-index: 5;
-    }
+.crawl img {
+  display: block;
+  max-width: 200px;
+  width: 60%;
+  margin: 20px auto;
+}
 
-    @media (max-width: 768px) {
-      .scroll-text {
-        font-size: 0.8em;
-      }
-      .portrait-image {
-        width: 60%;
-        display: block;
-        margin: 20px auto;
-        float: none;
-      }
-      .left-img, .right-img {
-        float: none;
-      }
-    }
+@keyframes crawlUp {
+  0% { transform: rotateX(25deg) translateY(100vh); }
+  100% { transform: rotateX(25deg) translateY(-800vh); }
+}
+
+.controls {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+}
+.controls button {
+  background: rgba(0,0,0,0.6);
+  border: 1px solid yellow;
+  color: yellow;
+  padding: 8px 12px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.controls button:hover {
+  background: yellow;
+  color: black;
+}
+
   </style>
 </head>
 <body>
-
-  <!-- Back Button -->
-  <a href="pratham.html" class="back-button">BACK</a>
-
-  <!-- Scroll Section -->
-  <div class="scroll-wrapper">
-    <div class="scroll-container">
-      <div class="scroll-text">
-        <p>A long time ago, in a galaxy not so far away...</p>
-        <p>There lived a curious soul named Pratham.</p>
-        <p>As of today, he's been around for approximately 519,837,600 seconds — that’s over 16 years of figuring life out one line of code at a time.</p>
-        <p>Born and brought up in Delhi, Pratham is someone who mixes creativity with curiosity. Whether it’s messing around with HTML or diving deep into random late-night thoughts, he’s always building something — even if it’s just for fun.</p>
-        <img src="prathu1.png" alt="Portrait 1" class="portrait-image right-img" />
-        <p>This website? It wasn’t really planned. Just one of those “I’m bored, let’s make something cool” kind of moments. Turns out, it became a space to tell his story.</p>
-        <p>He’s into design, storytelling, tech experiments, and lowkey has a soft spot for aesthetics that hit just right.</p>
-        <img src="prathu2.png" alt="Portrait 2" class="portrait-image left-img" />
-        <p>Music plays a big part in his world — especially Desi hip hop. Artists like Colle$ttye, 3BHK, Seedhe Maut, and even global icons like Drake and The Weeknd are always on repeat in the background while he works on things that may or may not make sense.</p>
-        <img src="prathu3.png" alt="Portrait 3" class="portrait-image right-img" />
-        <p>This isn’t a portfolio. It’s not a blog either. Just a digital corner where he decided to be... Pratham.</p>
-        <p>Nothing more. Nothing less.</p>
-        <p>And yet... people still ask — who is Pratham?</p>
-      </div>
+  <!-- Title Zoom-Out -->
+  <div class="title-intro">
+    <img src="who.png" alt="Who is Pratham Title" width="500" />
+  </div>  <!-- Star Wars Crawl -->  <div class="crawl-wrapper">
+    <div class="crawl" id="crawlText">
+      <p>A long time ago, in a galaxy not so far away...</p>
+      <p>There lived a curious soul named Pratham.</p>
+      <p>As of today, he's been around for approximately 519,837,600 seconds — that’s over 16 years of figuring life out one line of code at a time.</p>
+      <p>Born and brought up in Delhi, Pratham is someone who mixes creativity with curiosity. Whether it’s messing around with HTML or diving deep into random late-night thoughts, he’s always building something — even if it’s just for fun.</p>
+      <img src="prathu1.png" alt="Portrait 1" />
+      <p>This website? It wasn’t really planned. Just one of those “I’m bored, let’s make something cool” kind of moments. Turns out, it became a space to tell his story.</p>
+      <p>He’s into design, storytelling, tech experiments, and lowkey has a soft spot for aesthetics that hit just right.</p>
+      <img src="prathu2.png" alt="Portrait 2" />
+      <p>Music plays a big part in his world — especially Desi hip hop. Artists like Colle$ttye, 3BHK, Seedhe Maut, and even global icons like Drake and The Weeknd are always on repeat in the background while he works on things that may or may not make sense.</p>
+      <p>He also claims to have some unusual connections — not your typical networking kind, though. According to him, he's had chai with Modi, handshake deals with Trump, and once arm-wrestled Putin just to settle a debate.</p>
+      <p>He’s gone for night drives with Batman (the Batmobile apparently has great bass), and somehow still finds time to stay besties with Hello Kitty.</p>
+      <img src="prathu3.png" alt="Portrait 3" />
+      <p>This isn’t a portfolio. It’s not a blog either. Just a digital corner where he decided to be... Pratham.</p>
+      <p>Nothing more. Nothing less.</p>
+      <p>And yet... people still ask — who is Pratham?</p>
     </div>
+  </div>  <!-- Controls -->  <div class="controls">
+    <button onclick="document.getElementById('crawlText').style.animationPlayState='paused'">Pause</button>
+    <button onclick="document.getElementById('crawlText').style.animationPlayState='running'">Play</button>
   </div>
-
-  <!-- Flying Udaan Image Script -->
-  <script>
-    let flyerExists = false;
-
-    function createFlyingImage() {
-      if (flyerExists) return;
-      flyerExists = true;
-
-      const img = document.createElement('img');
-      img.src = 'udaan1.png';
-      img.className = 'flyer';
-
-      const directions = ['left-right', 'right-left', 'top-bottom', 'bottom-top'];
-      const direction = directions[Math.floor(Math.random() * directions.length)];
-
-      const duration = 5 + Math.random() * 3;
-      let keyframes = [];
-
-      if (direction === 'left-right') {
-        img.style.top = `${Math.random() * 80}vh`;
-        img.style.left = '-150px';
-        img.style.transform = 'rotate(0deg)';
-        keyframes = [
-          { transform: 'translateX(0) rotate(0deg)' },
-          { transform: 'translateX(120vw) rotate(0deg)' }
-        ];
-      } else if (direction === 'right-left') {
-        img.style.top = `${Math.random() * 80}vh`;
-        img.style.left = '100vw';
-        img.style.transform = 'rotate(180deg)';
-        keyframes = [
-          { transform: 'translateX(0) rotate(180deg)' },
-          { transform: 'translateX(-120vw) rotate(180deg)' }
-        ];
-      } else if (direction === 'top-bottom') {
-        img.style.left = `${Math.random() * 80}vw`;
-        img.style.top = '-150px';
-        img.style.transform = 'rotate(90deg)';
-        keyframes = [
-          { transform: 'translateY(0) rotate(90deg)' },
-          { transform: 'translateY(120vh) rotate(90deg)' }
-        ];
-      } else if (direction === 'bottom-top') {
-        img.style.left = `${Math.random() * 80}vw`;
-        img.style.top = '100vh';
-        img.style.transform = 'rotate(270deg)';
-        keyframes = [
-          { transform: 'translateY(0) rotate(270deg)' },
-          { transform: 'translateY(-120vh) rotate(270deg)' }
-        ];
-      }
-
-      document.body.appendChild(img);
-
-      img.animate(keyframes, {
-        duration: duration * 1000,
-        easing: 'linear',
-        fill: 'forwards'
-      });
-
-      setTimeout(() => {
-        img.remove();
-        flyerExists = false;
-      }, duration * 1000);
-    }
-
-    setInterval(createFlyingImage, 4000);
-  </script>
 </body>
 </html>
