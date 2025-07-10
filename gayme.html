@@ -13,8 +13,8 @@
       background: black;
     }
 
-    /* GIF Background */
-    .gif-bg {
+    /* Background Image */
+    .bg-image {
       position: fixed;
       top: 0;
       left: 0;
@@ -131,8 +131,8 @@
     <img src="lunloading.jpg" alt="Loading..." />
   </div>
 
-  <!-- GIF Background -->
-  <img src="babi.gif" alt="Background" class="gif-bg" id="bgGIF">
+  <!-- Background Image -->
+  <img src="eye.jpg" alt="Background" class="bg-image" id="bgImage" />
 
   <!-- Game Links Box -->
   <div class="game-box">
@@ -145,19 +145,16 @@
   <a href="pratham.html" class="back-button">BACK</a>
 
   <script>
-    // Fallback in case GIF doesn't trigger load event
+    // Loader logic with fallback
     const loader = document.getElementById('loader');
-    const gif = document.getElementById('bgGIF');
+    const bg = document.getElementById('bgImage');
 
     function hideLoader() {
       loader.classList.add('hidden');
     }
 
-    // Try to hide when loaded
-    gif.addEventListener('load', hideLoader);
-
-    // Fallback timeout (3s)
-    setTimeout(hideLoader, 3000);
+    bg.addEventListener('load', hideLoader);
+    setTimeout(hideLoader, 3000); // Fallback in case image doesn't trigger load
   </script>
 
 </body>
