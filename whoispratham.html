@@ -17,9 +17,23 @@
       position: fixed;
       width: 100vw;
       height: 100vh;
-      background: url('lunloading.jpg') center center no-repeat;
-      background-size: cover;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       z-index: 1000;
+    }
+
+    #loading img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      animation: spin 5s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     video {
@@ -104,8 +118,10 @@
 </head>
 <body>
 
-  <!-- Loading Screen -->
-  <div id="loading"></div>
+  <!-- Spinning Loading Screen -->
+  <div id="loading">
+    <img src="lunloading.jpg" alt="Loading..." />
+  </div>
 
   <!-- Video -->
   <video id="bgVideo" autoplay playsinline muted>
@@ -130,13 +146,10 @@
     const audio = document.getElementById("bgAudio");
     const loading = document.getElementById("loading");
 
-    // Hide loading screen when video can play
     video.addEventListener("canplay", () => {
       loading.style.display = "none";
-      // Try playing audio after video loads
       audio.currentTime = 0;
       audio.play().catch(() => {
-        // Fallback: wait for user interaction
         const tryPlay = () => {
           audio.play().catch(() => {});
           document.removeEventListener('touchstart', tryPlay);
@@ -147,7 +160,6 @@
       });
     });
 
-    // Restart audio only when video loops
     video.addEventListener("ended", () => {
       video.currentTime = 0;
       audio.currentTime = 0;
@@ -155,11 +167,9 @@
       audio.play();
     });
 
-    // Rotate warning for mobile
     function checkOrientation() {
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       const rotateMsg = document.getElementById("rotateMsg");
-
       if (isMobile && window.innerHeight > window.innerWidth) {
         rotateMsg.style.display = "flex";
       } else {
