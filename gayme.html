@@ -65,7 +65,7 @@
       flex-direction: column;
       gap: 20px;
       z-index: 5;
-      animation: flicker 0.15s infinite alternate;
+      animation: flicker 0.12s infinite alternate;
     }
 
     @keyframes flicker {
@@ -145,13 +145,19 @@
   <a href="pratham.html" class="back-button">BACK</a>
 
   <script>
-    // Wait until GIF is loaded to hide loader
+    // Fallback in case GIF doesn't trigger load event
     const loader = document.getElementById('loader');
     const gif = document.getElementById('bgGIF');
 
-    gif.addEventListener('load', () => {
+    function hideLoader() {
       loader.classList.add('hidden');
-    });
+    }
+
+    // Try to hide when loaded
+    gif.addEventListener('load', hideLoader);
+
+    // Fallback timeout (3s)
+    setTimeout(hideLoader, 3000);
   </script>
 
 </body>
