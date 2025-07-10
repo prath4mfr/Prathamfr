@@ -28,6 +28,16 @@
       z-index: 99;
       display: none;
     }
+    #timerDisplay {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      color: white;
+      font-family: monospace;
+      font-size: 1.2rem;
+      z-index: 99;
+      display: none;
+    }
     #startScreen, #gameOverScreen, #leaderboardPopup {
       position: fixed;
       top: 0; left: 0;
@@ -64,11 +74,30 @@
     #leaderboardPopup li {
       margin: 5px 0;
     }
+    #backBtn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: monospace;
+    }
+    #backBtn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
   </style>
 </head>
 <body>
 <canvas id="game"></canvas>
 <div id="scoreBoard">Score: <span id="score">0</span></div>
+<div id="timerDisplay">⏱️ 60s</div>
+<button id="backBtn" onclick="goBack()">⬅ Back</button>
 
 <div id="startScreen">
   <h1>🐍 Snake Game</h1>
@@ -101,10 +130,10 @@
   let snake = [];
   let direction = "RIGHT";
   let score = 0;
-  let frame = 0;
   let game;
-  let playerName = "";
   let timer;
+  let timeLeft = 60;
+  let playerName = "";
 
   const headImg = new Image();
   headImg.src = "snakep.png";
@@ -118,6 +147,10 @@
   let food;
   let obstacles = [];
   const obstacleCount = 10;
+
+  function goBack() {
+    window.history.back();
+  }
 
   function generateObstacles() {
     obstacles = [];
@@ -192,7 +225,6 @@
 
   function drawGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    frame++;
 
     ctx.drawImage(foodImg, food.x * box, food.y * box, box, box);
     for (let obs of obstacles) {
@@ -242,9 +274,32 @@
     }
   }
 
+  function updateTimer() {
+    timeLeft--;
+    document.getElementById("timerDisplay").innerText = `⏱️ ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      endGame();
+    }
+  }
+
+  function startGame() {
+    playerName = document.getElementById("playerName").value.trim() || "Anonymous";
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("scoreBoard").style.display = "block";
+    document.getElementById("timerDisplay").style.display = "block";
+    score = 0;
+    direction = "RIGHT";
+    timeLeft = 60;
+    generateObstacles();
+    spawnSnakeSafely();
+    spawnFoodSafely();
+    game = setInterval(drawGame, 120);
+    timer = setInterval(updateTimer, 1000);
+  }
+
   function endGame() {
     clearInterval(game);
-    clearTimeout(timer);
+    clearInterval(timer);
     document.getElementById("finalScoreText").innerText = `${playerName}, your score was ${score}`;
     document.getElementById("gameOverScreen").style.display = "flex";
 
@@ -262,33 +317,18 @@
     localStorage.setItem("snakeLeaderboard", JSON.stringify(data));
   }
 
-  function startGame() {
-    playerName = document.getElementById("playerName").value.trim() || "Anonymous";
-    document.getElementById("startScreen").style.display = "none";
-    document.getElementById("scoreBoard").style.display = "block";
-    score = 0;
-    direction = "RIGHT";
-    generateObstacles();
-    spawnSnakeSafely();
-    spawnFoodSafely();
-    game = setInterval(drawGame, 120);
-    timer = setTimeout(() => {
-      endGame();
-    }, 60000); // 1 minute
-  }
-
   function restartGame() {
     document.getElementById("gameOverScreen").style.display = "none";
     document.getElementById("score").innerText = "0";
     score = 0;
     direction = "RIGHT";
+    timeLeft = 60;
     generateObstacles();
     spawnSnakeSafely();
     spawnFoodSafely();
     game = setInterval(drawGame, 120);
-    timer = setTimeout(() => {
-      endGame();
-    }, 60000);
+    timer = setInterval(updateTimer, 1000);
+    document.getElementById("timerDisplay").innerText = `⏱️ 60s`;
   }
 
   function showLeaderboard() {
