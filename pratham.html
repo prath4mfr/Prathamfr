@@ -2,18 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PRATH4M</title>
-
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
     }
 
-    /* Video Background */
     .video-bg {
       position: fixed;
       top: 0;
@@ -22,29 +21,35 @@
       height: 100vh;
       object-fit: cover;
       z-index: -1;
+      transition: filter 0.5s ease;
     }
 
-    /* Graffiti Image */
-    .graffiti-image {
+    .top-center-box {
       position: absolute;
-      top: 5%;
-      left: 45%;
-      transform: translateX(-40%);
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 3;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .graffiti-image {
       width: 40vw;
       max-width: 400px;
-      z-index: 2;
     }
 
-    @media (max-width: 768px) {
-      .graffiti-image {
-        width: 65vw;
-        top: 6%;
-        left: 50%;
-        transform: translateX(-85%);
-      }
+    .whois-link img {
+      height: 36px;
+      width: auto;
     }
 
-    /* Fullscreen Loader */
     #loader {
       position: fixed;
       top: 0;
@@ -70,7 +75,6 @@
       visibility: hidden;
     }
 
-    /* Back Button */
     .back-button {
       position: fixed;
       bottom: 20px;
@@ -81,7 +85,6 @@
       border-radius: 12px;
       font-size: 1rem;
       text-decoration: none;
-      font-family: 'Segoe UI', sans-serif;
       backdrop-filter: blur(6px);
       z-index: 10;
       transition: all 0.3s ease;
@@ -92,69 +95,131 @@
       color: black;
     }
 
-    /* Who is Pratham Button Centered */
-    .whois-link {
-      position: absolute;
-      top: 30%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(128, 128, 128, 0.35);
-      backdrop-filter: blur(8px);
-      padding: 6px 10px;
-      border-radius: 15px;
-      z-index: 3;
+    .music-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 10px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+      backdrop-filter: blur(6px);
     }
 
-    .whois-link img {
-      height: 36px;
-      width: auto;
-      display: block;
+    .music-controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .music-controls input[type="range"] {
+      width: 80px;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255, 255, 255, 0.3);
+      color: black;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+    }
+
+    .dark .video-bg {
+      filter: invert(1);
     }
 
     @media (max-width: 768px) {
-      .whois-link {
-        top: 30%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+      .graffiti-image {
+        width: 65vw;
       }
 
       .whois-link img {
         height: 30px;
+      }
+
+      .music-controls input[type="range"] {
+        width: 60px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Loading Screen -->
+  <!-- Loader -->
   <div id="loader">
     <img src="lunloading.jpg" alt="Loading..." />
   </div>
 
-  <!-- Video Background -->
+  <!-- Video BG -->
   <video class="video-bg" autoplay muted loop playsinline id="bgVideo">
     <source src="baawe.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
   </video>
 
-  <!-- Graffiti Name Image -->
-  <img src="graph.png" alt="PRATH4M" class="graffiti-image" />
-
-  <!-- Who is Pratham Button -->
-  <a href="whoispratham.html" class="whois-link">
-    <img src="whoispratham.png" alt="Who is Pratham?" />
-  </a>
+  <!-- Graffiti and Who Is Pratham in center-top -->
+  <div class="top-center-box">
+    <img src="graph.png" alt="PRATH4M" class="graffiti-image" />
+    <a href="whoispratham.html" class="whois-link">
+      <img src="whoispratham.png" alt="Who is Pratham?" />
+    </a>
+  </div>
 
   <!-- Back Button -->
   <a href="index.html" class="back-button">BACK</a>
 
-  <!-- JS to hide loader -->
+  <!-- Music Controls -->
+  <div class="music-controls">
+    <button id="playPauseBtn">⏸</button>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+  </div>
+
+  <!-- Dark Mode Toggle -->
+  <button class="toggle-btn" id="toggleMode">🌗</button>
+
+  <!-- Audio -->
+  <audio id="bgMusic" src="CGPA.mp3" autoplay loop></audio>
+
+  <!-- JS -->
   <script>
     const loader = document.getElementById('loader');
     const video = document.getElementById('bgVideo');
+    const music = document.getElementById('bgMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const toggleMode = document.getElementById('toggleMode');
 
     video.addEventListener('canplaythrough', () => {
       loader.classList.add('hidden');
+    });
+
+    music.volume = 0.5;
+
+    playPauseBtn.addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        playPauseBtn.textContent = '⏸';
+      } else {
+        music.pause();
+        playPauseBtn.textContent = '▶️';
+      }
+    });
+
+    volumeSlider.addEventListener('input', () => {
+      music.volume = volumeSlider.value;
+    });
+
+    toggleMode.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
     });
   </script>
 
