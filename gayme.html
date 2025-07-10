@@ -10,10 +10,11 @@
       padding: 0;
       height: 100%;
       overflow: hidden;
+      background: black;
     }
 
-    /* Background Video */
-    #bgVideo {
+    /* GIF Background */
+    .gif-bg {
       position: fixed;
       top: 0;
       left: 0;
@@ -21,9 +22,10 @@
       height: 100vh;
       object-fit: cover;
       z-index: -1;
+      filter: grayscale(100%);
     }
 
-    /* Loading screen */
+    /* Loader */
     #loader {
       position: fixed;
       top: 0;
@@ -34,7 +36,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 100;
+      z-index: 9999;
       transition: opacity 1s ease, visibility 1s ease;
     }
 
@@ -49,35 +51,13 @@
       visibility: hidden;
     }
 
-    /* Back button */
-    .back-button {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-size: 1rem;
-      text-decoration: none;
-      font-family: 'Segoe UI', sans-serif;
-      backdrop-filter: blur(8px);
-      z-index: 10;
-      transition: all 0.3s ease;
-    }
-
-    .back-button:hover {
-      background: rgba(255, 255, 255, 0.9);
-      color: black;
-    }
-
-    /* Game Buttons Container with Rainbow shimmer */
+    /* Game Box */
     .game-box {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
       padding: 30px;
       border-radius: 20px;
       backdrop-filter: blur(12px);
@@ -85,19 +65,16 @@
       flex-direction: column;
       gap: 20px;
       z-index: 5;
-      animation: shimmer 6s linear infinite;
+      animation: flicker 0.15s infinite alternate;
     }
 
-    @keyframes shimmer {
-      0% { box-shadow: 0 0 10px red; }
-      25% { box-shadow: 0 0 10px orange; }
-      50% { box-shadow: 0 0 10px yellow; }
-      75% { box-shadow: 0 0 10px lime; }
-      100% { box-shadow: 0 0 10px cyan; }
+    @keyframes flicker {
+      0% { background: rgba(0, 0, 0, 0.3); }
+      100% { background: rgba(255, 255, 255, 0.2); }
     }
 
     .game-box a {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
       padding: 12px 24px;
       border-radius: 10px;
       color: white;
@@ -109,35 +86,30 @@
     }
 
     .game-box a:hover {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.6);
       color: black;
     }
 
-    /* Volume + play/pause */
-    .controls {
+    /* Back Button */
+    .back-button {
       position: fixed;
       bottom: 20px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 10px 14px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.45);
+      color: white;
+      padding: 10px 18px;
       border-radius: 12px;
+      font-size: 1rem;
+      text-decoration: none;
+      font-family: 'Segoe UI', sans-serif;
       backdrop-filter: blur(6px);
       z-index: 10;
+      transition: all 0.3s ease;
     }
 
-    .controls button {
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .controls input[type="range"] {
-      cursor: pointer;
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.85);
+      color: black;
     }
 
     @media (max-width: 768px) {
@@ -159,13 +131,10 @@
     <img src="lunloading.jpg" alt="Loading..." />
   </div>
 
-  <!-- Background Video -->
-  <video id="bgVideo" autoplay loop playsinline>
-    <source src="BABI.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <!-- GIF Background -->
+  <img src="yourbg.gif" alt="Background" class="gif-bg" id="bgGIF">
 
-  <!-- Game Buttons -->
+  <!-- Game Links Box -->
   <div class="game-box">
     <a href="dashjumper.html">Dash Jumper</a>
     <a href="snake.html">Snake (Opium Edition)</a>
@@ -175,44 +144,15 @@
   <!-- Back Button -->
   <a href="pratham.html" class="back-button">BACK</a>
 
-  <!-- Volume & Play Controls -->
-  <div class="controls">
-    <button id="togglePlay">⏸️</button>
-    <input id="volumeControl" type="range" min="0" max="1" step="0.01" value="0.5" />
-  </div>
-
-  <!-- Scripts -->
   <script>
+    // Wait until GIF is loaded to hide loader
     const loader = document.getElementById('loader');
-    const video = document.getElementById('bgVideo');
-    const playBtn = document.getElementById('togglePlay');
-    const volumeControl = document.getElementById('volumeControl');
+    const gif = document.getElementById('bgGIF');
 
-    // Hide loader when video is ready
-    video.addEventListener('canplaythrough', () => {
+    gif.addEventListener('load', () => {
       loader.classList.add('hidden');
-      video.volume = 0.5;
-      video.play().catch(() => {
-        // Some browsers require interaction
-        playBtn.textContent = '▶️';
-      });
-    });
-
-    // Toggle play/pause
-    playBtn.addEventListener('click', () => {
-      if (video.paused) {
-        video.play();
-        playBtn.textContent = '⏸️';
-      } else {
-        video.pause();
-        playBtn.textContent = '▶️';
-      }
-    });
-
-    // Volume control
-    volumeControl.addEventListener('input', () => {
-      video.volume = volumeControl.value;
     });
   </script>
+
 </body>
 </html>
