@@ -24,6 +24,13 @@
       transition: filter 0.5s ease;
     }
 
+    /* Shift video left only on mobile */
+    @media (max-width: 768px) {
+      .video-bg {
+        object-position: 20% center;
+      }
+    }
+
     .graffiti-heading {
       position: absolute;
       top: 10%;
@@ -36,7 +43,7 @@
 
     .whois-box {
       position: absolute;
-      top: 25%;
+      top: 33%; /* Lowered only for desktop */
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0, 0, 0, 0.35);
@@ -144,6 +151,10 @@
     @media (max-width: 768px) {
       .graffiti-heading {
         width: 65vw;
+      }
+
+      .whois-box {
+        top: 27%; /* perfect placement for mobile */
       }
 
       .whois-box img {
