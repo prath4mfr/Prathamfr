@@ -51,6 +51,7 @@
       padding: 15px 25px;
       border-radius: 20px;
       z-index: 3;
+      animation: shimmer 3s infinite ease-in-out;
     }
 
     .whois-box img {
@@ -157,16 +158,35 @@
       .whois-box {
         top: 27%;
         background: rgba(255, 255, 255, 0.35);
-        padding: 8px 15px; /* shorter box */
+        padding: 8px 15px;
+        animation: shimmerLight 3s infinite ease-in-out;
       }
 
       .whois-box img {
         height: 26px;
-        filter: brightness(0); /* make visible on white */
+        filter: brightness(0);
       }
 
       .music-controls input[type="range"] {
         width: 60px;
+      }
+    }
+
+    @keyframes shimmer {
+      0%, 100% {
+        background-color: rgba(0, 0, 0, 0.35);
+      }
+      50% {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    @keyframes shimmerLight {
+      0%, 100% {
+        background-color: rgba(255, 255, 255, 0.35);
+      }
+      50% {
+        background-color: rgba(255, 255, 255, 0.5);
       }
     }
   </style>
