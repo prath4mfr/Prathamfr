@@ -11,10 +11,9 @@
       height: 100%;
       overflow: hidden;
       background: black;
-      font-family: sans-serif;
     }
 
-    .gif-bg {
+    .image-bg {
       position: fixed;
       top: 0;
       left: 0;
@@ -22,29 +21,13 @@
       height: 100vh;
       object-fit: cover;
       z-index: -1;
-      pointer-events: none;
-    }
-
-    .content {
-      position: relative;
-      z-index: 1;
-      color: white;
-      text-align: center;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
     }
   </style>
 </head>
 <body>
 
-  <!-- Background GIF -->
-  <img src="babi.gif" alt="Background" class="gif-bg" />
-
-  <!-- Optional foreground content -->
-  <div class="content">
-    Welcome to the GAYME 🧠💥
-  </div>
+  <!-- Fullscreen background image -->
+  <img src="eye.jpg" alt="Background" class="image-bg" />
 
 </body>
 </html>
