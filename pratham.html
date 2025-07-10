@@ -68,6 +68,7 @@
       top: calc(33% + 70px); /* 36px img + padding + 20px gap */
     }
 
+    /* 🌀 Loading Spinner */
     #loader {
       position: fixed;
       top: 0;
@@ -86,6 +87,12 @@
       width: 100vw;
       height: 100vh;
       object-fit: cover;
+      animation: spin 5s linear infinite;
+    }
+
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     #loader.hidden {
@@ -212,49 +219,49 @@
 </head>
 <body>
 
-  <!-- Loader -->
+  <!-- 🔄 Loader -->
   <div id="loader">
     <img src="lunloading.jpg" alt="Loading..." />
   </div>
 
-  <!-- Video BG -->
+  <!-- 🎥 Video Background -->
   <video class="video-bg" autoplay muted loop playsinline id="bgVideo">
     <source src="baawe.mp4" type="video/mp4" />
   </video>
 
-  <!-- Heading Image -->
+  <!-- 🎨 Heading -->
   <img src="graph.png" alt="PRATH4M" class="graffiti-heading" />
 
-  <!-- Who is Pratham Box -->
+  <!-- 👤 Who is Pratham -->
   <div class="whois-box">
     <a href="whoispratham.html">
       <img src="whoispratham.png" alt="Who is Pratham?" />
     </a>
   </div>
 
-  <!-- Games Box -->
+  <!-- 🎮 Games -->
   <div class="game-box">
     <a href="gayme.html">
       <img src="game.png" alt="Games" />
     </a>
   </div>
 
-  <!-- Back Button -->
+  <!-- 🔙 Back Button -->
   <a href="index.html" class="back-button">BACK</a>
 
-  <!-- Music Controls -->
+  <!-- 🔊 Music Controls -->
   <div class="music-controls">
     <button id="playPauseBtn">⏸</button>
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
   </div>
 
-  <!-- Dark Mode Toggle -->
+  <!-- 🌗 Dark Mode Toggle -->
   <button class="toggle-btn" id="toggleMode">🌗</button>
 
-  <!-- Audio -->
+  <!-- 🎵 Audio -->
   <audio id="bgMusic" src="CGPA.mp3" autoplay loop></audio>
 
-  <!-- JS -->
+  <!-- 📜 Script -->
   <script>
     const loader = document.getElementById('loader');
     const video = document.getElementById('bgVideo');
@@ -263,17 +270,8 @@
     const volumeSlider = document.getElementById('volumeSlider');
     const toggleMode = document.getElementById('toggleMode');
 
-    window.addEventListener('load', () => {
-      const checkReady = setInterval(() => {
-        if (
-          document.readyState === 'complete' &&
-          video.readyState >= 2 &&
-          music.readyState >= 2
-        ) {
-          clearInterval(checkReady);
-          loader.classList.add('hidden');
-        }
-      }, 100);
+    video.addEventListener('canplaythrough', () => {
+      loader.classList.add('hidden');
     });
 
     music.volume = 0.5;
@@ -296,6 +294,5 @@
       document.body.classList.toggle('dark');
     });
   </script>
-
 </body>
 </html>
