@@ -14,7 +14,7 @@
 
     canvas {
       display: block;
-      background: #000;
+      background: black;
     }
 
     .score {
@@ -68,16 +68,27 @@
   const cols = Math.floor(canvas.width / box);
   const rows = Math.floor(canvas.height / box);
 
-  let snake = [{ x: 10, y: 10 }];
+  let snake = [{ x: 10, y: 10 }]; // start with 1 segment
   let food = {
     x: Math.floor(Math.random() * cols),
     y: Math.floor(Math.random() * rows)
   };
+
+  let obstacles = [];
+  const obstacleCount = 10;
+
+  for (let i = 0; i < obstacleCount; i++) {
+    obstacles.push({
+      x: Math.floor(Math.random() * cols),
+      y: Math.floor(Math.random() * rows)
+    });
+  }
+
   let direction = "RIGHT";
   let score = 0;
 
   const headImg = new Image();
-  headImg.src = "snakep.png"; // your face image
+  headImg.src = "snakep.png";
 
   document.addEventListener("keydown", changeDirection);
 
@@ -104,6 +115,12 @@
     ctx.fillStyle = "red";
     ctx.fillRect(food.x * box, food.y * box, box, box);
 
+    // Draw obstacles
+    ctx.fillStyle = "gray";
+    for (let obs of obstacles) {
+      ctx.fillRect(obs.x * box, obs.y * box, box, box);
+    }
+
     // Draw snake
     for (let i = 0; i < snake.length; i++) {
       const seg = snake[i];
@@ -111,14 +128,13 @@
       const py = seg.y * box;
 
       if (i === 0) {
-        // Head with rotated image
         let angle = 0;
         if (direction === "UP") angle = -Math.PI / 2;
         else if (direction === "DOWN") angle = Math.PI / 2;
         else if (direction === "LEFT") angle = Math.PI;
-        drawRotatedImage(headImg, px, py, box * 1.5, angle); // bigger face
+        drawRotatedImage(headImg, px, py, box * 2, angle); // Head is 2x size now
       } else {
-        ctx.fillStyle = "#0f0";
+        ctx.fillStyle = "white";
         ctx.fillRect(px, py, box, box);
       }
     }
@@ -130,13 +146,14 @@
     if (direction === "UP") head.y--;
     if (direction === "DOWN") head.y++;
 
-    // Game over
-    if (
-      head.x < 0 || head.x >= cols || head.y < 0 || head.y >= rows ||
-      snake.some(seg => seg.x === head.x && seg.y === head.y)
-    ) {
+    // Game over: wall, self, or obstacle
+    const hitWall = head.x < 0 || head.x >= cols || head.y < 0 || head.y >= rows;
+    const hitSelf = snake.some(seg => seg.x === head.x && seg.y === head.y);
+    const hitObstacle = obstacles.some(obs => obs.x === head.x && obs.y === head.y);
+
+    if (hitWall || hitSelf || hitObstacle) {
       clearInterval(game);
-      alert("Game Over! Score: " + score);
+      alert("💀 Game Over! Score: " + score);
       location.reload();
     }
 
@@ -151,7 +168,7 @@
         y: Math.floor(Math.random() * rows)
       };
     } else {
-      snake.pop();
+      snake.pop(); // remove last segment if not eating
     }
   }
 
