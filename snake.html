@@ -3,30 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Snake Game</title>
+  <title>Snake Game – PRATHAM Edition</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: black;
       overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
+      background: black;
     }
 
     canvas {
-      background: #111;
-      box-shadow: 0 0 15px #0f0, 0 0 30px #0f0;
+      display: block;
+      background: #000;
     }
 
     .score {
       position: fixed;
       top: 20px;
       left: 20px;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
       font-size: 1.2rem;
       z-index: 10;
     }
@@ -44,6 +40,7 @@
       backdrop-filter: blur(4px);
       border: 1px solid #0f0;
       box-shadow: 0 0 10px #0f0;
+      z-index: 10;
     }
 
     .back-button:hover {
@@ -57,15 +54,19 @@
 <div class="score">Score: <span id="score">0</span></div>
 <a href="gayme.html" class="back-button">BACK</a>
 
-<canvas id="game" width="400" height="400"></canvas>
+<canvas id="game"></canvas>
 
 <script>
   const canvas = document.getElementById("game");
   const ctx = canvas.getContext("2d");
-  const box = 20;
-  const canvasSize = 400;
-  const rows = canvasSize / box;
-  const cols = canvasSize / box;
+
+  // Fullscreen canvas
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const box = 30;
+  const cols = Math.floor(canvas.width / box);
+  const rows = Math.floor(canvas.height / box);
 
   let snake = [{ x: 10, y: 10 }];
   let food = {
@@ -76,7 +77,7 @@
   let score = 0;
 
   const headImg = new Image();
-  headImg.src = "snakep.png"; // make sure this image exists
+  headImg.src = "snakep.png"; // your face image
 
   document.addEventListener("keydown", changeDirection);
 
@@ -88,46 +89,60 @@
     else if (key === "ArrowDown" && direction !== "UP") direction = "DOWN";
   }
 
+  function drawRotatedImage(img, x, y, size, angle) {
+    ctx.save();
+    ctx.translate(x + size / 2, y + size / 2);
+    ctx.rotate(angle);
+    ctx.drawImage(img, -size / 2, -size / 2, size, size);
+    ctx.restore();
+  }
+
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Draw snake
-    for (let i = 0; i < snake.length; i++) {
-      const seg = snake[i];
-      if (i === 0) {
-        // Head with image
-        ctx.drawImage(headImg, seg.x * box, seg.y * box, box, box);
-      } else {
-        ctx.fillStyle = "#0a0";
-        ctx.fillRect(seg.x * box, seg.y * box, box, box);
-      }
-    }
 
     // Draw food
     ctx.fillStyle = "red";
     ctx.fillRect(food.x * box, food.y * box, box, box);
 
+    // Draw snake
+    for (let i = 0; i < snake.length; i++) {
+      const seg = snake[i];
+      const px = seg.x * box;
+      const py = seg.y * box;
+
+      if (i === 0) {
+        // Head with rotated image
+        let angle = 0;
+        if (direction === "UP") angle = -Math.PI / 2;
+        else if (direction === "DOWN") angle = Math.PI / 2;
+        else if (direction === "LEFT") angle = Math.PI;
+        drawRotatedImage(headImg, px, py, box * 1.5, angle); // bigger face
+      } else {
+        ctx.fillStyle = "#0f0";
+        ctx.fillRect(px, py, box, box);
+      }
+    }
+
     // Move snake
     let head = { ...snake[0] };
-
     if (direction === "LEFT") head.x--;
     if (direction === "RIGHT") head.x++;
     if (direction === "UP") head.y--;
     if (direction === "DOWN") head.y++;
 
-    // Game over conditions
+    // Game over
     if (
       head.x < 0 || head.x >= cols || head.y < 0 || head.y >= rows ||
       snake.some(seg => seg.x === head.x && seg.y === head.y)
     ) {
       clearInterval(game);
-      alert("Game Over! Your Score: " + score);
+      alert("Game Over! Score: " + score);
       location.reload();
     }
 
     snake.unshift(head);
 
-    // Food eaten
+    // Eat food
     if (head.x === food.x && head.y === food.y) {
       score++;
       document.getElementById("score").innerText = score;
@@ -142,5 +157,6 @@
 
   const game = setInterval(draw, 120);
 </script>
+
 </body>
 </html>
