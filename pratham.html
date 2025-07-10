@@ -263,8 +263,17 @@
     const volumeSlider = document.getElementById('volumeSlider');
     const toggleMode = document.getElementById('toggleMode');
 
-    video.addEventListener('canplaythrough', () => {
-      loader.classList.add('hidden');
+    window.addEventListener('load', () => {
+      const checkReady = setInterval(() => {
+        if (
+          document.readyState === 'complete' &&
+          video.readyState >= 2 &&
+          music.readyState >= 2
+        ) {
+          clearInterval(checkReady);
+          loader.classList.add('hidden');
+        }
+      }, 100);
     });
 
     music.volume = 0.5;
