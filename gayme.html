@@ -2,160 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Games</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eye Background</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: hidden;
-      background: black;
     }
 
-    /* Background Image */
-    #bgImage {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -1;
-    }
-
-    /* Loader */
-    #loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-      transition: opacity 1s ease, visibility 1s ease;
-    }
-
-    #loader img {
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-    }
-
-    #loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    /* Back Button */
-    .back-button {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-size: 1rem;
-      text-decoration: none;
-      font-family: 'Segoe UI', sans-serif;
-      backdrop-filter: blur(8px);
-      z-index: 10;
-      transition: all 0.3s ease;
-    }
-
-    .back-button:hover {
-      background: rgba(255, 255, 255, 0.9);
-      color: black;
-    }
-
-    /* Game Box with Flicker */
-    .game-box {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 20px;
-      backdrop-filter: blur(12px);
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      z-index: 5;
-      animation: flicker 0.12s infinite alternate;
-    }
-
-    @keyframes flicker {
-      0% { background: rgba(0, 0, 0, 0.3); }
-      100% { background: rgba(255, 255, 255, 0.2); }
-    }
-
-    .game-box a {
-      background: rgba(255, 255, 255, 0.3);
-      padding: 12px 24px;
-      border-radius: 10px;
-      color: white;
-      text-decoration: none;
-      text-align: center;
-      font-size: 1.1rem;
-      font-family: monospace;
-      transition: background 0.3s ease;
-    }
-
-    .game-box a:hover {
-      background: rgba(255, 255, 255, 0.7);
-      color: black;
-    }
-
-    @media (max-width: 768px) {
-      .game-box {
-        width: 90%;
-        padding: 20px;
-      }
-
-      .game-box a {
-        font-size: 1rem;
-      }
+    body {
+      background: url('eye.jpg') no-repeat center center fixed;
+      background-size: cover;
     }
   </style>
 </head>
 <body>
-
-  <!-- Loader -->
-  <div id="loader">
-    <img src="lunloading.jpg" alt="Loading..." />
-  </div>
-
-  <!-- Background Image -->
-  <img id="bgImage" src="eye.jpg" alt="Background" />
-
-  <!-- Game Buttons -->
-  <div class="game-box">
-    <a href="dashjumper.html">Dash Jumper</a>
-    <a href="snake.html">Snake (Opium Edition)</a>
-    <a href="voidwalker.html">Void Walker</a>
-  </div>
-
-  <!-- Back Button -->
-  <a href="pratham.html" class="back-button">BACK</a>
-
-  <!-- Script -->
-  <script>
-    const loader = document.getElementById('loader');
-    const bg = document.getElementById('bgImage');
-
-    function hideLoader() {
-      loader.classList.add('hidden');
-    }
-
-    bg.addEventListener('load', hideLoader);
-    setTimeout(hideLoader, 3000); // fallback
-  </script>
-
 </body>
 </html>
->
