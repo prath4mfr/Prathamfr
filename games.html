@@ -14,7 +14,6 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
-    /* Background Video */
     .video-bg {
       position: fixed;
       top: 0;
@@ -26,7 +25,6 @@
       pointer-events: none;
     }
 
-    /* Back Button */
     .back-button {
       position: fixed;
       bottom: 20px;
@@ -57,7 +55,18 @@
   </video>
 
   <!-- Back Button -->
-  <a href="index.html" class="back-button">BACK</a>
+  <a href="pratham.html" class="back-button">BACK</a>
+
+  <!-- Optional: JS fallback in case autoplay fails -->
+  <script>
+    const vid = document.getElementById("bgVid");
+    vid.onerror = () => {
+      console.error("Video failed to load. Check file name or path.");
+    };
+    vid.onloadeddata = () => {
+      console.log("Video loaded successfully!");
+    };
+  </script>
 
 </body>
 </html>
