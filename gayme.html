@@ -3,21 +3,135 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eye Background</title>
+  <title>Matrix Games</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
+      width: 100%;
       overflow: hidden;
+      background: black;
+      font-family: monospace;
     }
 
     body {
-      background: url('babi.gif') no-repeat center center fixed;
+      background-image: url('babi.gif');
       background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .matrix-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90vw;
+      max-width: 600px;
+      height: 70vh;
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: 20px;
+      overflow: hidden;
+      z-index: 2;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+    }
+
+    .matrix-content {
+      height: 100%;
+      width: 100%;
+      color: lime;
+      font-size: 14px;
+      line-height: 1.2;
+      white-space: pre;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .matrix-streams {
+      position: absolute;
+      top: 100%;
+      animation: scrollMatrix 10s linear infinite;
+    }
+
+    @keyframes scrollMatrix {
+      from { top: 100%; }
+      to { top: -100%; }
+    }
+
+    .game-buttons {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 3;
+    }
+
+    .game-buttons a {
+      background: rgba(0, 0, 0, 0.5);
+      color: lime;
+      border: 1px solid lime;
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s ease;
+    }
+
+    .game-buttons a:hover {
+      background: lime;
+      color: black;
+    }
+
+    @media (max-width: 600px) {
+      .game-buttons {
+        flex-direction: column;
+        top: 15px;
+      }
+
+      .game-buttons a {
+        padding: 10px;
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
 <body>
+
+  <div class="matrix-box">
+    <!-- Game Links -->
+    <div class="game-buttons">
+      <a href="snake.html">Snake</a>
+      <a href="void.html">Void Jumper</a>
+      <a href="dash.html">Dash Jumper</a>
+    </div>
+
+    <!-- Matrix Scrolling Content -->
+    <div class="matrix-content">
+      <div class="matrix-streams" id="matrix"></div>
+    </div>
+  </div>
+
+  <!-- Script to fill matrix with scrolling 0s and 1s -->
+  <script>
+    const matrix = document.getElementById("matrix");
+
+    function generateMatrixLines(lines = 100, columns = 40) {
+      let output = '';
+      for (let i = 0; i < lines; i++) {
+        let row = '';
+        for (let j = 0; j < columns; j++) {
+          row += Math.random() > 0.5 ? '1' : '0';
+        }
+        output += row + '\n';
+      }
+      matrix.textContent = output;
+    }
+
+    generateMatrixLines();
+  </script>
+
 </body>
 </html>
