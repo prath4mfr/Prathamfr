@@ -43,7 +43,7 @@
 
     .whois-box {
       position: absolute;
-      top: 33%; /* Lowered only for desktop */
+      top: 33%;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0, 0, 0, 0.35);
@@ -148,17 +148,20 @@
       filter: invert(1);
     }
 
+    /* Mobile-specific changes */
     @media (max-width: 768px) {
       .graffiti-heading {
         width: 65vw;
       }
 
       .whois-box {
-        top: 27%; /* perfect placement for mobile */
+        top: 27%;
+        background: rgba(255, 255, 255, 0.35);
       }
 
       .whois-box img {
         height: 30px;
+        filter: brightness(0);
       }
 
       .music-controls input[type="range"] {
