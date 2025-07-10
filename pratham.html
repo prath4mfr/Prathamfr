@@ -24,7 +24,6 @@
       transition: filter 0.5s ease;
     }
 
-    /* Shift video left only on mobile */
     @media (max-width: 768px) {
       .video-bg {
         object-position: 20% center;
@@ -41,9 +40,9 @@
       z-index: 3;
     }
 
-    .whois-box {
+    .whois-box,
+    .game-box {
       position: absolute;
-      top: 33%;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0, 0, 0, 0.35);
@@ -54,10 +53,19 @@
       animation: shimmer 3s infinite ease-in-out;
     }
 
-    .whois-box img {
+    .whois-box img,
+    .game-box img {
       height: 36px;
       width: auto;
       display: block;
+    }
+
+    .whois-box {
+      top: 33%;
+    }
+
+    .game-box {
+      top: calc(33% + 70px); /* 36px img + padding + 20px gap */
     }
 
     #loader {
@@ -149,7 +157,6 @@
       filter: invert(1);
     }
 
-    /* Mobile-specific changes */
     @media (max-width: 768px) {
       .graffiti-heading {
         width: 65vw;
@@ -163,6 +170,18 @@
       }
 
       .whois-box img {
+        height: 26px;
+        filter: brightness(0);
+      }
+
+      .game-box {
+        top: calc(27% + 60px);
+        background: rgba(255, 255, 255, 0.35);
+        padding: 8px 15px;
+        animation: shimmerLight 3s infinite ease-in-out;
+      }
+
+      .game-box img {
         height: 26px;
         filter: brightness(0);
       }
@@ -206,10 +225,17 @@
   <!-- Heading Image -->
   <img src="graph.png" alt="PRATH4M" class="graffiti-heading" />
 
-  <!-- Whois Box -->
+  <!-- Who is Pratham Box -->
   <div class="whois-box">
     <a href="whoispratham.html">
       <img src="whoispratham.png" alt="Who is Pratham?" />
+    </a>
+  </div>
+
+  <!-- Games Box -->
+  <div class="game-box">
+    <a href="games.html">
+      <img src="game.png" alt="Games" />
     </a>
   </div>
 
