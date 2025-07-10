@@ -14,7 +14,8 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
-    .video-bg {
+    /* Background GIF */
+    .gif-bg {
       position: fixed;
       top: 0;
       left: 0;
@@ -25,6 +26,7 @@
       pointer-events: none;
     }
 
+    /* Back Button */
     .back-button {
       position: fixed;
       bottom: 20px;
@@ -48,25 +50,11 @@
 </head>
 <body>
 
-  <!-- Background Video -->
-  <video class="video-bg" autoplay muted loop playsinline id="bgVid">
-    <source src="BABI.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
+  <!-- Background GIF -->
+  <img src="babi.gif" alt="Background" class="gif-bg" />
 
   <!-- Back Button -->
-  <a href="pratham.html" class="back-button">BACK</a>
-
-  <!-- Optional: JS fallback in case autoplay fails -->
-  <script>
-    const vid = document.getElementById("bgVid");
-    vid.onerror = () => {
-      console.error("Video failed to load. Check file name or path.");
-    };
-    vid.onloadeddata = () => {
-      console.log("Video loaded successfully!");
-    };
-  </script>
+  <a href="index.html" class="back-button">BACK</a>
 
 </body>
 </html>
