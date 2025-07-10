@@ -3,21 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eye Background</title>
+  <title>G4(Y)ME</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: hidden;
+      background: black;
     }
 
-    body {
-      background: url('eye.jpg') no-repeat center center fixed;
-      background-size: cover;
+    .gif-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    .gif-background img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
   </style>
 </head>
 <body>
+
+  <!-- Fullscreen GIF Background -->
+  <div class="gif-background">
+    <img src="babi.gif" alt="Animated Background">
+  </div>
+
 </body>
 </html>
