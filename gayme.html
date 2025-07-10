@@ -13,7 +13,6 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
-    /* Background Video */
     .video-bg {
       position: fixed;
       top: 0;
@@ -61,6 +60,7 @@
       backdrop-filter: blur(6px);
       transition: 0.3s ease;
       text-decoration: none;
+      z-index: 5;
     }
 
     .back-button {
@@ -85,12 +85,34 @@
     .mute-button:hover {
       background: rgba(255, 255, 255, 0.65);
     }
+
+    /* Start Overlay */
+    .start-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      z-index: 999;
+      cursor: pointer;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
+  <!-- Start Overlay -->
+  <div class="start-overlay" onclick="startExperience()">
+    Click to Enter
+  </div>
+
   <!-- Video Background -->
-  <video class="video-bg" autoplay loop playsinline id="bgVideo">
+  <video class="video-bg" id="bgVideo" loop playsinline>
     <source src="BABI.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
@@ -108,18 +130,27 @@
   <!-- Mute/Unmute Button -->
   <button class="mute-button" onclick="toggleMute()">🔊</button>
 
-  <!-- Mute Script -->
+  <!-- Scripts -->
   <script>
-    const bgVideo = document.getElementById("bgVideo");
+    const video = document.getElementById("bgVideo");
     const muteBtn = document.querySelector(".mute-button");
+    const overlay = document.querySelector(".start-overlay");
 
-    // Start with sound ON at 50% volume
-    bgVideo.volume = 0.5;
-    bgVideo.muted = false;
+    function startExperience() {
+      overlay.style.display = "none";
+      video.volume = 0.5;
+      video.muted = false;
+      video.play().catch(() => {
+        // Fallback if autoplay fails
+        muteBtn.textContent = "🔇";
+        video.muted = true;
+        video.play();
+      });
+    }
 
     function toggleMute() {
-      bgVideo.muted = !bgVideo.muted;
-      muteBtn.textContent = bgVideo.muted ? "🔇" : "🔊";
+      video.muted = !video.muted;
+      muteBtn.textContent = video.muted ? "🔇" : "🔊";
     }
   </script>
 
