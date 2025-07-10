@@ -22,7 +22,6 @@
       background-position: center;
     }
 
-    /* Loader */
     #loader {
       position: fixed;
       top: 0;
@@ -154,6 +153,32 @@
       box-shadow: 0 0 20px white, 0 0 30px white;
     }
 
+    .music-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+      box-shadow: 0 0 8px white;
+    }
+
+    .music-controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .music-controls input[type="range"] {
+      width: 80px;
+    }
+
     @media (max-width: 600px) {
       .matrix-box {
         height: 65vh;
@@ -171,22 +196,24 @@
         font-size: 0.9rem;
         padding: 8px 14px;
       }
+
+      .music-controls input[type="range"] {
+        width: 60px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Spinning Fullscreen Loader -->
+  <!-- Loader -->
   <div id="loader">
     <img src="lunloading.jpg" alt="Loading..." />
   </div>
 
   <!-- Matrix Box -->
   <div class="matrix-box">
-    <!-- Matrix Flowing Digits -->
     <div class="matrix-scroll" id="matrix"></div>
 
-    <!-- Game Links -->
     <div class="matrix-content">
       <h1>GAMES</h1>
       <a href="snake.html">Snake Game</a>
@@ -198,9 +225,18 @@
   <!-- Back Button -->
   <a href="pratham.html" class="back-button">BACK</a>
 
+  <!-- Music Controls -->
+  <div class="music-controls">
+    <button id="playPauseBtn">⏸</button>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+  </div>
+
+  <!-- Audio -->
+  <audio id="bgMusic" src="watch.mp3" autoplay loop></audio>
+
   <!-- JS -->
   <script>
-    // Hide loader on full load
+    // Loader
     window.addEventListener('load', () => {
       document.getElementById('loader').classList.add('hidden');
     });
@@ -219,6 +255,27 @@
       matrix.textContent = output;
     }
     generateMatrix();
+
+    // Music controls
+    const music = document.getElementById('bgMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+
+    music.volume = 0.5;
+
+    playPauseBtn.addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        playPauseBtn.textContent = '⏸';
+      } else {
+        music.pause();
+        playPauseBtn.textContent = '▶️';
+      }
+    });
+
+    volumeSlider.addEventListener('input', () => {
+      music.volume = volumeSlider.value;
+    });
   </script>
 </body>
 </html>
