@@ -25,6 +25,38 @@
       font-family: monospace;
       font-size: 1.2rem;
       z-index: 99;
+      display: none;
+    }
+    #startScreen, #gameOverScreen, #leaderboardPopup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      font-family: monospace;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      cursor: pointer;
+    }
+    #leaderboardPopup ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #leaderboardPopup li {
+      margin: 5px 0;
     }
   </style>
 </head>
@@ -32,7 +64,31 @@
 <canvas id="game"></canvas>
 <div id="scoreBoard">Score: <span id="score">0</span></div>
 
+<!-- Start Screen -->
+<div id="startScreen">
+  <h1>🐍 Snake Game</h1>
+  <input type="text" id="playerName" placeholder="Enter your name" />
+  <button onclick="startGame()">Start Game</button>
+</div>
+
+<!-- Game Over Screen -->
+<div id="gameOverScreen" style="display: none;">
+  <h2>💀 You Died!</h2>
+  <p id="finalScoreText"></p>
+  <button onclick="location.reload()">Restart</button>
+  <button onclick="showLeaderboard()">View Leaderboard</button>
+</div>
+
+<!-- Leaderboard Popup -->
+<div id="leaderboardPopup" style="display: none;">
+  <h2>🏆 Leaderboard</h2>
+  <ul id="leaderboardList"></ul>
+  <button onclick="closeLeaderboard()">Close</button>
+</div>
+
 <script>
+  let playerName = "";
+  let game;
   const canvas = document.getElementById("game");
   const ctx = canvas.getContext("2d");
   canvas.width = window.innerWidth;
@@ -64,7 +120,6 @@
   let obstacles = [];
   const obstacleCount = 10;
 
-  // Randomize obstacles
   for (let i = 0; i < obstacleCount; i++) {
     obstacles.push({
       x: Math.floor(Math.random() * (cols - 2)) + 1,
@@ -72,14 +127,13 @@
     });
   }
 
-  // Add invisible wall obstacles
   for (let i = 0; i < cols; i++) {
-    obstacles.push({ x: i, y: 0 });              // top
-    obstacles.push({ x: i, y: rows - 1 });       // bottom
+    obstacles.push({ x: i, y: 0 });
+    obstacles.push({ x: i, y: rows - 1 });
   }
   for (let i = 1; i < rows - 1; i++) {
-    obstacles.push({ x: 0, y: i });              // left
-    obstacles.push({ x: cols - 1, y: i });       // right
+    obstacles.push({ x: 0, y: i });
+    obstacles.push({ x: cols - 1, y: i });
   }
 
   document.addEventListener("keydown", e => {
@@ -101,20 +155,15 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     frame++;
 
-    // Draw food
     ctx.drawImage(foodImg, food.x * box, food.y * box, box, box);
-
-    // Draw obstacles
     for (let obs of obstacles) {
       ctx.drawImage(poopImg, obs.x * box, obs.y * box, box, box);
     }
 
-    // Draw snake
     for (let i = 0; i < snake.length; i++) {
       const s = snake[i];
       const px = s.x * box;
       const py = s.y * box;
-
       if (i === 0) {
         let angle = 0;
         if (direction === "UP") angle = -Math.PI / 2;
@@ -127,14 +176,12 @@
       }
     }
 
-    // Move
     let head = { ...snake[0] };
     if (direction === "LEFT") head.x--;
     if (direction === "RIGHT") head.x++;
     if (direction === "UP") head.y--;
     if (direction === "DOWN") head.y++;
 
-    // Collision check
     if (
       head.x < 0 || head.x >= cols ||
       head.y < 0 || head.y >= rows ||
@@ -142,8 +189,7 @@
       obstacles.some(obs => obs.x === head.x && obs.y === head.y)
     ) {
       clearInterval(game);
-      alert("💥 Game Over! Score: " + score);
-      location.reload();
+      showGameOver();
     }
 
     snake.unshift(head);
@@ -160,7 +206,39 @@
     }
   }
 
-  const game = setInterval(drawGame, 120);
+  function startGame() {
+    playerName = document.getElementById("playerName").value.trim() || "Anonymous";
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("scoreBoard").style.display = "block";
+    game = setInterval(drawGame, 120);
+  }
+
+  function showGameOver() {
+    document.getElementById("gameOverScreen").style.display = "flex";
+    document.getElementById("finalScoreText").innerText = `${playerName}, your score was ${score}`;
+
+    let data = JSON.parse(localStorage.getItem("snakeLeaderboard") || "[]");
+    data.push({ name: playerName, score });
+    data.sort((a, b) => b.score - a.score);
+    data = data.slice(0, 10);
+    localStorage.setItem("snakeLeaderboard", JSON.stringify(data));
+  }
+
+  function showLeaderboard() {
+    const list = document.getElementById("leaderboardList");
+    list.innerHTML = "";
+    let data = JSON.parse(localStorage.getItem("snakeLeaderboard") || "[]");
+    data.forEach((entry, i) => {
+      const li = document.createElement("li");
+      li.innerText = `${i + 1}. ${entry.name} — ${entry.score}`;
+      list.appendChild(li);
+    });
+    document.getElementById("leaderboardPopup").style.display = "flex";
+  }
+
+  function closeLeaderboard() {
+    document.getElementById("leaderboardPopup").style.display = "none";
+  }
 </script>
 </body>
 </html>
