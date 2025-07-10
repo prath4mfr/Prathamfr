@@ -75,6 +75,9 @@
   let direction = "RIGHT";
   let score = 0;
 
+  const headImg = new Image();
+  headImg.src = "snakep.png"; // make sure this image exists
+
   document.addEventListener("keydown", changeDirection);
 
   function changeDirection(e) {
@@ -90,8 +93,14 @@
 
     // Draw snake
     for (let i = 0; i < snake.length; i++) {
-      ctx.fillStyle = i === 0 ? "#0f0" : "#0a0";
-      ctx.fillRect(snake[i].x * box, snake[i].y * box, box, box);
+      const seg = snake[i];
+      if (i === 0) {
+        // Head with image
+        ctx.drawImage(headImg, seg.x * box, seg.y * box, box, box);
+      } else {
+        ctx.fillStyle = "#0a0";
+        ctx.fillRect(seg.x * box, seg.y * box, box, box);
+      }
     }
 
     // Draw food
@@ -135,4 +144,3 @@
 </script>
 </body>
 </html>
-
