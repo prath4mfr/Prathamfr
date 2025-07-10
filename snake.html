@@ -70,22 +70,19 @@
 <canvas id="game"></canvas>
 <div id="scoreBoard">Score: <span id="score">0</span></div>
 
-<!-- Start Screen -->
 <div id="startScreen">
   <h1>🐍 Snake Game</h1>
   <input type="text" id="playerName" placeholder="Enter your name" />
   <button onclick="startGame()">Start Game</button>
 </div>
 
-<!-- Game Over Screen -->
 <div id="gameOverScreen" style="display: none;">
   <h2>💀 You Died!</h2>
   <p id="finalScoreText"></p>
-  <button onclick="location.reload()">Restart</button>
+  <button onclick="restartGame()">Restart</button>
   <button onclick="showLeaderboard()">View Leaderboard</button>
 </div>
 
-<!-- Leaderboard -->
 <div id="leaderboardPopup" style="display: none;">
   <h2>🏆 Leaderboard</h2>
   <ul id="leaderboardList"></ul>
@@ -101,12 +98,13 @@
   const box = 30;
   let cols = Math.floor(canvas.width / box);
   let rows = Math.floor(canvas.height / box);
-  let snake = [{ x: 10, y: 10 }];
+  let snake = [];
   let direction = "RIGHT";
   let score = 0;
   let frame = 0;
-  let playerName = "";
   let game;
+  let playerName = "";
+  let timer;
 
   const headImg = new Image();
   headImg.src = "snakep.png";
@@ -117,26 +115,45 @@
   const poopImg = new Image();
   poopImg.src = "poop.png";
 
-  let food = {
-    x: Math.floor(Math.random() * (cols - 2)) + 1,
-    y: Math.floor(Math.random() * (rows - 2)) + 1
-  };
-
+  let food;
   let obstacles = [];
   const obstacleCount = 10;
-  for (let i = 0; i < obstacleCount; i++) {
-    obstacles.push({
-      x: Math.floor(Math.random() * (cols - 2)) + 1,
-      y: Math.floor(Math.random() * (rows - 2)) + 1
-    });
+
+  function generateObstacles() {
+    obstacles = [];
+    for (let i = 0; i < obstacleCount; i++) {
+      obstacles.push({
+        x: Math.floor(Math.random() * (cols - 2)) + 1,
+        y: Math.floor(Math.random() * (rows - 2)) + 1
+      });
+    }
+    for (let i = 0; i < cols; i++) {
+      obstacles.push({ x: i, y: 0 });
+      obstacles.push({ x: i, y: rows - 1 });
+    }
+    for (let i = 1; i < rows - 1; i++) {
+      obstacles.push({ x: 0, y: i });
+      obstacles.push({ x: cols - 1, y: i });
+    }
   }
-  for (let i = 0; i < cols; i++) {
-    obstacles.push({ x: i, y: 0 });
-    obstacles.push({ x: i, y: rows - 1 });
+
+  function spawnFoodSafely() {
+    let fx, fy;
+    do {
+      fx = Math.floor(Math.random() * (cols - 2)) + 1;
+      fy = Math.floor(Math.random() * (rows - 2)) + 1;
+    } while (obstacles.some(obs => obs.x === fx && obs.y === fy));
+    food = { x: fx, y: fy };
   }
-  for (let i = 1; i < rows - 1; i++) {
-    obstacles.push({ x: 0, y: i });
-    obstacles.push({ x: cols - 1, y: i });
+
+  function spawnSnakeSafely() {
+    let centerX = Math.floor(cols / 2);
+    let centerY = Math.floor(rows / 2);
+    if (obstacles.some(obs => obs.x === centerX && obs.y === centerY)) {
+      centerX += 2;
+      centerY += 2;
+    }
+    snake = [{ x: centerX, y: centerY }];
   }
 
   document.addEventListener("keydown", e => {
@@ -210,15 +227,8 @@
       snake.some((seg, i) => i !== 0 && seg.x === head.x && seg.y === head.y) ||
       obstacles.some(obs => obs.x === head.x && obs.y === head.y)
     ) {
-      clearInterval(game);
-      document.getElementById("finalScoreText").innerText = `${playerName}, your score was ${score}`;
-      document.getElementById("gameOverScreen").style.display = "flex";
-
-      let data = JSON.parse(localStorage.getItem("snakeLeaderboard") || "[]");
-      data.push({ name: playerName, score });
-      data.sort((a, b) => b.score - a.score);
-      data = data.slice(0, 10);
-      localStorage.setItem("snakeLeaderboard", JSON.stringify(data));
+      endGame();
+      return;
     }
 
     snake.unshift(head);
@@ -226,20 +236,59 @@
     if (head.x === food.x && head.y === food.y) {
       score++;
       document.getElementById("score").innerText = score;
-      food = {
-        x: Math.floor(Math.random() * (cols - 2)) + 1,
-        y: Math.floor(Math.random() * (rows - 2)) + 1
-      };
+      spawnFoodSafely();
     } else {
       snake.pop();
     }
+  }
+
+  function endGame() {
+    clearInterval(game);
+    clearTimeout(timer);
+    document.getElementById("finalScoreText").innerText = `${playerName}, your score was ${score}`;
+    document.getElementById("gameOverScreen").style.display = "flex";
+
+    let data = JSON.parse(localStorage.getItem("snakeLeaderboard") || "[]");
+    const index = data.findIndex(entry => entry.name === playerName);
+
+    if (index === -1) {
+      data.push({ name: playerName, score });
+    } else if (score > data[index].score) {
+      data[index].score = score;
+    }
+
+    data.sort((a, b) => b.score - a.score);
+    data = data.slice(0, 10);
+    localStorage.setItem("snakeLeaderboard", JSON.stringify(data));
   }
 
   function startGame() {
     playerName = document.getElementById("playerName").value.trim() || "Anonymous";
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("scoreBoard").style.display = "block";
+    score = 0;
+    direction = "RIGHT";
+    generateObstacles();
+    spawnSnakeSafely();
+    spawnFoodSafely();
     game = setInterval(drawGame, 120);
+    timer = setTimeout(() => {
+      endGame();
+    }, 60000); // 1 minute
+  }
+
+  function restartGame() {
+    document.getElementById("gameOverScreen").style.display = "none";
+    document.getElementById("score").innerText = "0";
+    score = 0;
+    direction = "RIGHT";
+    generateObstacles();
+    spawnSnakeSafely();
+    spawnFoodSafely();
+    game = setInterval(drawGame, 120);
+    timer = setTimeout(() => {
+      endGame();
+    }, 60000);
   }
 
   function showLeaderboard() {
