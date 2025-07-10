@@ -9,11 +9,38 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
       font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
     }
 
-    .video-bg {
+    /* Loader */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #loader img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    /* Background Video */
+    video {
       position: fixed;
       top: 0;
       left: 0;
@@ -23,50 +50,50 @@
       z-index: -1;
     }
 
-    .container {
-      height: 100vh;
+    /* Game Container */
+    .game-buttons {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
       gap: 20px;
-      backdrop-filter: blur(6px);
-    }
-
-    .game-button {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      border-radius: 12px;
-      padding: 14px 30px;
-      color: white;
-      font-size: 1.1rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-    }
-
-    .game-button:hover {
-      background: rgba(255, 255, 255, 0.85);
-      color: black;
-    }
-
-    .back-button, .mute-button {
-      position: fixed;
-      bottom: 20px;
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-family: 'Segoe UI', sans-serif;
-      backdrop-filter: blur(6px);
-      transition: 0.3s ease;
-      text-decoration: none;
+      align-items: center;
       z-index: 5;
     }
 
-    .back-button {
-      left: 20px;
-      background: rgba(0, 0, 0, 0.45);
+    .game-buttons a {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
       color: white;
+      padding: 14px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      width: 200px;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .game-buttons a:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Back Button */
+    .back-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 1rem;
+      backdrop-filter: blur(5px);
+      z-index: 10;
+      transition: all 0.3s ease;
     }
 
     .back-button:hover {
@@ -74,84 +101,46 @@
       color: black;
     }
 
-    .mute-button {
-      right: 20px;
-      background: rgba(255, 255, 255, 0.35);
-      color: black;
-      border: none;
-      cursor: pointer;
-    }
-
-    .mute-button:hover {
-      background: rgba(255, 255, 255, 0.65);
-    }
-
-    /* Start Overlay */
-    .start-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      z-index: 999;
-      cursor: pointer;
-      text-align: center;
+    @media (max-width: 600px) {
+      .game-buttons a {
+        font-size: 1rem;
+        width: 80vw;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Start Overlay -->
-  <div class="start-overlay" onclick="startExperience()">
-    Click to Enter
+  <!-- Loader -->
+  <div id="loader">
+    <img src="lunloading.jpg" alt="Loading..." />
   </div>
 
   <!-- Video Background -->
-  <video class="video-bg" id="bgVideo" loop playsinline>
-    <source src="BABI.mp4" type="video/mp4">
+  <video id="bgVideo" autoplay loop playsinline>
+    <source src="BABI.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
 
-  <!-- Game Links -->
-  <div class="container">
-    <a href="dashjumper.html" class="game-button">Dash Jumper</a>
-    <a href="voidwalker.html" class="game-button">Void Walker</a>
-    <a href="snake.html" class="game-button">Snake (Opium Edition)</a>
+  <!-- Game Buttons -->
+  <div class="game-buttons">
+    <a href="dash.html">Dash Jumper</a>
+    <a href="void.html">Void Walker</a>
+    <a href="snake.html">Snake: Opium Edition</a>
   </div>
 
   <!-- Back Button -->
   <a href="pratham.html" class="back-button">BACK</a>
 
-  <!-- Mute/Unmute Button -->
-  <button class="mute-button" onclick="toggleMute()">🔊</button>
-
-  <!-- Scripts -->
   <script>
-    const video = document.getElementById("bgVideo");
-    const muteBtn = document.querySelector(".mute-button");
-    const overlay = document.querySelector(".start-overlay");
+    const loader = document.getElementById('loader');
+    const video = document.getElementById('bgVideo');
 
-    function startExperience() {
-      overlay.style.display = "none";
-      video.volume = 0.5;
-      video.muted = false;
-      video.play().catch(() => {
-        // Fallback if autoplay fails
-        muteBtn.textContent = "🔇";
-        video.muted = true;
-        video.play();
-      });
-    }
+    video.volume = 0.5; // Start with 50% volume
 
-    function toggleMute() {
-      video.muted = !video.muted;
-      muteBtn.textContent = video.muted ? "🔇" : "🔊";
-    }
+    video.addEventListener('canplaythrough', () => {
+      loader.classList.add('hidden');
+    });
   </script>
 
 </body>
