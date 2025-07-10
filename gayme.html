@@ -9,11 +9,21 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: 'Segoe UI', sans-serif;
       overflow: hidden;
     }
 
-    /* Loader */
+    /* Background Video */
+    #bgVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Loading screen */
     #loader {
       position: fixed;
       top: 0;
@@ -24,8 +34,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
+      z-index: 100;
+      transition: opacity 1s ease, visibility 1s ease;
     }
 
     #loader img {
@@ -39,72 +49,105 @@
       visibility: hidden;
     }
 
-    /* Background Video */
-    video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -1;
-    }
-
-    /* Game Container */
-    .game-buttons {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-      z-index: 5;
-    }
-
-    .game-buttons a {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      color: white;
-      padding: 14px 24px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-size: 1.2rem;
-      width: 200px;
-      text-align: center;
-      transition: 0.3s;
-    }
-
-    .game-buttons a:hover {
-      background: rgba(255, 255, 255, 0.4);
-    }
-
-    /* Back Button */
+    /* Back button */
     .back-button {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.5);
       color: white;
-      padding: 10px 16px;
-      border-radius: 10px;
-      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 12px;
       font-size: 1rem;
-      backdrop-filter: blur(5px);
+      text-decoration: none;
+      font-family: 'Segoe UI', sans-serif;
+      backdrop-filter: blur(8px);
       z-index: 10;
       transition: all 0.3s ease;
     }
 
     .back-button:hover {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       color: black;
     }
 
-    @media (max-width: 600px) {
-      .game-buttons a {
+    /* Game Buttons Container with Rainbow shimmer */
+    .game-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 5;
+      animation: shimmer 6s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { box-shadow: 0 0 10px red; }
+      25% { box-shadow: 0 0 10px orange; }
+      50% { box-shadow: 0 0 10px yellow; }
+      75% { box-shadow: 0 0 10px lime; }
+      100% { box-shadow: 0 0 10px cyan; }
+    }
+
+    .game-box a {
+      background: rgba(255, 255, 255, 0.3);
+      padding: 12px 24px;
+      border-radius: 10px;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      font-size: 1.1rem;
+      font-family: monospace;
+      transition: background 0.3s ease;
+    }
+
+    .game-box a:hover {
+      background: rgba(255, 255, 255, 0.7);
+      color: black;
+    }
+
+    /* Volume + play/pause */
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px 14px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+
+    .controls button {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .controls input[type="range"] {
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .game-box {
+        width: 90%;
+        padding: 20px;
+      }
+
+      .game-box a {
         font-size: 1rem;
-        width: 80vw;
       }
     }
   </style>
@@ -116,32 +159,60 @@
     <img src="lunloading.jpg" alt="Loading..." />
   </div>
 
-  <!-- Video Background -->
+  <!-- Background Video -->
   <video id="bgVideo" autoplay loop playsinline>
-    <source src="BABI.mp4" type="video/mp4" />
+    <source src="BABI.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
   <!-- Game Buttons -->
-  <div class="game-buttons">
-    <a href="dash.html">Dash Jumper</a>
-    <a href="void.html">Void Walker</a>
-    <a href="snake.html">Snake: Opium Edition</a>
+  <div class="game-box">
+    <a href="dashjumper.html">Dash Jumper</a>
+    <a href="snake.html">Snake (Opium Edition)</a>
+    <a href="voidwalker.html">Void Walker</a>
   </div>
 
   <!-- Back Button -->
   <a href="pratham.html" class="back-button">BACK</a>
 
+  <!-- Volume & Play Controls -->
+  <div class="controls">
+    <button id="togglePlay">⏸️</button>
+    <input id="volumeControl" type="range" min="0" max="1" step="0.01" value="0.5" />
+  </div>
+
+  <!-- Scripts -->
   <script>
     const loader = document.getElementById('loader');
     const video = document.getElementById('bgVideo');
+    const playBtn = document.getElementById('togglePlay');
+    const volumeControl = document.getElementById('volumeControl');
 
-    video.volume = 0.5; // Start with 50% volume
-
+    // Hide loader when video is ready
     video.addEventListener('canplaythrough', () => {
       loader.classList.add('hidden');
+      video.volume = 0.5;
+      video.play().catch(() => {
+        // Some browsers require interaction
+        playBtn.textContent = '▶️';
+      });
+    });
+
+    // Toggle play/pause
+    playBtn.addEventListener('click', () => {
+      if (video.paused) {
+        video.play();
+        playBtn.textContent = '⏸️';
+      } else {
+        video.pause();
+        playBtn.textContent = '▶️';
+      }
+    });
+
+    // Volume control
+    volumeControl.addEventListener('input', () => {
+      video.volume = volumeControl.value;
     });
   </script>
-
 </body>
 </html>
