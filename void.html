@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Void Jumper</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+    }
+
+    canvas {
+      display: block;
+      background: radial-gradient(ellipse at center, #111 0%, #000 100%);
+    }
+
+    #score {
+      position: absolute;
+      color: white;
+      font-size: 24px;
+      top: 10px;
+      left: 10px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div id="score">Score: 0</div>
+  <canvas id="gameCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let player = {
+      x: 100,
+      y: canvas.height - 50,
+      width: 30,
+      height: 30,
+      color: "cyan",
+      velocityY: 0,
+      gravity: 1,
+      jumpPower: -15,
+      onGround: false
+    };
+
+    let platforms = [];
+    let score = 0;
+
+    function createPlatform(x, y, width, height) {
+      platforms.push({ x, y, width, height });
+    }
+
+    function drawPlayer() {
+      ctx.fillStyle = player.color;
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+    }
+
+    function drawPlatforms() {
+      ctx.fillStyle = "white";
+      platforms.forEach(p => {
+        ctx.fillRect(p.x, p.y, p.width, p.height);
+      });
+    }
+
+    function updatePlayer() {
+      player.velocityY += player.gravity;
+      player.y += player.velocityY;
+      player.onGround = false;
+
+      platforms.forEach(p => {
+        if (
+          player.x < p.x + p.width &&
+          player.x + player.width > p.x &&
+          player.y + player.height < p.y + player.velocityY &&
+          player.y + player.height > p.y - 5
+        ) {
+          player.y = p.y - player.height;
+          player.velocityY = 0;
+          player.onGround = true;
+          score++;
+        }
+      });
+
+      if (player.y > canvas.height) {
+        alert("Game Over! Your score: " + score);
+        document.location.reload();
+      }
+    }
+
+    function gameLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      updatePlayer();
+      drawPlayer();
+      drawPlatforms();
+      document.getElementById("score").innerText = "Score: " + score;
+      requestAnimationFrame(gameLoop);
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.code === "Space" && player.onGround) {
+        player.velocityY = player.jumpPower;
+      }
+    });
+
+    // Initial platforms
+    for (let i = 0; i < 10; i++) {
+      createPlatform(i * 200, canvas.height - 100 - Math.random() * 300, 150, 20);
+    }
+
+    gameLoop();
+  </script>
+</body>
+</html>
