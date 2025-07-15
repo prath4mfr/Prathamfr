@@ -18,17 +18,37 @@
       height: 100px;
       background: url('grass.png') no-repeat center center / cover;
       cursor: pointer;
-      box-shadow: 0 0 20px 10px limegreen;
-      border-radius: 50%;
+    }
+    #backBtn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: monospace;
+    }
+    #backBtn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
     }
   </style>
 </head>
 <body>
 <div id="grass"></div>
+<button id="backBtn" onclick="goBack()">⬅ Back</button>
 <script>
 const grass = document.getElementById("grass");
 let speed = 1;
-let avoidRadius = 150;
+let avoidRadius = 200;
+
+function goBack() {
+  window.history.back();
+}
 
 function moveGrass(x, y) {
   const rect = grass.getBoundingClientRect();
@@ -55,8 +75,8 @@ function moveGrass(x, y) {
     grass.style.left = `${newLeft}px`;
     grass.style.top = `${newTop}px`;
 
-    speed += 0.02;
-    avoidRadius += 0.5;
+    speed += 0.015;
+    avoidRadius += 0.3;
   }
 }
 
