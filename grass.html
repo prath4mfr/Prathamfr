@@ -43,12 +43,12 @@
 <button id="backBtn" onclick="goBack()">⬅ Back</button>
 <script>
 const grass = document.getElementById("grass");
-let speed = 1;
-let avoidRadius = 200;
+let speed = 4; // Increased base speed
+let avoidRadius = 250; // Increased detection range
 let posX = window.innerWidth / 2 - 50;
 let posY = window.innerHeight / 2 - 50;
-let dirX = 0;
-let dirY = 0;
+let dirX = Math.random() * 2 - 1;
+let dirY = Math.random() * 2 - 1;
 
 function goBack() {
   window.history.back();
@@ -56,6 +56,23 @@ function goBack() {
 
 grass.style.left = `${posX}px`;
 grass.style.top = `${posY}px`;
+
+grass.addEventListener("click", () => {
+  alert("🌱 Great job! You finally touched grass!");
+});
+
+document.addEventListener("touchstart", (e) => {
+  const touch = e.touches[0];
+  const rect = grass.getBoundingClientRect();
+  if (
+    touch.clientX >= rect.left &&
+    touch.clientX <= rect.right &&
+    touch.clientY >= rect.top &&
+    touch.clientY <= rect.bottom
+  ) {
+    alert("🌱 Great job! You finally touched grass!");
+  }
+});
 
 function moveGrass(x, y) {
   const grassCenterX = posX + 50;
@@ -69,14 +86,17 @@ function moveGrass(x, y) {
     const angle = Math.atan2(dy, dx);
     dirX = Math.cos(angle);
     dirY = Math.sin(angle);
+
+    speed += 0.05; // Accelerate faster when close
+    avoidRadius += 0.2;
   }
 }
 
 function updateGrassPosition() {
-  posX += dirX * speed * 5;
-  posY += dirY * speed * 5;
+  posX += dirX * speed;
+  posY += dirY * speed;
 
-  // Bounce logic: reappear from opposite side
+  // Wrap to opposite side
   if (posX + 100 < 0) posX = window.innerWidth;
   else if (posX > window.innerWidth) posX = -100;
 
