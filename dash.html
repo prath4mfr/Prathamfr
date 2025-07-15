@@ -15,7 +15,7 @@
 
     canvas {
       display: block;
-      background-image: url('snake bg.jpg');
+      background-image: url('laka.png');
       background-size: cover;
       background-position: center;
     }
@@ -99,6 +99,9 @@
     <button onclick="closeLeaderboard()">Close</button>
   </div>
 
+  <audio id="jumpSound" src="gulk.mp3" preload="auto"></audio>
+  <audio id="oofSound" src="oof.mp3" preload="auto"></audio>
+
   <script>
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
@@ -109,7 +112,10 @@
     const JUMP = -15;
     const OBSTACLE_SPEED = 6;
     const PLAYER_IMG = new Image();
-    PLAYER_IMG.src = "snakep.png";
+    PLAYER_IMG.src = "void.png";
+
+    const jumpSound = document.getElementById("jumpSound");
+    const oofSound = document.getElementById("oofSound");
 
     const player = {
       x: 100,
@@ -195,6 +201,17 @@
     document.addEventListener("keydown", (e) => {
       if ((e.code === "Space" || e.code === "ArrowUp") && player.onGround) {
         player.velocityY = JUMP;
+        jumpSound.currentTime = 0;
+        jumpSound.play().catch(() => {});
+      }
+    });
+
+    // Mobile touch support
+    canvas.addEventListener("touchstart", () => {
+      if (player.onGround) {
+        player.velocityY = JUMP;
+        jumpSound.currentTime = 0;
+        jumpSound.play().catch(() => {});
       }
     });
 
@@ -212,6 +229,8 @@
     function endGame() {
       clearInterval(gameInterval);
       clearInterval(obstacleInterval);
+      oofSound.currentTime = 0;
+      oofSound.play().catch(() => {});
       document.getElementById("finalScoreText").innerText = `${playerName}, your score was ${score}`;
       document.getElementById("gameOverScreen").style.display = "flex";
 
