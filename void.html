@@ -15,7 +15,7 @@
 
     canvas {
       display: block;
-      background: radial-gradient(ellipse at center, #111 0%, #000 100%);
+      background: radial-gradient(circle, #111 0%, #000 100%);
     }
 
     #score {
@@ -25,6 +25,7 @@
       top: 10px;
       left: 10px;
       font-family: monospace;
+      z-index: 10;
     }
   </style>
 </head>
@@ -38,22 +39,22 @@
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    let player = {
+    const player = {
       x: 100,
-      y: canvas.height - 150,
+      y: canvas.height - 130,
       width: 30,
       height: 30,
       color: "cyan",
       velocityY: 0,
-      gravity: 1,
-      jumpPower: -15,
+      gravity: 0.8,
+      jumpStrength: -15,
       onGround: false
     };
 
     let platforms = [];
     let score = 0;
 
-    function createPlatform(x, y, width, height) {
+    function createPlatform(x, y, width = 120, height = 20) {
       platforms.push({ x, y, width, height });
     }
 
@@ -64,9 +65,9 @@
 
     function drawPlatforms() {
       ctx.fillStyle = "white";
-      platforms.forEach(p => {
+      for (const p of platforms) {
         ctx.fillRect(p.x, p.y, p.width, p.height);
-      });
+      }
     }
 
     function updatePlayer() {
@@ -74,66 +75,71 @@
       player.y += player.velocityY;
       player.onGround = false;
 
-      platforms.forEach(p => {
+      for (const p of platforms) {
         if (
-          player.x < p.x + p.width &&
           player.x + player.width > p.x &&
-          player.y + player.height >= p.y &&
-          player.y + player.height <= p.y + 10 &&
+          player.x < p.x + p.width &&
+          player.y + player.height > p.y &&
+          player.y + player.height < p.y + 10 &&
           player.velocityY >= 0
         ) {
           player.y = p.y - player.height;
           player.velocityY = 0;
           player.onGround = true;
         }
-      });
+      }
 
       if (player.y > canvas.height) {
-        alert("Game Over! Your score: " + score);
-        location.reload();
+        alert(\"Game Over! Your score: \" + score);
+        document.location.reload();
       }
+    }
+
+    function movePlatforms() {
+      for (let i = 0; i < platforms.length; i++) {
+        platforms[i].x -= 3;
+      }
+
+      // Remove offscreen platforms
+      if (platforms[0].x + platforms[0].width < 0) {
+        platforms.shift();
+        score++;
+        generatePlatform();
+      }
+    }
+
+    function generatePlatform() {
+      const last = platforms[platforms.length - 1];
+      const gap = 200 + Math.random() * 100;
+      const y = canvas.height - (100 + Math.random() * 200);
+      createPlatform(last.x + gap, y);
     }
 
     function gameLoop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       updatePlayer();
+      movePlatforms();
       drawPlayer();
       drawPlatforms();
+
       document.getElementById("score").innerText = "Score: " + score;
-
-      // Scroll platforms to the left (infinite runner style)
-      platforms.forEach(p => {
-        p.x -= 4;
-      });
-
-      // Remove off-screen platforms & add new ones
-      if (platforms.length > 0 && platforms[0].x + platforms[0].width < 0) {
-        platforms.shift();
-        score++;
-        let last = platforms[platforms.length - 1];
-        createPlatform(
-          last.x + 200 + Math.random() * 100,
-          canvas.height - (100 + Math.random() * 200),
-          120,
-          20
-        );
-      }
 
       requestAnimationFrame(gameLoop);
     }
 
     document.addEventListener("keydown", e => {
       if ((e.code === "Space" || e.code === "ArrowUp") && player.onGround) {
-        player.velocityY = player.jumpPower;
+        player.velocityY = player.jumpStrength;
       }
     });
 
-    // First platform directly under player
-    createPlatform(50, canvas.height - 100, 150, 20);
+    // Start platform (player stands here)
+    createPlatform(50, canvas.height - 100);
 
-    // Initial sequence of platforms
-    for (let i = 1; i < 10; i++) {
-      createPlatform(150 + i * 200, canvas.height - (100 + Math.random() * 200), 120, 20);
+    // More platforms
+    for (let i = 1; i < 6; i++) {
+      createPlatform(50 + i * 250, canvas.height - (100 + Math.random() * 200));
     }
 
     gameLoop();
