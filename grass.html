@@ -47,13 +47,15 @@ let speed = 1;
 let avoidRadius = 200;
 let posX = window.innerWidth / 2 - 50;
 let posY = window.innerHeight / 2 - 50;
-
-grass.style.left = `${posX}px`;
-grass.style.top = `${posY}px`;
+let dirX = 0;
+let dirY = 0;
 
 function goBack() {
   window.history.back();
 }
+
+grass.style.left = `${posX}px`;
+grass.style.top = `${posY}px`;
 
 function moveGrass(x, y) {
   const grassCenterX = posX + 50;
@@ -65,25 +67,29 @@ function moveGrass(x, y) {
 
   if (distance < avoidRadius) {
     const angle = Math.atan2(dy, dx);
-    const moveX = Math.cos(angle) * speed * 30;
-    const moveY = Math.sin(angle) * speed * 30;
-
-    posX += moveX;
-    posY += moveY;
-
-    // Proper wrap-around: teleport from one edge to the opposite
-    if (posX + 100 < 0) posX = window.innerWidth;
-    if (posX > window.innerWidth) posX = -100;
-    if (posY + 100 < 0) posY = window.innerHeight;
-    if (posY > window.innerHeight) posY = -100;
-
-    grass.style.left = `${posX}px`;
-    grass.style.top = `${posY}px`;
-
-    speed += 0.015;
-    avoidRadius += 0.3;
+    dirX = Math.cos(angle);
+    dirY = Math.sin(angle);
   }
 }
+
+function updateGrassPosition() {
+  posX += dirX * speed * 5;
+  posY += dirY * speed * 5;
+
+  // Bounce logic: reappear from opposite side
+  if (posX + 100 < 0) posX = window.innerWidth;
+  else if (posX > window.innerWidth) posX = -100;
+
+  if (posY + 100 < 0) posY = window.innerHeight;
+  else if (posY > window.innerHeight) posY = -100;
+
+  grass.style.left = `${posX}px`;
+  grass.style.top = `${posY}px`;
+
+  requestAnimationFrame(updateGrassPosition);
+}
+
+requestAnimationFrame(updateGrassPosition);
 
 document.addEventListener("mousemove", (e) => moveGrass(e.clientX, e.clientY));
 document.addEventListener("touchmove", (e) => {
