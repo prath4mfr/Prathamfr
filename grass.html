@@ -45,36 +45,40 @@
 const grass = document.getElementById("grass");
 let speed = 1;
 let avoidRadius = 200;
+let posX = window.innerWidth / 2 - 50;
+let posY = window.innerHeight / 2 - 50;
+
+grass.style.left = `${posX}px`;
+grass.style.top = `${posY}px`;
 
 function goBack() {
   window.history.back();
 }
 
 function moveGrass(x, y) {
-  const rect = grass.getBoundingClientRect();
-  const grassX = rect.left + rect.width / 2;
-  const grassY = rect.top + rect.height / 2;
+  const grassCenterX = posX + 50;
+  const grassCenterY = posY + 50;
 
-  const dx = grassX - x;
-  const dy = grassY - y;
+  const dx = grassCenterX - x;
+  const dy = grassCenterY - y;
   const distance = Math.sqrt(dx * dx + dy * dy);
 
   if (distance < avoidRadius) {
     const angle = Math.atan2(dy, dx);
     const moveX = Math.cos(angle) * speed * 30;
     const moveY = Math.sin(angle) * speed * 30;
-    let newLeft = rect.left + moveX;
-    let newTop = rect.top + moveY;
 
-    // Wrap around by teleporting opposite when completely out of view
-    if (newLeft + rect.width < 0) newLeft = window.innerWidth;
-    else if (newLeft > window.innerWidth) newLeft = -rect.width;
+    posX += moveX;
+    posY += moveY;
 
-    if (newTop + rect.height < 0) newTop = window.innerHeight;
-    else if (newTop > window.innerHeight) newTop = -rect.height;
+    // Proper wrap-around: teleport from one edge to the opposite
+    if (posX + 100 < 0) posX = window.innerWidth;
+    if (posX > window.innerWidth) posX = -100;
+    if (posY + 100 < 0) posY = window.innerHeight;
+    if (posY > window.innerHeight) posY = -100;
 
-    grass.style.left = `${newLeft}px`;
-    grass.style.top = `${newTop}px`;
+    grass.style.left = `${posX}px`;
+    grass.style.top = `${posY}px`;
 
     speed += 0.015;
     avoidRadius += 0.3;
@@ -87,10 +91,6 @@ document.addEventListener("touchmove", (e) => {
     moveGrass(e.touches[0].clientX, e.touches[0].clientY);
   }
 });
-
-grass.style.left = `${window.innerWidth / 2 - 50}px`;
-grass.style.top = `${window.innerHeight / 2 - 50}px`;
 </script>
 </body>
 </html>
->
