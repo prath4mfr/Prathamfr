@@ -15,7 +15,9 @@
 
     canvas {
       display: block;
-      background: radial-gradient(circle, #111 0%, #000 100%);
+      background-image: url('snake bg.jpg');
+      background-size: cover;
+      background-position: center;
     }
 
     #score {
@@ -25,12 +27,77 @@
       top: 10px;
       left: 10px;
       font-family: monospace;
+      z-index: 1001;
+    }
+
+    #backBtn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: monospace;
+    }
+
+    #startScreen, #gameOverScreen, #leaderboardPopup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: monospace;
+      z-index: 1002;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    #leaderboardPopup ul {
+      list-style: none;
+      padding: 0;
     }
   </style>
 </head>
 <body>
   <div id="score">Score: 0</div>
+  <button id="backBtn" onclick="goBack()">⬅ Back</button>
   <canvas id="gameCanvas"></canvas>
+
+  <div id="startScreen">
+    <h1>🐍 Dash Jumper</h1>
+    <input type="text" id="playerName" placeholder="Enter your name" />
+    <button onclick="startGame()">Start Game</button>
+  </div>
+
+  <div id="gameOverScreen" style="display:none">
+    <h2>Game Over!</h2>
+    <p id="finalScoreText"></p>
+    <button onclick="restartGame()">Restart</button>
+    <button onclick="showLeaderboard()">View Leaderboard</button>
+  </div>
+
+  <div id="leaderboardPopup" style="display:none">
+    <h2>🏆 Leaderboard</h2>
+    <ul id="leaderboardList"></ul>
+    <button onclick="closeLeaderboard()">Close</button>
+  </div>
 
   <script>
     const canvas = document.getElementById("gameCanvas");
@@ -55,6 +122,9 @@
 
     let obstacles = [];
     let score = 0;
+    let gameInterval;
+    let obstacleInterval;
+    let playerName = "";
 
     function drawPlayer() {
       ctx.drawImage(PLAYER_IMG, player.x, player.y, player.width, player.height);
@@ -107,24 +177,19 @@
           player.x + player.width > obs.x &&
           player.y + player.height > obs.y
         ) {
-          alert("Game Over! Score: " + score);
-          document.location.reload();
+          endGame();
         }
       }
     }
 
     function gameLoop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
       updatePlayer();
       updateObstacles();
       checkCollision();
-
       drawPlayer();
       drawObstacles();
-
       document.getElementById("score").innerText = "Score: " + score;
-      requestAnimationFrame(gameLoop);
     }
 
     document.addEventListener("keydown", (e) => {
@@ -133,8 +198,61 @@
       }
     });
 
-    setInterval(spawnObstacle, 2000);
-    gameLoop();
+    function startGame() {
+      playerName = document.getElementById("playerName").value.trim() || "Anonymous";
+      document.getElementById("startScreen").style.display = "none";
+      score = 0;
+      obstacles = [];
+      player.y = canvas.height - 120;
+      player.velocityY = 0;
+      gameInterval = setInterval(gameLoop, 1000 / 60);
+      obstacleInterval = setInterval(spawnObstacle, 2000);
+    }
+
+    function endGame() {
+      clearInterval(gameInterval);
+      clearInterval(obstacleInterval);
+      document.getElementById("finalScoreText").innerText = `${playerName}, your score was ${score}`;
+      document.getElementById("gameOverScreen").style.display = "flex";
+
+      let data = JSON.parse(localStorage.getItem("dashLeaderboard") || "[]");
+      const index = data.findIndex(entry => entry.name === playerName);
+
+      if (index === -1) {
+        data.push({ name: playerName, score });
+      } else if (score > data[index].score) {
+        data[index].score = score;
+      }
+
+      data.sort((a, b) => b.score - a.score);
+      data = data.slice(0, 10);
+      localStorage.setItem("dashLeaderboard", JSON.stringify(data));
+    }
+
+    function restartGame() {
+      document.getElementById("gameOverScreen").style.display = "none";
+      startGame();
+    }
+
+    function showLeaderboard() {
+      const list = document.getElementById("leaderboardList");
+      list.innerHTML = "";
+      let data = JSON.parse(localStorage.getItem("dashLeaderboard") || "[]");
+      data.forEach((entry, i) => {
+        const li = document.createElement("li");
+        li.innerText = `${i + 1}. ${entry.name} — ${entry.score}`;
+        list.appendChild(li);
+      });
+      document.getElementById("leaderboardPopup").style.display = "flex";
+    }
+
+    function closeLeaderboard() {
+      document.getElementById("leaderboardPopup").style.display = "none";
+    }
+
+    function goBack() {
+      window.history.back();
+    }
   </script>
 </body>
 </html>
