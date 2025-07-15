@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Void Jumper</title>
   <style>
     html, body {
@@ -40,7 +40,7 @@
 
     let player = {
       x: 100,
-      y: canvas.height - 50,
+      y: canvas.height - 150,
       width: 30,
       height: 30,
       color: "cyan",
@@ -78,19 +78,19 @@
         if (
           player.x < p.x + p.width &&
           player.x + player.width > p.x &&
-          player.y + player.height < p.y + player.velocityY &&
-          player.y + player.height > p.y - 5
+          player.y + player.height >= p.y &&
+          player.y + player.height <= p.y + 10 &&
+          player.velocityY >= 0
         ) {
           player.y = p.y - player.height;
           player.velocityY = 0;
           player.onGround = true;
-          score++;
         }
       });
 
       if (player.y > canvas.height) {
         alert("Game Over! Your score: " + score);
-        document.location.reload();
+        location.reload();
       }
     }
 
@@ -100,18 +100,40 @@
       drawPlayer();
       drawPlatforms();
       document.getElementById("score").innerText = "Score: " + score;
+
+      // Scroll platforms to the left (infinite runner style)
+      platforms.forEach(p => {
+        p.x -= 4;
+      });
+
+      // Remove off-screen platforms & add new ones
+      if (platforms.length > 0 && platforms[0].x + platforms[0].width < 0) {
+        platforms.shift();
+        score++;
+        let last = platforms[platforms.length - 1];
+        createPlatform(
+          last.x + 200 + Math.random() * 100,
+          canvas.height - (100 + Math.random() * 200),
+          120,
+          20
+        );
+      }
+
       requestAnimationFrame(gameLoop);
     }
 
     document.addEventListener("keydown", e => {
-      if (e.code === "Space" && player.onGround) {
+      if ((e.code === "Space" || e.code === "ArrowUp") && player.onGround) {
         player.velocityY = player.jumpPower;
       }
     });
 
-    // Initial platforms
-    for (let i = 0; i < 10; i++) {
-      createPlatform(i * 200, canvas.height - 100 - Math.random() * 300, 150, 20);
+    // First platform directly under player
+    createPlatform(50, canvas.height - 100, 150, 20);
+
+    // Initial sequence of platforms
+    for (let i = 1; i < 10; i++) {
+      createPlatform(150 + i * 200, canvas.height - (100 + Math.random() * 200), 120, 20);
     }
 
     gameLoop();
