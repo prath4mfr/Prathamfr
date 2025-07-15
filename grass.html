@@ -18,6 +18,8 @@
       height: 100px;
       background: url('grass.png') no-repeat center center / cover;
       cursor: pointer;
+      box-shadow: 0 0 20px 10px limegreen;
+      border-radius: 50%;
     }
   </style>
 </head>
@@ -44,12 +46,10 @@ function moveGrass(x, y) {
     let newLeft = rect.left + moveX;
     let newTop = rect.top + moveY;
 
-    // Wrap horizontally
-    if (newLeft < -rect.width) newLeft = window.innerWidth;
+    // Wrap around edges seamlessly
+    if (newLeft + rect.width < 0) newLeft = window.innerWidth;
     if (newLeft > window.innerWidth) newLeft = -rect.width;
-
-    // Wrap vertically
-    if (newTop < -rect.height) newTop = window.innerHeight;
+    if (newTop + rect.height < 0) newTop = window.innerHeight;
     if (newTop > window.innerHeight) newTop = -rect.height;
 
     grass.style.left = `${newLeft}px`;
