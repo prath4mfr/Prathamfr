@@ -14,7 +14,7 @@
     }
     canvas {
       display: block;
-      background-image: url('flappy_bg.png');
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAAHGlET1QAAAACAAAAAAAAAAcAAAAoAAAABwAAAAdkWc4n4AAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAFb0lEQVR42u3dMU5UQRRG4XciSV3GpUoS+oI6dQZqFdLCB3gWVRdIEvABYQnyrAjFZbzndf+Pi5mXM5M3N+f3/NnZs+ZnTvx9v+zs/wv3x09rVrRra2tra2tra2tra2tra2tra2tra2tra2trY25UkLJj9/sNS5fXpgEAU6+AFt+v1+uBwAtL58bqae3CykAwAo3X68XyA7X63Vas/ni4+DgHq1arXZvN/uQQAHC4X+3gcANP7e19fX06dPn379+gX6+/sHDhxo2x67X63Wq1WqF+/fr1iYmJdDqdbvT29ub8+fOnT59+zR07dnT8+HHz5s3bt29fXl7u9vZ2f3+/XC63m+vXr584dO/bv3z/9+vVZs2bN5cuXt7+/j4eHh4eEh9fX1kZGR4eHj4vLy82tra/uZzL5t3767deuvUuPDC1WqV2+12azQaS5Ys2enp6fz8/IsXL+LxOHjw4MHDhw8fPnz4+Pjt27dvnz59evTo0ePHDx8+fPjw4cPjx49fb2/v7969e+fOnVqvVxcXFycnJ1atXr16/ft26da1WK1Wq7du3b9u2bVqvV5eXl2tvbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbU2PvYVXt0lfndn1gAAAABJRU5ErkJggg==');
       background-size: cover;
       background-position: center;
     }
@@ -43,9 +43,9 @@ canvas.height = window.innerHeight;
 const birdImg = new Image();
 birdImg.src = "void.png";
 const pipeTopImg = new Image();
-pipeTopImg.src = "pipe_top.png";
+pipeTopImg.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABEklEQVR42u3WwQkCQRCF4Q9aIQ1XIXWiEVpWInTBSk7gAMYWTNzpH+TS5yeP8hsmZmZmZmZmZmZmZmZmZmZmbmvw3zQfsGxBdCw+qaIFHHDmEU48KYZQ44ZR4w5hFDjxphlDjhlHjDmEUOPGmGUOOGUeMOYRT48Yw8PvHZzq6T7Xqz1a7z3U1NDw7VY31wN3rgYw3dnBa7M5+GoMDftfVTgwxQZj9D9MoH+Aa20o3qbOXfKAAAAAElFTkSuQmCC";
 const pipeBottomImg = new Image();
-pipeBottomImg.src = "pipe_bottom.png";
+pipeBottomImg.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABGklEQVR42u3WQQqCQBRF0cc09Wip1XQ1pVoLF1g3gURbEPc3sZ7J+9+SsbMzMzMzMzMzMzMzMzMzM/NfoN8IfYCEI5K4GjHFGGGOOMMYccYYYa44wxhhxxhhjjjDGHnHFGGGOOMMYccYYYa44wxhhxxhhjjjDGHnHF+zjvDd7Xm/V6j3O1m81m9erVq1evXr1atXr16tfv37d7e3t4eHh4eHh4eHg4fX19+fLlS3t7e7u7u7u7u7u7u7u7u7u7u7u7u7s4NvUtdgFS+OXIlN8AAAAASUVORK5CYII=";
 
 const GRAVITY = 0.6;
 const FLAP = -12;
