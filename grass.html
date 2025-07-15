@@ -66,11 +66,12 @@ function moveGrass(x, y) {
     let newLeft = rect.left + moveX;
     let newTop = rect.top + moveY;
 
-    // Wrap around edges seamlessly
+    // Wrap around by teleporting opposite when completely out of view
     if (newLeft + rect.width < 0) newLeft = window.innerWidth;
-    if (newLeft > window.innerWidth) newLeft = -rect.width;
+    else if (newLeft > window.innerWidth) newLeft = -rect.width;
+
     if (newTop + rect.height < 0) newTop = window.innerHeight;
-    if (newTop > window.innerHeight) newTop = -rect.height;
+    else if (newTop > window.innerHeight) newTop = -rect.height;
 
     grass.style.left = `${newLeft}px`;
     grass.style.top = `${newTop}px`;
@@ -92,3 +93,4 @@ grass.style.top = `${window.innerHeight / 2 - 50}px`;
 </script>
 </body>
 </html>
+>
