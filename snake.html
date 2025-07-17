@@ -18,21 +18,15 @@
       background-size: cover;
       background-position: center;
     }
-    #scoreBoard, #timerDisplay {
+    #scoreBoard {
       position: fixed;
+      top: 10px;
+      left: 10px;
       color: white;
       font-family: monospace;
       font-size: 1.2rem;
       z-index: 99;
       display: none;
-    }
-    #scoreBoard {
-      top: 10px;
-      left: 10px;
-    }
-    #timerDisplay {
-      top: 10px;
-      right: 10px;
     }
     #startScreen, #gameOverScreen, #leaderboardPopup {
       position: fixed;
@@ -92,7 +86,6 @@
 <body>
 <canvas id="game"></canvas>
 <div id="scoreBoard">Score: <span id="score">0</span></div>
-<div id="timerDisplay">⏱️ 60s</div>
 <button id="backBtn" onclick="goBack()">⬅ Back</button>
 
 <div id="startScreen">
@@ -114,7 +107,6 @@
   <button onclick="closeLeaderboard()">Close</button>
 </div>
 
-<!-- 🎵 Sound Elements -->
 <audio id="gulpSound" src="gulp.mp3" preload="auto"></audio>
 <audio id="oofSound" src="oof.mp3" preload="auto"></audio>
 <audio id="hissSound" src="hiss.mp3" preload="auto"></audio>
@@ -131,8 +123,7 @@
   let snake = [];
   let direction = "RIGHT";
   let score = 0;
-  let game, timer, hissTimer;
-  let timeLeft = 60;
+  let game, hissTimer;
   let playerName = "";
 
   const headImg = new Image();
@@ -162,7 +153,7 @@
     hissTimer = setTimeout(() => {
       playSound("hissSound");
       randomHissLoop();
-    }, Math.random() * 8000 + 7000); // Between 7–15 sec
+    }, Math.random() * 8000 + 7000);
   }
 
   function generateObstacles() {
@@ -288,33 +279,21 @@
     }
   }
 
-  function updateTimer() {
-    timeLeft--;
-    document.getElementById("timerDisplay").innerText = `⏱️ ${timeLeft}s`;
-    if (timeLeft <= 0) {
-      endGame();
-    }
-  }
-
   function startGame() {
     playerName = document.getElementById("playerName").value.trim() || "Anonymous";
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("scoreBoard").style.display = "block";
-    document.getElementById("timerDisplay").style.display = "block";
     score = 0;
     direction = "RIGHT";
-    timeLeft = 60;
     generateObstacles();
     spawnSnakeSafely();
     spawnFoodSafely();
     game = setInterval(drawGame, 120);
-    timer = setInterval(updateTimer, 1000);
     randomHissLoop();
   }
 
   function endGame() {
     clearInterval(game);
-    clearInterval(timer);
     clearTimeout(hissTimer);
     playSound("oofSound");
 
@@ -340,14 +319,11 @@
     document.getElementById("score").innerText = "0";
     score = 0;
     direction = "RIGHT";
-    timeLeft = 60;
     generateObstacles();
     spawnSnakeSafely();
     spawnFoodSafely();
     game = setInterval(drawGame, 120);
-    timer = setInterval(updateTimer, 1000);
     randomHissLoop();
-    document.getElementById("timerDisplay").innerText = `⏱️ 60s`;
   }
 
   function showLeaderboard() {
