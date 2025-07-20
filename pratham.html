@@ -216,12 +216,12 @@
       }
     }
 
-/* Question Mark Button - Near Games Button */
+/* Question Mark Button - Right side near Games */
 .question-link {
   position: absolute;
-  top: calc(33% + 160px); /* Below Games button by ~90px */
-  left: 50%;
-  transform: translateX(-50%) rotate(-10deg); 
+  top: calc(33% + 70px); /* Align vertically with Games button */
+  right: 60px; /* Not at the edge, slight inward offset */
+  transform: rotate(-10deg);
   z-index: 4;
   display: inline-block;
   cursor: pointer;
@@ -236,18 +236,21 @@
 
 @keyframes subtleGlow {
   0%, 100% {
-    filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)) drop-shadow(0 0 10px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)) 
+            drop-shadow(0 0 10px rgba(0,0,0,0.5));
   }
   50% {
-    filter: drop-shadow(0 0 12px rgba(255,255,255,0.6)) drop-shadow(0 0 15px rgba(0,0,0,0.7));
+    filter: drop-shadow(0 0 12px rgba(255,255,255,0.6)) 
+            drop-shadow(0 0 15px rgba(0,0,0,0.7));
   }
 }
 
 /* Mobile adjustment */
 @media (max-width: 768px) {
   .question-link {
-    top: calc(27% + 140px); /* Matches mobile spacing */
-    transform: translateX(-50%) rotate(-5deg);
+    top: calc(27% + 60px);
+    right: 30px;
+    transform: rotate(-5deg);
   }
   .question-link img {
     width: 55px;
