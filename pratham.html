@@ -216,48 +216,30 @@
       }
     }
 
-/* Question Mark Button - Right side near Games */
-.question-link {
-  position: absolute;
-  top: calc(33% + 70px); /* Align vertically with Games button */
-  right: 60px; /* Not at the edge, slight inward offset */
-  transform: rotate(-10deg);
-  z-index: 4;
-  display: inline-block;
-  cursor: pointer;
-  animation: subtleGlow 3s infinite ease-in-out;
-}
+    /* Question Mark Button */
+    .question-link {
+      position: absolute;
+      z-index: 5;
+      display: inline-block;
+      cursor: pointer;
+      animation: subtleGlow 3s infinite ease-in-out;
+    }
 
-.question-link img {
-  width: 70px;  /* Bigger size */
-  height: auto;
-  filter: brightness(1) contrast(1);
-}
+    .question-link img {
+      width: 70px;
+      height: auto;
+      filter: brightness(1) contrast(1);
+      transform: rotate(-10deg);
+    }
 
-@keyframes subtleGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)) 
-            drop-shadow(0 0 10px rgba(0,0,0,0.5));
-  }
-  50% {
-    filter: drop-shadow(0 0 12px rgba(255,255,255,0.6)) 
-            drop-shadow(0 0 15px rgba(0,0,0,0.7));
-  }
-}
-
-/* Mobile adjustment */
-@media (max-width: 768px) {
-  .question-link {
-    top: calc(27% + 60px);
-    right: 30px;
-    transform: rotate(-5deg);
-  }
-  .question-link img {
-    width: 55px;
-  }
-}
-
-
+    @keyframes subtleGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)) drop-shadow(0 0 10px rgba(0,0,0,0.5));
+      }
+      50% {
+        filter: drop-shadow(0 0 12px rgba(255,255,255,0.6)) drop-shadow(0 0 15px rgba(0,0,0,0.7));
+      }
+    }
   </style>
 </head>
 <body>
@@ -289,6 +271,11 @@
     </a>
   </div>
 
+  <!-- Question Mark -->
+  <a href="question.html" class="question-link" id="questionMark">
+    <img src="question.png" alt="?" />
+  </a>
+
   <!-- Back Button -->
   <a href="index.html" class="back-button">BACK</a>
 
@@ -301,11 +288,6 @@
   <!-- Dark Mode Toggle -->
   <button class="toggle-btn" id="toggleMode">🌗</button>
 
-  <!-- Question Mark Button -->
-  <a href="question.html" class="question-link">
-    <img src="question.png" alt="?" />
-  </a>
-
   <!-- Audio -->
   <audio id="bgMusic" src="CGPA.mp3" autoplay loop></audio>
 
@@ -317,6 +299,7 @@
     const playPauseBtn = document.getElementById('playPauseBtn');
     const volumeSlider = document.getElementById('volumeSlider');
     const toggleMode = document.getElementById('toggleMode');
+    const questionMark = document.getElementById('questionMark');
 
     video.addEventListener('canplaythrough', () => {
       loader.classList.add('hidden');
@@ -341,6 +324,14 @@
     toggleMode.addEventListener('click', () => {
       document.body.classList.toggle('dark');
     });
+
+    // Teleport question mark every 2 seconds near the Games button
+    setInterval(() => {
+      const xOffset = 120 + Math.random() * 60; // Random horizontal offset
+      const yOffset = 60 + Math.random() * 40;  // Random vertical offset
+      questionMark.style.top = `calc(33% + ${70 + yOffset}px)`;
+      questionMark.style.left = `calc(50% + ${xOffset}px)`;
+    }, 2000);
   </script>
 </body>
 </html>
