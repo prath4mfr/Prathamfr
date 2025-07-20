@@ -3,78 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>?</title>
+  <title>???</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
+      width: 100%;
       height: 100%;
       overflow: hidden;
       background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
+    /* Container for videos */
     .video-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 100vw;
-      height: 100vh;
       gap: 20px; /* space between videos */
+      height: 100vh;
+      width: 100vw;
     }
 
-    .video-container video {
-      height: 100%;
+    video {
+      height: 100vh;
       width: auto;
       object-fit: cover;
-      transition: opacity 0.3s ease;
+      flex-shrink: 0;
     }
 
-    /* On mobile: only show center video */
+    /* On mobile: only show center.mp4 */
     @media (max-width: 768px) {
-      .video-container video:not(.center-video) {
+      .video-container {
+        gap: 0;
+      }
+      .video-container video:not(:nth-child(2)) {
         display: none;
       }
-      .video-container video.center-video {
+      video {
         width: 100vw;
         height: 100vh;
+        object-fit: cover;
       }
     }
   </style>
 </head>
 <body>
   <div class="video-container">
-    <video class="left-video" autoplay loop muted playsinline>
-      <source src="left.mp4" type="video/mp4" />
+    <video autoplay muted loop playsinline>
+      <source src="left.mp4" type="video/mp4">
     </video>
-    <video class="center-video" autoplay loop muted playsinline>
-      <source src="center.mp4" type="video/mp4" />
+    <video autoplay muted loop playsinline>
+      <source src="center.mp4" type="video/mp4">
     </video>
-    <video class="right-video" autoplay loop muted playsinline>
-      <source src="right.mp4" type="video/mp4" />
+    <video autoplay muted loop playsinline>
+      <source src="right.mp4" type="video/mp4">
     </video>
   </div>
-
-  <script>
-    const videos = document.querySelectorAll('video');
-    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-
-    if (isMobile) {
-      // On mobile: only center video plays sound
-      const centerVid = document.querySelector('.center-video');
-      centerVid.muted = false;
-      centerVid.volume = 0.6;
-    } else {
-      // Desktop: handle hover sound for each video
-      videos.forEach(video => {
-        video.volume = 0.6; // preset volume
-        video.addEventListener('mouseenter', () => {
-          video.muted = false;
-        });
-        video.addEventListener('mouseleave', () => {
-          video.muted = true;
-        });
-      });
-    }
-  </script>
 </body>
 </html>
