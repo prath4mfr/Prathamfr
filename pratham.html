@@ -216,20 +216,20 @@
       }
     }
 
-/* Question Mark Button */
+/* Question Mark Button - Near Games Button */
 .question-link {
-  position: fixed;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%) rotate(-10deg); /* Center vertically & tilt */
-  z-index: 11;
+  position: absolute;
+  top: calc(33% + 160px); /* Below Games button by ~90px */
+  left: 50%;
+  transform: translateX(-50%) rotate(-10deg); 
+  z-index: 4;
   display: inline-block;
   cursor: pointer;
   animation: subtleGlow 3s infinite ease-in-out;
 }
 
 .question-link img {
-  width: 50px;
+  width: 70px;  /* Bigger size */
   height: auto;
   filter: brightness(1) contrast(1);
 }
@@ -246,13 +246,14 @@
 /* Mobile adjustment */
 @media (max-width: 768px) {
   .question-link {
-    right: 10px;
-    transform: translateY(-50%) rotate(-5deg);
+    top: calc(27% + 140px); /* Matches mobile spacing */
+    transform: translateX(-50%) rotate(-5deg);
   }
   .question-link img {
-    width: 40px;
+    width: 55px;
   }
 }
+
 
   </style>
 </head>
