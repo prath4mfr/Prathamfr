@@ -216,7 +216,7 @@
       }
     }
 
-    /* Question Mark (Black, top-left, mobile-adjusted) */
+    /* Question Mark (Black, visible on all) */
     .question-link {
       position: fixed;
       top: 20px;
@@ -233,6 +233,7 @@
       filter: brightness(0); /* Black */
     }
 
+    /* On mobile: make visible with glow */
     @media (max-width: 768px) {
       .question-link {
         top: 10px;
@@ -241,6 +242,7 @@
 
       .question-link img {
         width: 60px;
+        filter: brightness(0) drop-shadow(0 0 8px rgba(255,255,255,0.8)) drop-shadow(0 0 15px rgba(255,255,255,0.6));
       }
     }
   </style>
