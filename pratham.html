@@ -216,39 +216,20 @@
       }
     }
 
-    /* Question Mark (Top-Left, static) */
+    /* Question Mark (Top-Left, solid black) */
     .question-link {
       position: fixed;
       top: 20px;
       left: 20px;
       z-index: 5;
       cursor: pointer;
-      animation: subtleGlow 3s infinite ease-in-out, glitchEffect 4s infinite ease-in-out;
-      mix-blend-mode: difference; /* Ensures it inverts with bg */
     }
 
     .question-link img {
       width: 100px;
       height: auto;
       transform: rotate(-10deg);
-      filter: brightness(100); /* Base white so inversion works */
-    }
-
-    @keyframes subtleGlow {
-      0%, 100% {
-        filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)) drop-shadow(0 0 10px rgba(0,0,0,0.5));
-      }
-      50% {
-        filter: drop-shadow(0 0 12px rgba(255,255,255,0.6)) drop-shadow(0 0 15px rgba(0,0,0,0.7));
-      }
-    }
-
-    /* Glitch effect (repeating for style) */
-    @keyframes glitchEffect {
-      0%, 90%, 100% { transform: rotate(-10deg) scale(1) skew(0deg,0deg); opacity: 1; }
-      20% { transform: rotate(-10deg) scale(1.1) skew(-5deg,5deg); opacity: 0.8; }
-      40% { transform: rotate(-10deg) scale(0.9) skew(5deg,-5deg); opacity: 0.6; }
-      60% { transform: rotate(-10deg) scale(1.2) skew(-3deg,3deg); opacity: 0.9; }
+      filter: brightness(0); /* Forces pure black */
     }
   </style>
 </head>
@@ -281,7 +262,7 @@
     </a>
   </div>
 
-  <!-- Question Mark (Static Top-Left) -->
+  <!-- Question Mark (Static, black) -->
   <a href="question.html" class="question-link" id="questionMark">
     <img src="question.png" alt="?" />
   </a>
