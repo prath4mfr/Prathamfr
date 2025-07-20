@@ -120,18 +120,29 @@
       color: black;
     }
 
+    /* Volume controls now ABOVE the back button, vertical on mobile */
     .music-controls {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 70px; /* Just above back button */
+      left: 20px;
       background: rgba(0, 0, 0, 0.45);
       padding: 10px;
       border-radius: 12px;
       display: flex;
+      flex-direction: row;
       align-items: center;
       gap: 10px;
       z-index: 10;
       backdrop-filter: blur(6px);
+    }
+
+    @media (max-width: 768px) {
+      .music-controls {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 8px;
+      }
     }
 
     .music-controls button {
@@ -144,6 +155,31 @@
 
     .music-controls input[type="range"] {
       width: 80px;
+    }
+
+    @media (max-width: 768px) {
+      .music-controls input[type="range"] {
+        width: 60px;
+      }
+    }
+
+    /* pass.png (bottom right, black & white) */
+    .pass-icon {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      width: 120px;
+      max-width: 25vw;
+      filter: grayscale(100%) brightness(0);
+      z-index: 8;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .pass-icon {
+        width: 80px;
+        max-width: 30vw;
+      }
     }
 
     .toggle-btn {
@@ -164,76 +200,32 @@
       filter: invert(1);
     }
 
-    @media (max-width: 768px) {
-      .graffiti-heading {
-        width: 65vw;
-      }
-
-      .whois-box {
-        top: 27%;
-        background: rgba(255, 255, 255, 0.35);
-        padding: 8px 15px;
-        animation: shimmerLight 3s infinite ease-in-out;
-      }
-
-      .whois-box img {
-        height: 26px;
-        filter: brightness(0);
-      }
-
-      .game-box {
-        top: calc(27% + 60px);
-        background: rgba(255, 255, 255, 0.35);
-        padding: 8px 15px;
-        animation: shimmerLight 3s infinite ease-in-out;
-      }
-
-      .game-box img {
-        height: 26px;
-        filter: brightness(0);
-      }
-
-      .music-controls input[type="range"] {
-        width: 60px;
-      }
-    }
-
     @keyframes shimmer {
-      0%, 100% {
-        background-color: rgba(0, 0, 0, 0.35);
-      }
-      50% {
-        background-color: rgba(0, 0, 0, 0.5);
-      }
+      0%, 100% { background-color: rgba(0, 0, 0, 0.35); }
+      50% { background-color: rgba(0, 0, 0, 0.5); }
     }
 
     @keyframes shimmerLight {
-      0%, 100% {
-        background-color: rgba(255, 255, 255, 0.35);
-      }
-      50% {
-        background-color: rgba(255, 255, 255, 0.5);
-      }
+      0%, 100% { background-color: rgba(255, 255, 255, 0.35); }
+      50% { background-color: rgba(255, 255, 255, 0.5); }
     }
 
-    /* Question Mark (Black, visible on all) */
+    /* Question Mark (with glow on mobile) */
     .question-link {
       position: fixed;
       top: 20px;
       left: 20px;
       z-index: 5;
       cursor: pointer;
-      animation: subtleGlow 3s infinite ease-in-out, glitchEffect 4s infinite ease-in-out;
     }
 
     .question-link img {
       width: 100px;
       height: auto;
       transform: rotate(-10deg);
-      filter: brightness(0); /* Black */
+      filter: brightness(0);
     }
 
-    /* On mobile: make visible with glow */
     @media (max-width: 768px) {
       .question-link {
         top: 10px;
@@ -281,14 +273,17 @@
     <img src="question.png" alt="?" />
   </a>
 
-  <!-- Back Button -->
+  <!-- BACK Button -->
   <a href="index.html" class="back-button">BACK</a>
 
-  <!-- Music Controls -->
+  <!-- Music Controls (above BACK) -->
   <div class="music-controls">
     <button id="playPauseBtn">⏸</button>
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
   </div>
+
+  <!-- pass.png bottom right -->
+  <img src="pass.png" alt="Pass Icon" class="pass-icon" />
 
   <!-- Dark Mode Toggle -->
   <button class="toggle-btn" id="toggleMode">🌗</button>
