@@ -13,7 +13,6 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
-    /* Background video */
     .video-bg {
       position: fixed;
       top: 0;
@@ -25,15 +24,12 @@
       transition: filter 0.5s ease;
     }
 
-    .dark .video-bg {
-      filter: invert(1);
-    }
-
     @media (max-width: 768px) {
-      .video-bg { object-position: 20% center; }
+      .video-bg {
+        object-position: 20% center;
+      }
     }
 
-    /* Main heading */
     .graffiti-heading {
       position: absolute;
       top: 10%;
@@ -44,12 +40,13 @@
       z-index: 3;
     }
 
-    /* Boxes */
-    .whois-box, .game-box {
+    .whois-box,
+    .game-box,
+    .danger-box {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0,0,0,0.35);
+      background: rgba(0, 0, 0, 0.35);
       backdrop-filter: blur(8px);
       padding: 15px 25px;
       border-radius: 20px;
@@ -57,31 +54,63 @@
       animation: shimmer 3s infinite ease-in-out;
     }
 
-    .whois-box img, .game-box img { height: 36px; width: auto; display: block; }
-    .whois-box { top: 33%; }
-    .game-box { top: calc(33% + 70px); }
+    .whois-box img,
+    .game-box img,
+    .danger-box img {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+
+    .whois-box {
+      top: 33%;
+    }
+
+    .game-box {
+      top: calc(33% + 70px);
+    }
+
+    .danger-box {
+      top: calc(33% + 140px);
+    }
 
     /* Loader */
     #loader {
       position: fixed;
-      top:0; left:0;
-      width:100vw; height:100vh;
-      background:black;
-      z-index:9999;
-      display:flex; align-items:center; justify-content:center;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
-    #loader img { width:100vw; height:100vh; object-fit:cover; animation: spin 5s linear infinite; }
-    @keyframes spin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
-    #loader.hidden { opacity:0; visibility:hidden; }
+    #loader img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      animation: spin 5s linear infinite;
+    }
 
-    /* Back Button */
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
     .back-button {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      background: rgba(0,0,0,0.45);
+      background: rgba(0, 0, 0, 0.45);
       color: white;
       padding: 10px 18px;
       border-radius: 12px;
@@ -91,14 +120,17 @@
       z-index: 10;
       transition: all 0.3s ease;
     }
-    .back-button:hover { background: rgba(255,255,255,0.85); color:black; }
 
-    /* Music Controls (Vertical for portrait) */
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.85);
+      color: black;
+    }
+
     .music-controls {
       position: fixed;
-      bottom: 100px; /* Above BACK button */
+      bottom: 80px;
       left: 20px;
-      background: rgba(0,0,0,0.45);
+      background: rgba(0, 0, 0, 0.45);
       padding: 10px;
       border-radius: 12px;
       display: flex;
@@ -108,15 +140,20 @@
       z-index: 10;
       backdrop-filter: blur(6px);
     }
-    .music-controls button { background:none; border:none; color:white; font-size:1.2rem; cursor:pointer; }
-    .music-controls input[type="range"] {
-      writing-mode: bt-lr; /* vertical */
-      -webkit-appearance: slider-vertical;
-      width: 8px;
-      height: 100px;
+
+    .music-controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
     }
 
-    /* Toggle Button */
+    .music-controls input[type="range"] {
+      transform: rotate(-90deg);
+      width: 100px;
+    }
+
     .toggle-btn {
       position: fixed;
       top: 20px;
@@ -125,13 +162,80 @@
       padding: 10px 14px;
       border-radius: 10px;
       border: none;
-      background: rgba(255,255,255,0.3);
+      background: rgba(255, 255, 255, 0.3);
       color: black;
       cursor: pointer;
       backdrop-filter: blur(5px);
     }
 
-    /* Question mark */
+    .dark .video-bg {
+      filter: invert(1);
+    }
+
+    @media (max-width: 768px) {
+      .graffiti-heading {
+        width: 65vw;
+      }
+
+      .whois-box {
+        top: 27%;
+        background: rgba(255, 255, 255, 0.35);
+        padding: 8px 15px;
+        animation: shimmerLight 3s infinite ease-in-out;
+      }
+
+      .whois-box img {
+        height: 26px;
+        filter: brightness(0);
+      }
+
+      .game-box {
+        top: calc(27% + 60px);
+        background: rgba(255, 255, 255, 0.35);
+        padding: 8px 15px;
+        animation: shimmerLight 3s infinite ease-in-out;
+      }
+
+      .game-box img {
+        height: 26px;
+        filter: brightness(0);
+      }
+
+      .danger-box {
+        top: calc(27% + 120px);
+        background: rgba(255, 255, 255, 0.35);
+        padding: 8px 15px;
+        animation: shimmerLight 3s infinite ease-in-out;
+      }
+
+      .danger-box img {
+        height: 26px;
+        filter: brightness(0);
+      }
+
+      .music-controls input[type="range"] {
+        width: 80px;
+      }
+    }
+
+    @keyframes shimmer {
+      0%, 100% {
+        background-color: rgba(0, 0, 0, 0.35);
+      }
+      50% {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    @keyframes shimmerLight {
+      0%, 100% {
+        background-color: rgba(255, 255, 255, 0.35);
+      }
+      50% {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+    }
+
     .question-link {
       position: fixed;
       top: 20px;
@@ -140,96 +244,84 @@
       cursor: pointer;
       animation: subtleGlow 3s infinite ease-in-out, glitchEffect 4s infinite ease-in-out;
     }
+
     .question-link img {
-      width: 100px; height: auto; transform: rotate(-10deg);
+      width: 100px;
+      height: auto;
+      transform: rotate(-10deg);
       filter: brightness(0);
     }
-    @media (max-width:768px){
-      .graffiti-heading{ width:65vw; }
-      .whois-box{ top:27%; background:rgba(255,255,255,0.35); padding:8px 15px; animation:shimmerLight 3s infinite; }
-      .whois-box img{ height:26px; filter:brightness(0); }
-      .game-box{ top:calc(27% + 60px); background:rgba(255,255,255,0.35); padding:8px 15px; animation:shimmerLight 3s infinite; }
-      .game-box img{ height:26px; filter:brightness(0); }
-      .question-link img{ width:60px; filter:brightness(0) drop-shadow(0 0 6px rgba(255,255,255,0.6)); }
-    }
 
-    @keyframes shimmer { 0%,100%{background-color:rgba(0,0,0,0.35);} 50%{background-color:rgba(0,0,0,0.5);} }
-    @keyframes shimmerLight { 0%,100%{background-color:rgba(255,255,255,0.35);} 50%{background-color:rgba(255,255,255,0.5);} }
+    @media (max-width: 768px) {
+      .question-link {
+        top: 10px;
+        left: 10px;
+      }
 
-    /* Pass.png (bottom-right) */
-    .pass-img {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 100px;
-      filter: grayscale(1);
-      cursor: pointer;
-      z-index: 5;
-      transition: transform 0.3s ease;
+      .question-link img {
+        width: 60px;
+        filter: brightness(0) drop-shadow(0 0 8px rgba(255,255,255,0.8)) drop-shadow(0 0 15px rgba(255,255,255,0.6));
+      }
     }
-    .pass-overlay {
-      position: fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      background: rgba(0,0,0,0.7);
-      z-index: 20;
-      animation: fadeIn 0.5s forwards;
-    }
-    .pass-overlay img {
-      max-width: 90vw;
-      max-height: 90vh;
-      filter: none;
-      transform: translateY(50px);
-      opacity:0;
-      animation: slideUpFade 0.6s forwards;
-    }
-    .close-pass {
-      position:absolute;
-      top:20px; right:20px;
-      background: rgba(255,255,255,0.7);
-      border:none;
-      font-size:1.5rem;
-      padding: 5px 10px;
-      cursor:pointer;
-    }
-    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-    @keyframes slideUpFade { from{opacity:0; transform:translateY(50px);} to{opacity:1; transform:translateY(0);} }
   </style>
 </head>
 <body>
 
-  <div id="loader"><img src="lunloading.jpg" alt="Loading..." /></div>
+  <!-- Loader -->
+  <div id="loader">
+    <img src="lunloading.jpg" alt="Loading..." />
+  </div>
 
+  <!-- Background Video -->
   <video class="video-bg" autoplay muted loop playsinline id="bgVideo">
     <source src="baawe.mp4" type="video/mp4" />
   </video>
 
+  <!-- Heading -->
   <img src="graph.png" alt="PRATH4M" class="graffiti-heading" />
 
-  <div class="whois-box"><a href="whoispratham.html"><img src="whoispratham.png" alt="Who is Pratham?"></a></div>
-  <div class="game-box"><a href="gayme.html"><img src="game.png" alt="Games"></a></div>
-  <a href="question.html" class="question-link"><img src="question.png" alt="?"></a>
+  <!-- Who is Pratham -->
+  <div class="whois-box">
+    <a href="whoispratham.html">
+      <img src="whoispratham.png" alt="Who is Pratham?" />
+    </a>
+  </div>
+
+  <!-- Games -->
+  <div class="game-box">
+    <a href="gayme.html">
+      <img src="game.png" alt="Games" />
+    </a>
+  </div>
+
+  <!-- Danger -->
+  <div class="danger-box">
+    <a href="danger.html">
+      <img src="danger.png" alt="Danger" />
+    </a>
+  </div>
+
+  <!-- Question Mark -->
+  <a href="question.html" class="question-link" id="questionMark">
+    <img src="question.png" alt="?" />
+  </a>
+
+  <!-- Back Button -->
   <a href="index.html" class="back-button">BACK</a>
 
+  <!-- Music Controls -->
   <div class="music-controls">
     <button id="playPauseBtn">⏸</button>
-    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
   </div>
 
+  <!-- Dark Mode Toggle -->
   <button class="toggle-btn" id="toggleMode">🌗</button>
 
-  <img src="pass.png" alt="Pass" class="pass-img" id="passBtn">
-
-  <div class="pass-overlay" id="passOverlay">
-    <button class="close-pass" id="closePass">✖</button>
-    <img src="pass.png" alt="Pass">
-  </div>
-
+  <!-- Audio -->
   <audio id="bgMusic" src="CGPA.mp3" autoplay loop></audio>
 
+  <!-- Script -->
   <script>
     const loader = document.getElementById('loader');
     const video = document.getElementById('bgVideo');
@@ -237,26 +329,29 @@
     const playPauseBtn = document.getElementById('playPauseBtn');
     const volumeSlider = document.getElementById('volumeSlider');
     const toggleMode = document.getElementById('toggleMode');
-    const passBtn = document.getElementById('passBtn');
-    const passOverlay = document.getElementById('passOverlay');
-    const closePass = document.getElementById('closePass');
 
-    video.addEventListener('canplaythrough',()=>loader.classList.add('hidden'));
+    video.addEventListener('canplaythrough', () => {
+      loader.classList.add('hidden');
+    });
+
     music.volume = 0.5;
 
-    playPauseBtn.addEventListener('click',()=>{
-      if(music.paused){ music.play(); playPauseBtn.textContent='⏸'; }
-      else { music.pause(); playPauseBtn.textContent='▶️'; }
+    playPauseBtn.addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        playPauseBtn.textContent = '⏸';
+      } else {
+        music.pause();
+        playPauseBtn.textContent = '▶️';
+      }
     });
 
-    volumeSlider.addEventListener('input',()=>music.volume = volumeSlider.value);
-    toggleMode.addEventListener('click',()=>document.body.classList.toggle('dark'));
-
-    passBtn.addEventListener('click',()=>{
-      passOverlay.style.display='flex';
+    volumeSlider.addEventListener('input', () => {
+      music.volume = volumeSlider.value;
     });
-    closePass.addEventListener('click',()=>{
-      passOverlay.style.display='none';
+
+    toggleMode.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
     });
   </script>
 </body>
