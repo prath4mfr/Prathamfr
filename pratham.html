@@ -72,6 +72,23 @@
 
     .danger-box {
       top: calc(33% + 140px);
+      animation: violentShake 0.5s infinite, redFlicker 1s infinite alternate;
+    }
+
+    /* Violent Shake Animation */
+    @keyframes violentShake {
+      0% { transform: translateX(-50%) rotate(0deg); }
+      20% { transform: translateX(-50%) rotate(3deg); }
+      40% { transform: translateX(-50%) rotate(-3deg); }
+      60% { transform: translateX(-50%) rotate(3deg); }
+      80% { transform: translateX(-50%) rotate(-3deg); }
+      100% { transform: translateX(-50%) rotate(0deg); }
+    }
+
+    /* Red Flicker Glow */
+    @keyframes redFlicker {
+      0% { box-shadow: 0 0 10px red, 0 0 20px red; background: rgba(255,0,0,0.2); }
+      100% { box-shadow: 0 0 40px red, 0 0 80px red; background: rgba(255,0,0,0.4); }
     }
 
     /* Loader */
@@ -203,14 +220,13 @@
 
       .danger-box {
         top: calc(27% + 120px);
-        background: rgba(255, 255, 255, 0.35);
+        background: rgba(0, 0, 0, 0.5);
         padding: 8px 15px;
-        animation: shimmerLight 3s infinite ease-in-out;
       }
 
       .danger-box img {
         height: 26px;
-        filter: brightness(0);
+        filter: brightness(0) drop-shadow(0 0 12px red);
       }
 
       .music-controls input[type="range"] {
@@ -294,7 +310,7 @@
     </a>
   </div>
 
-  <!-- Danger -->
+  <!-- Danger (Shaking Red) -->
   <div class="danger-box">
     <a href="danger.html">
       <img src="danger.png" alt="Danger" />
