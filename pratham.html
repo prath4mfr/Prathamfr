@@ -216,36 +216,34 @@
       }
     }
 
-    <style>
-  /* Existing question mark styles (desktop) */
-  .question-link {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 5;
-    cursor: pointer;
-    animation: subtleGlow 3s infinite ease-in-out, glitchEffect 4s infinite ease-in-out;
-  }
-
-  .question-link img {
-    width: 100px;
-    height: auto;
-    transform: rotate(-10deg);
-    filter: brightness(0); /* Black only */
-  }
-
-  /* On mobile: make it smaller & closer to corner */
-  @media (max-width: 768px) {
+    /* Question Mark (Black, top-left, mobile-adjusted) */
     .question-link {
-      top: 10px;
-      left: 10px;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 5;
+      cursor: pointer;
+      animation: subtleGlow 3s infinite ease-in-out, glitchEffect 4s infinite ease-in-out;
     }
 
     .question-link img {
-      width: 60px;  /* Smaller size */
+      width: 100px;
+      height: auto;
+      transform: rotate(-10deg);
+      filter: brightness(0); /* Black */
     }
-  }
-</style>
+
+    @media (max-width: 768px) {
+      .question-link {
+        top: 10px;
+        left: 10px;
+      }
+
+      .question-link img {
+        width: 60px;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -276,7 +274,7 @@
     </a>
   </div>
 
-  <!-- Question Mark (Static, black) -->
+  <!-- Question Mark -->
   <a href="question.html" class="question-link" id="questionMark">
     <img src="question.png" alt="?" />
   </a>
