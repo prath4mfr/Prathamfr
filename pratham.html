@@ -63,7 +63,7 @@
     .whois-box { top: 33%; }
     .game-box { top: calc(33% + 70px); }
 
-    /* Danger Button (Red Flicker + Shake) */
+    /* Danger Button (Shake + Red Flicker) */
     .danger-box {
       top: calc(33% + 140px);
       animation: shake 0.5s infinite alternate, redFlicker 1s infinite;
@@ -76,7 +76,7 @@
       100% { transform: translateX(-50%) rotate(5deg); }
     }
     @keyframes redFlicker {
-      0%, 100% { box-shadow: 0 0 15px red; background: rgba(50,0,0,0.5); }
+      0%,100% { box-shadow: 0 0 15px red; background: rgba(50,0,0,0.5); }
       50% { box-shadow: 0 0 30px red; background: rgba(100,0,0,0.6); }
     }
 
@@ -115,7 +115,7 @@
       position: fixed;
       bottom: 90px;
       left: 20px;
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0,0,0,0.45);
       padding: 10px;
       border-radius: 12px;
       display: flex;
@@ -158,7 +158,7 @@
     .question-link { position: fixed; top: 20px; left: 20px; z-index: 5; cursor: pointer; }
     .question-link img { width: 100px; transform: rotate(-10deg); filter: brightness(0); }
 
-    /* Mobile */
+    /* Mobile Tweaks */
     @media (max-width: 768px) {
       .graffiti-heading { width: 65vw; }
       .whois-box, .game-box, .danger-box {
@@ -166,15 +166,20 @@
         animation: shimmerLight 3s infinite ease-in-out;
       }
       .whois-box img, .game-box img, .danger-box img {
-        height: 26px; filter: brightness(0);
+        height: 26px;
+        filter: brightness(0);
       }
-      .question-link img { width: 60px; filter: brightness(0) drop-shadow(0 0 4px white); }
+      .question-link img {
+        width: 60px;
+        filter: brightness(0) drop-shadow(0 0 4px white);
+      }
+      .pass-container img { width: 80px; } /* smaller for phone */
     }
 
     @keyframes shimmer { 0%,100%{background-color:rgba(0,0,0,0.35);}50%{background-color:rgba(0,0,0,0.5);} }
     @keyframes shimmerLight { 0%,100%{background-color:rgba(255,255,255,0.35);}50%{background-color:rgba(255,255,255,0.5);} }
 
-    /* PASS PNG (Smooth Expand & Color Reveal) */
+    /* PASS PNG (Expand Smoothly) */
     .pass-container { position: fixed; bottom: 20px; right: 20px; z-index: 5; cursor: pointer; }
     .pass-container img { width: 120px; filter: grayscale(1); transition: transform 0.4s ease, opacity 0.4s ease; }
     .pass-overlay {
@@ -189,12 +194,12 @@
     .pass-overlay img {
       width: 0; opacity: 0;
       transition: all 0.6s ease-in-out;
+      filter: grayscale(0);
     }
     .pass-overlay.active { opacity: 1; pointer-events: auto; }
     .pass-overlay.active img {
       width: 50%;
       opacity: 1;
-      transform: scale(1) translateY(0);
     }
     .close-pass {
       position: absolute;
@@ -224,13 +229,13 @@
   <!-- Question Mark -->
   <a href="question.html" class="question-link"><img src="question.png" alt="?" /></a>
 
-  <!-- Pass PNG -->
+  <!-- Pass PNG (Same file expands) -->
   <div class="pass-container" id="passTrigger">
     <img src="pass.png" alt="Pass" />
   </div>
   <div class="pass-overlay" id="passOverlay">
     <span class="close-pass" id="closePass">&times;</span>
-    <img src="pass-color.png" alt="Pass Color" />
+    <img src="pass.png" alt="Pass Expanded" />
   </div>
 
   <!-- Back Button -->
