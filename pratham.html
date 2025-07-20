@@ -24,6 +24,10 @@
       transition: filter 0.5s ease;
     }
 
+    @media (max-width: 768px) {
+      .video-bg { object-position: 20% center; }
+    }
+
     .graffiti-heading {
       position: absolute;
       top: 10%;
@@ -48,6 +52,7 @@
 
     .whois-box img, .game-box img, .danger-box img {
       height: 36px;
+      width: auto;
       display: block;
     }
 
@@ -55,19 +60,19 @@
     .game-box { top: calc(33% + 70px); }
     .danger-box {
       top: calc(33% + 140px);
-      animation: shakeRed 1s infinite;
+      animation: shake 0.6s infinite, pulseRed 1.5s infinite;
     }
 
-    @keyframes shimmer {
-      0%, 100% { background-color: rgba(0,0,0,0.35); }
-      50% { background-color: rgba(0,0,0,0.5); }
+    /* Shake + red pulse for danger */
+    @keyframes shake {
+      0%,100% { transform: translateX(-50%) rotate(0deg); }
+      25% { transform: translateX(-52%) rotate(-5deg); }
+      50% { transform: translateX(-48%) rotate(5deg); }
+      75% { transform: translateX(-52%) rotate(-5deg); }
     }
-
-    @keyframes shakeRed {
-      0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); filter: drop-shadow(0 0 6px red); }
-      25% { transform: translateX(-48%) translateY(-2px) rotate(-3deg); }
-      50% { transform: translateX(-52%) translateY(2px) rotate(3deg); }
-      75% { transform: translateX(-48%) translateY(-2px) rotate(-3deg); }
+    @keyframes pulseRed {
+      0%,100% { background: rgba(255,0,0,0.4); }
+      50% { background: rgba(255,0,0,0.7); }
     }
 
     /* Loader */
@@ -84,154 +89,157 @@
       justify-content: center;
       transition: opacity 0.8s ease, visibility 0.8s ease;
     }
-
     #loader img {
       width: 100vw;
       height: 100vh;
       object-fit: cover;
       animation: spin 5s linear infinite;
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    #loader.hidden { opacity: 0; visibility: hidden; }
 
-    #loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
+    /* Back Button */
     .back-button {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      background: rgba(0,0,0,0.45);
+      background: rgba(0, 0, 0, 0.45);
       color: white;
       padding: 10px 18px;
       border-radius: 12px;
-      z-index: 10;
+      font-size: 1rem;
       text-decoration: none;
       backdrop-filter: blur(6px);
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+    .back-button:hover {
+      background: rgba(255,255,255,0.85);
+      color: black;
     }
 
+    /* Music Controls (Vertical on all devices) */
     .music-controls {
       position: fixed;
       bottom: 80px;
       left: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       background: rgba(0,0,0,0.45);
       padding: 10px;
       border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
       z-index: 10;
       backdrop-filter: blur(6px);
     }
-
     .music-controls button {
       background: none;
       border: none;
       color: white;
       font-size: 1.2rem;
       cursor: pointer;
-      margin-bottom: 5px;
     }
-
     .music-controls input[type="range"] {
-      writing-mode: bt-lr;
+      writing-mode: bt-lr; /* vertical */
       -webkit-appearance: slider-vertical;
-      width: 8px;
       height: 100px;
+      width: 20px;
     }
 
+    /* Toggle Dark Mode */
     .toggle-btn {
       position: fixed;
       top: 20px;
       right: 20px;
       z-index: 10;
       padding: 10px 14px;
-      border: none;
       border-radius: 10px;
-      background: rgba(255,255,255,0.3);
-      cursor: pointer;
-    }
-
-    .dark .video-bg {
-      filter: invert(1);
-    }
-
-    /* Pass PNG */
-    .pass-icon {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 90px;
-      filter: grayscale(1) brightness(0.8);
-      cursor: pointer;
-      z-index: 12;
-      transition: transform 0.3s ease;
-    }
-
-    /* Fullscreen Modal */
-    .pass-modal {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 90px;
-      opacity: 0;
-      transform: scale(0.5);
-      transition: all 0.6s ease;
-      z-index: 20;
-      display: none;
-    }
-
-    .pass-modal.active {
-      display: block;
-      bottom: 50%;
-      right: 50%;
-      transform: translate(50%,50%) scale(1);
-      opacity: 1;
-    }
-
-    .pass-modal img {
-      width: 70vw;
-      max-width: 600px;
-      display: block;
-      margin: auto;
-    }
-
-    .close-pass {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.5);
-      color: white;
       border: none;
-      padding: 8px 12px;
+      background: rgba(255,255,255,0.3);
+      color: black;
       cursor: pointer;
-      font-size: 1rem;
+      backdrop-filter: blur(5px);
     }
+    .dark .video-bg { filter: invert(1); }
 
-    /* Question Icon */
+    /* Question Mark */
     .question-link {
       position: fixed;
       top: 20px;
       left: 20px;
       z-index: 5;
-      animation: subtleGlow 3s infinite;
+      cursor: pointer;
+      animation: subtleGlow 3s infinite ease-in-out, glitchEffect 4s infinite ease-in-out;
     }
-
     .question-link img {
       width: 100px;
+      height: auto;
+      transform: rotate(-10deg);
       filter: brightness(0);
     }
+    @media (max-width:768px) {
+      .question-link { top:10px; left:10px; }
+      .question-link img {
+        width: 60px;
+        filter: brightness(0) drop-shadow(0 0 8px rgba(255,255,255,0.8));
+      }
+    }
 
-    @media (max-width: 768px) {
-      .graffiti-heading { width: 65vw; }
-      .question-link img { width: 60px; filter: brightness(0) drop-shadow(0 0 8px white); }
-      .pass-icon { width: 60px; bottom: 15px; right: 15px; }
-      .pass-modal img { width: 90vw; }
+    /* Pass PNG (Bottom-right expand) */
+    .pass-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 5;
+      cursor: pointer;
+      filter: grayscale(1);
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+    .pass-container img {
+      width: 100px;
+      height: auto;
+      display: block;
+    }
+    .pass-expanded {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      top: 0;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      animation: fadeInUp 0.6s forwards;
+    }
+    .pass-expanded img {
+      width: 60%;
+      max-width: 500px;
+      filter: none;
+    }
+    @keyframes fadeInUp {
+      0% { transform: scale(0.3) translateY(100%); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    @keyframes fadeOutDown {
+      0% { transform: scale(1) translateY(0); opacity: 1; }
+      100% { transform: scale(0.3) translateY(100%); opacity: 0; }
+    }
+
+    /* Shimmer Animations */
+    @keyframes shimmer {
+      0%,100% { background-color: rgba(0,0,0,0.35); }
+      50% { background-color: rgba(0,0,0,0.5); }
+    }
+    @keyframes shimmerLight {
+      0%,100% { background-color: rgba(255,255,255,0.35); }
+      50% { background-color: rgba(255,255,255,0.5); }
     }
   </style>
 </head>
@@ -251,20 +259,22 @@
   <img src="graph.png" alt="PRATH4M" class="graffiti-heading" />
 
   <!-- Buttons -->
-  <div class="whois-box"><a href="whoispratham.html"><img src="whoispratham.png" /></a></div>
-  <div class="game-box"><a href="gayme.html"><img src="game.png" /></a></div>
-  <div class="danger-box"><a href="danger.html"><img src="danger.png" /></a></div>
+  <div class="whois-box">
+    <a href="whoispratham.html"><img src="whoispratham.png" alt="Who is Pratham?" /></a>
+  </div>
+  <div class="game-box">
+    <a href="gayme.html"><img src="game.png" alt="Games" /></a>
+  </div>
+  <div class="danger-box">
+    <a href="danger.html"><img src="danger.png" alt="Danger!" /></a>
+  </div>
 
-  <!-- Question -->
-  <a href="question.html" class="question-link"><img src="question.png" alt="?"/></a>
+  <!-- Question Mark -->
+  <a href="question.html" class="question-link"><img src="question.png" alt="?" /></a>
 
   <!-- Pass PNG -->
-  <img src="pass.png" alt="Pass" class="pass-icon" id="passIcon" />
-
-  <!-- Modal -->
-  <div class="pass-modal" id="passModal">
-    <button class="close-pass" id="closePass">Back</button>
-    <img src="pass-color.png" alt="Pass Expanded" />
+  <div class="pass-container" id="passBtn">
+    <img src="pass.png" alt="Pass" />
   </div>
 
   <!-- Back Button -->
@@ -276,40 +286,57 @@
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
   </div>
 
-  <!-- Dark Toggle -->
+  <!-- Dark Mode Toggle -->
   <button class="toggle-btn" id="toggleMode">🌗</button>
 
+  <!-- Audio -->
   <audio id="bgMusic" src="CGPA.mp3" autoplay loop></audio>
 
   <script>
     const loader = document.getElementById('loader');
+    const video = document.getElementById('bgVideo');
     const music = document.getElementById('bgMusic');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const volumeSlider = document.getElementById('volumeSlider');
-    const passIcon = document.getElementById('passIcon');
-    const passModal = document.getElementById('passModal');
-    const closePass = document.getElementById('closePass');
+    const toggleMode = document.getElementById('toggleMode');
+    const passBtn = document.getElementById('passBtn');
 
-    loader.addEventListener('transitionend', () => loader.remove());
+    video.addEventListener('canplaythrough', () => {
+      loader.classList.add('hidden');
+    });
+    setTimeout(() => loader.classList.add('hidden'), 3000); // auto hide
+
     music.volume = 0.5;
 
     playPauseBtn.addEventListener('click', () => {
-      if (music.paused) { music.play(); playPauseBtn.textContent = '⏸'; }
-      else { music.pause(); playPauseBtn.textContent = '▶️'; }
+      if (music.paused) {
+        music.play();
+        playPauseBtn.textContent = '⏸';
+      } else {
+        music.pause();
+        playPauseBtn.textContent = '▶️';
+      }
     });
+    volumeSlider.addEventListener('input', () => { music.volume = volumeSlider.value; });
 
-    volumeSlider.addEventListener('input', () => music.volume = volumeSlider.value);
+    toggleMode.addEventListener('click', () => { document.body.classList.toggle('dark'); });
 
-    passIcon.addEventListener('click', () => {
-      passModal.classList.add('active');
-    });
+    // Pass expand animation
+    passBtn.addEventListener('click', () => {
+      const expanded = document.createElement('div');
+      expanded.classList.add('pass-expanded');
+      expanded.innerHTML = `<img src="pass.png" alt="Pass" />
+        <button id="closePass" style="
+          position:absolute; top:20px; right:20px;
+          background:rgba(0,0,0,0.6); color:white;
+          border:none; padding:10px 15px; border-radius:8px; cursor:pointer;">Close</button>`;
+      document.body.appendChild(expanded);
 
-    closePass.addEventListener('click', () => {
-      passModal.classList.remove('active');
-    });
-
-    document.getElementById('toggleMode').addEventListener('click', () => {
-      document.body.classList.toggle('dark');
+      const closeBtn = expanded.querySelector('#closePass');
+      closeBtn.addEventListener('click', () => {
+        expanded.style.animation = 'fadeOutDown 0.6s forwards';
+        setTimeout(() => expanded.remove(), 600);
+      });
     });
   </script>
 </body>
