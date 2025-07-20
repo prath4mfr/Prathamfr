@@ -222,13 +222,14 @@
       z-index: 5;
       cursor: pointer;
       animation: subtleGlow 3s infinite ease-in-out;
-      mix-blend-mode: difference; /* INVERTS against background */
+      mix-blend-mode: difference; /* Inverts against background */
     }
 
     .question-link img {
       width: 100px;
       height: auto;
       transform: rotate(-10deg);
+      filter: brightness(100); /* Forces white base so blend works */
     }
 
     @keyframes subtleGlow {
@@ -337,7 +338,7 @@
       document.body.classList.toggle('dark');
     });
 
-    // Teleport with glitch + stays visible on any background
+    // Teleport question mark every 2 seconds with glitch effect
     setInterval(() => {
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
@@ -345,6 +346,7 @@
       let x = Math.random() * (screenWidth - 120);
       let y = Math.random() * (screenHeight - 120);
 
+      // Avoid central heading area
       if (y < screenHeight * 0.2 && x > screenWidth * 0.3 && x < screenWidth * 0.7) {
         y += screenHeight * 0.3;
       }
@@ -352,6 +354,7 @@
       questionMark.style.left = `${x}px`;
       questionMark.style.top = `${y}px`;
 
+      // Trigger glitch animation
       questionMark.classList.add('glitching');
       setTimeout(() => {
         questionMark.classList.remove('glitching');
