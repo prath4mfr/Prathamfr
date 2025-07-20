@@ -120,65 +120,52 @@
       color: black;
     }
 
-    /* Volume controls now ABOVE the back button, vertical on mobile */
+    /* Music Controls (Now vertical, above BACK button) */
     .music-controls {
       position: fixed;
-      bottom: 70px; /* Just above back button */
+      bottom: 80px;
       left: 20px;
       background: rgba(0, 0, 0, 0.45);
       padding: 10px;
       border-radius: 12px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       z-index: 10;
       backdrop-filter: blur(6px);
-    }
-
-    @media (max-width: 768px) {
-      .music-controls {
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-        padding: 8px;
-      }
     }
 
     .music-controls button {
       background: none;
       border: none;
       color: white;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       cursor: pointer;
     }
 
     .music-controls input[type="range"] {
-      width: 80px;
+      width: 100px;
+      transform: rotate(-90deg);
+      transform-origin: center;
     }
 
-    @media (max-width: 768px) {
-      .music-controls input[type="range"] {
-        width: 60px;
-      }
-    }
-
-    /* pass.png (bottom right, black & white) */
-    .pass-icon {
+    /* Pass PNG (bottom-right) */
+    .pass-img {
       position: fixed;
-      bottom: 15px;
-      right: 15px;
-      width: 120px;
-      max-width: 25vw;
-      filter: grayscale(100%) brightness(0);
-      z-index: 8;
-      opacity: 0.9;
+      bottom: 20px;
+      right: 20px;
+      z-index: 5;
+      max-width: 120px;
+      height: auto;
+      filter: grayscale(1) brightness(0.7);
     }
 
     @media (max-width: 768px) {
-      .pass-icon {
-        width: 80px;
-        max-width: 30vw;
+      .pass-img {
+        max-width: 80px;
+        bottom: 15px;
+        right: 15px;
       }
     }
 
@@ -200,23 +187,66 @@
       filter: invert(1);
     }
 
+    @media (max-width: 768px) {
+      .graffiti-heading {
+        width: 65vw;
+      }
+
+      .whois-box {
+        top: 27%;
+        background: rgba(255, 255, 255, 0.35);
+        padding: 8px 15px;
+        animation: shimmerLight 3s infinite ease-in-out;
+      }
+
+      .whois-box img {
+        height: 26px;
+        filter: brightness(0);
+      }
+
+      .game-box {
+        top: calc(27% + 60px);
+        background: rgba(255, 255, 255, 0.35);
+        padding: 8px 15px;
+        animation: shimmerLight 3s infinite ease-in-out;
+      }
+
+      .game-box img {
+        height: 26px;
+        filter: brightness(0);
+      }
+
+      .music-controls input[type="range"] {
+        width: 80px;
+      }
+    }
+
     @keyframes shimmer {
-      0%, 100% { background-color: rgba(0, 0, 0, 0.35); }
-      50% { background-color: rgba(0, 0, 0, 0.5); }
+      0%, 100% {
+        background-color: rgba(0, 0, 0, 0.35);
+      }
+      50% {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
     }
 
     @keyframes shimmerLight {
-      0%, 100% { background-color: rgba(255, 255, 255, 0.35); }
-      50% { background-color: rgba(255, 255, 255, 0.5); }
+      0%, 100% {
+        background-color: rgba(255, 255, 255, 0.35);
+      }
+      50% {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
     }
 
-    /* Question Mark (with glow on mobile) */
+    /* Question Mark */
     .question-link {
       position: fixed;
       top: 20px;
       left: 20px;
       z-index: 5;
       cursor: pointer;
+      animation: subtleGlow 3s infinite ease-in-out, glitchEffect 4s infinite ease-in-out;
     }
 
     .question-link img {
@@ -231,11 +261,22 @@
         top: 10px;
         left: 10px;
       }
-
       .question-link img {
         width: 60px;
         filter: brightness(0) drop-shadow(0 0 8px rgba(255,255,255,0.8)) drop-shadow(0 0 15px rgba(255,255,255,0.6));
       }
+    }
+
+    /* Placeholder Animations (kept exactly) */
+    @keyframes subtleGlow {
+      0%, 100% { filter: brightness(0.8); }
+      50% { filter: brightness(1); }
+    }
+    @keyframes glitchEffect {
+      0%, 100% { transform: rotate(-10deg) translate(0,0); }
+      25% { transform: rotate(-10deg) translate(1px,-1px); }
+      50% { transform: rotate(-10deg) translate(-1px,1px); }
+      75% { transform: rotate(-10deg) translate(1px,1px); }
     }
   </style>
 </head>
@@ -276,14 +317,14 @@
   <!-- BACK Button -->
   <a href="index.html" class="back-button">BACK</a>
 
-  <!-- Music Controls (above BACK) -->
+  <!-- Music Controls -->
   <div class="music-controls">
     <button id="playPauseBtn">⏸</button>
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
   </div>
 
-  <!-- pass.png bottom right -->
-  <img src="pass.png" alt="Pass Icon" class="pass-icon" />
+  <!-- Pass PNG -->
+  <img src="pass.png" alt="Pass" class="pass-img" />
 
   <!-- Dark Mode Toggle -->
   <button class="toggle-btn" id="toggleMode">🌗</button>
