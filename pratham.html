@@ -225,7 +225,7 @@
     }
 
     .question-link img {
-      width: 100px; /* Large size */
+      width: 100px;
       height: auto;
       transform: rotate(-10deg);
       filter: brightness(1) contrast(1);
@@ -238,6 +238,19 @@
       50% {
         filter: drop-shadow(0 0 12px rgba(255,255,255,0.6)) drop-shadow(0 0 15px rgba(0,0,0,0.7));
       }
+    }
+
+    /* Glitch animation for teleport */
+    @keyframes glitchEffect {
+      0% { transform: scale(1) skew(0deg, 0deg); filter: hue-rotate(0deg); opacity: 1; }
+      25% { transform: scale(1.1) skew(-5deg, 5deg); filter: hue-rotate(90deg); opacity: 0.8; }
+      50% { transform: scale(0.9) skew(5deg, -5deg); filter: hue-rotate(180deg); opacity: 0.6; }
+      75% { transform: scale(1.2) skew(-3deg, 3deg); filter: hue-rotate(270deg); opacity: 0.9; }
+      100% { transform: scale(1) skew(0deg, 0deg); filter: hue-rotate(0deg); opacity: 1; }
+    }
+
+    .glitching {
+      animation: glitchEffect 0.4s ease-in-out;
     }
   </style>
 </head>
@@ -324,22 +337,27 @@
       document.body.classList.toggle('dark');
     });
 
-    // Teleport question mark every 2 seconds to a random spot (avoiding overlap zones)
+    // Teleport question mark every 2 seconds with glitch effect
     setInterval(() => {
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
 
-      // Avoid central elements (Whois/Games/Heading areas)
       let x = Math.random() * (screenWidth - 120);
       let y = Math.random() * (screenHeight - 120);
 
-      // Avoid the top heading & center blocks (rough exclusion zones)
+      // Avoid central heading area
       if (y < screenHeight * 0.2 && x > screenWidth * 0.3 && x < screenWidth * 0.7) {
-        y += screenHeight * 0.3; // Push it lower if too near the heading
+        y += screenHeight * 0.3;
       }
 
       questionMark.style.left = `${x}px`;
       questionMark.style.top = `${y}px`;
+
+      // Trigger glitch animation
+      questionMark.classList.add('glitching');
+      setTimeout(() => {
+        questionMark.classList.remove('glitching');
+      }, 400); // Match animation duration
     }, 2000);
   </script>
 </body>
