@@ -216,20 +216,22 @@
       }
     }
 
-    /* Question Mark */
+    /* Question Mark (Top-Left, static) */
     .question-link {
-      position: absolute;
+      position: fixed;
+      top: 20px;
+      left: 20px;
       z-index: 5;
       cursor: pointer;
-      animation: subtleGlow 3s infinite ease-in-out;
-      mix-blend-mode: difference; /* Inverts against background */
+      animation: subtleGlow 3s infinite ease-in-out, glitchEffect 4s infinite ease-in-out;
+      mix-blend-mode: difference; /* Ensures it inverts with bg */
     }
 
     .question-link img {
       width: 100px;
       height: auto;
       transform: rotate(-10deg);
-      filter: brightness(100); /* Forces white base so blend works */
+      filter: brightness(100); /* Base white so inversion works */
     }
 
     @keyframes subtleGlow {
@@ -241,17 +243,12 @@
       }
     }
 
-    /* Glitch animation */
+    /* Glitch effect (repeating for style) */
     @keyframes glitchEffect {
-      0% { transform: scale(1) skew(0deg, 0deg); opacity: 1; }
-      25% { transform: scale(1.1) skew(-5deg, 5deg); opacity: 0.8; }
-      50% { transform: scale(0.9) skew(5deg, -5deg); opacity: 0.6; }
-      75% { transform: scale(1.2) skew(-3deg, 3deg); opacity: 0.9; }
-      100% { transform: scale(1) skew(0deg, 0deg); opacity: 1; }
-    }
-
-    .glitching {
-      animation: glitchEffect 0.4s ease-in-out;
+      0%, 90%, 100% { transform: rotate(-10deg) scale(1) skew(0deg,0deg); opacity: 1; }
+      20% { transform: rotate(-10deg) scale(1.1) skew(-5deg,5deg); opacity: 0.8; }
+      40% { transform: rotate(-10deg) scale(0.9) skew(5deg,-5deg); opacity: 0.6; }
+      60% { transform: rotate(-10deg) scale(1.2) skew(-3deg,3deg); opacity: 0.9; }
     }
   </style>
 </head>
@@ -284,7 +281,7 @@
     </a>
   </div>
 
-  <!-- Question Mark -->
+  <!-- Question Mark (Static Top-Left) -->
   <a href="question.html" class="question-link" id="questionMark">
     <img src="question.png" alt="?" />
   </a>
@@ -312,7 +309,6 @@
     const playPauseBtn = document.getElementById('playPauseBtn');
     const volumeSlider = document.getElementById('volumeSlider');
     const toggleMode = document.getElementById('toggleMode');
-    const questionMark = document.getElementById('questionMark');
 
     video.addEventListener('canplaythrough', () => {
       loader.classList.add('hidden');
@@ -337,29 +333,6 @@
     toggleMode.addEventListener('click', () => {
       document.body.classList.toggle('dark');
     });
-
-    // Teleport question mark every 2 seconds with glitch effect
-    setInterval(() => {
-      const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
-
-      let x = Math.random() * (screenWidth - 120);
-      let y = Math.random() * (screenHeight - 120);
-
-      // Avoid central heading area
-      if (y < screenHeight * 0.2 && x > screenWidth * 0.3 && x < screenWidth * 0.7) {
-        y += screenHeight * 0.3;
-      }
-
-      questionMark.style.left = `${x}px`;
-      questionMark.style.top = `${y}px`;
-
-      // Trigger glitch animation
-      questionMark.classList.add('glitching');
-      setTimeout(() => {
-        questionMark.classList.remove('glitching');
-      }, 400);
-    }, 2000);
   </script>
 </body>
 </html>
