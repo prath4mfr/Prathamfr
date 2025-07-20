@@ -68,7 +68,7 @@
       top: calc(33% + 70px); /* 36px img + padding + 20px gap */
     }
 
-    /* 🌀 Loading Spinner */
+    /* Loader */
     #loader {
       position: fixed;
       top: 0;
@@ -215,53 +215,96 @@
         background-color: rgba(255, 255, 255, 0.5);
       }
     }
+
+    /* Question Mark Button */
+    .question-link {
+      position: fixed;
+      top: 50px;       /* Below toggle */
+      right: 20px;
+      transform: rotate(-10deg);
+      z-index: 11;
+      display: inline-block;
+      cursor: pointer;
+      animation: subtleGlow 3s infinite ease-in-out;
+    }
+
+    .question-link img {
+      width: 50px;
+      height: auto;
+      filter: brightness(1) contrast(1);
+    }
+
+    @keyframes subtleGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)) drop-shadow(0 0 10px rgba(0,0,0,0.5));
+      }
+      50% {
+        filter: drop-shadow(0 0 12px rgba(255,255,255,0.6)) drop-shadow(0 0 15px rgba(0,0,0,0.7));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .question-link {
+        top: 70px;
+        right: 15px;
+        transform: rotate(-5deg);
+      }
+      .question-link img {
+        width: 40px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- 🔄 Loader -->
+  <!-- Loader -->
   <div id="loader">
     <img src="lunloading.jpg" alt="Loading..." />
   </div>
 
-  <!-- 🎥 Video Background -->
+  <!-- Background Video -->
   <video class="video-bg" autoplay muted loop playsinline id="bgVideo">
     <source src="baawe.mp4" type="video/mp4" />
   </video>
 
-  <!-- 🎨 Heading -->
+  <!-- Heading -->
   <img src="graph.png" alt="PRATH4M" class="graffiti-heading" />
 
-  <!-- 👤 Who is Pratham -->
+  <!-- Who is Pratham -->
   <div class="whois-box">
     <a href="whoispratham.html">
       <img src="whoispratham.png" alt="Who is Pratham?" />
     </a>
   </div>
 
-  <!-- 🎮 Games -->
+  <!-- Games -->
   <div class="game-box">
     <a href="gayme.html">
       <img src="game.png" alt="Games" />
     </a>
   </div>
 
-  <!-- 🔙 Back Button -->
+  <!-- Back Button -->
   <a href="index.html" class="back-button">BACK</a>
 
-  <!-- 🔊 Music Controls -->
+  <!-- Music Controls -->
   <div class="music-controls">
     <button id="playPauseBtn">⏸</button>
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
   </div>
 
-  <!-- 🌗 Dark Mode Toggle -->
+  <!-- Dark Mode Toggle -->
   <button class="toggle-btn" id="toggleMode">🌗</button>
 
-  <!-- 🎵 Audio -->
+  <!-- Question Mark Button -->
+  <a href="question.html" class="question-link">
+    <img src="question.png" alt="?" />
+  </a>
+
+  <!-- Audio -->
   <audio id="bgMusic" src="CGPA.mp3" autoplay loop></audio>
 
-  <!-- 📜 Script -->
+  <!-- Script -->
   <script>
     const loader = document.getElementById('loader');
     const video = document.getElementById('bgVideo');
