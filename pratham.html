@@ -24,12 +24,6 @@
       transition: filter 0.5s ease;
     }
 
-    @media (max-width: 768px) {
-      .video-bg {
-        object-position: 20% center;
-      }
-    }
-
     .graffiti-heading {
       position: absolute;
       top: 10%;
@@ -40,9 +34,7 @@
       z-index: 3;
     }
 
-    .whois-box,
-    .game-box,
-    .danger-box {
+    .whois-box, .game-box, .danger-box {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
@@ -54,41 +46,28 @@
       animation: shimmer 3s infinite ease-in-out;
     }
 
-    .whois-box img,
-    .game-box img,
-    .danger-box img {
+    .whois-box img, .game-box img, .danger-box img {
       height: 36px;
-      width: auto;
       display: block;
     }
 
-    .whois-box {
-      top: 33%;
-    }
-
-    .game-box {
-      top: calc(33% + 70px);
-    }
-
+    .whois-box { top: 33%; }
+    .game-box { top: calc(33% + 70px); }
     .danger-box {
       top: calc(33% + 140px);
-      animation: violentShake 0.5s infinite, redFlicker 1s infinite alternate;
+      animation: shakeRed 1s infinite;
     }
 
-    /* Violent Shake Animation */
-    @keyframes violentShake {
-      0% { transform: translateX(-50%) rotate(0deg); }
-      20% { transform: translateX(-50%) rotate(3deg); }
-      40% { transform: translateX(-50%) rotate(-3deg); }
-      60% { transform: translateX(-50%) rotate(3deg); }
-      80% { transform: translateX(-50%) rotate(-3deg); }
-      100% { transform: translateX(-50%) rotate(0deg); }
+    @keyframes shimmer {
+      0%, 100% { background-color: rgba(0,0,0,0.35); }
+      50% { background-color: rgba(0,0,0,0.5); }
     }
 
-    /* Red Flicker Glow */
-    @keyframes redFlicker {
-      0% { box-shadow: 0 0 10px red, 0 0 20px red; background: rgba(255,0,0,0.2); }
-      100% { box-shadow: 0 0 40px red, 0 0 80px red; background: rgba(255,0,0,0.4); }
+    @keyframes shakeRed {
+      0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); filter: drop-shadow(0 0 6px red); }
+      25% { transform: translateX(-48%) translateY(-2px) rotate(-3deg); }
+      50% { transform: translateX(-52%) translateY(2px) rotate(3deg); }
+      75% { transform: translateX(-48%) translateY(-2px) rotate(-3deg); }
     }
 
     /* Loader */
@@ -114,7 +93,7 @@
     }
 
     @keyframes spin {
-      0%   { transform: rotate(0deg); }
+      0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
 
@@ -127,33 +106,25 @@
       position: fixed;
       bottom: 20px;
       left: 20px;
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0,0,0,0.45);
       color: white;
       padding: 10px 18px;
       border-radius: 12px;
-      font-size: 1rem;
+      z-index: 10;
       text-decoration: none;
       backdrop-filter: blur(6px);
-      z-index: 10;
-      transition: all 0.3s ease;
-    }
-
-    .back-button:hover {
-      background: rgba(255, 255, 255, 0.85);
-      color: black;
     }
 
     .music-controls {
       position: fixed;
       bottom: 80px;
       left: 20px;
-      background: rgba(0, 0, 0, 0.45);
-      padding: 10px;
-      border-radius: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      background: rgba(0,0,0,0.45);
+      padding: 10px;
+      border-radius: 12px;
       z-index: 10;
       backdrop-filter: blur(6px);
     }
@@ -164,11 +135,14 @@
       color: white;
       font-size: 1.2rem;
       cursor: pointer;
+      margin-bottom: 5px;
     }
 
     .music-controls input[type="range"] {
-      transform: rotate(-90deg);
-      width: 100px;
+      writing-mode: bt-lr;
+      -webkit-appearance: slider-vertical;
+      width: 8px;
+      height: 100px;
     }
 
     .toggle-btn {
@@ -177,107 +151,87 @@
       right: 20px;
       z-index: 10;
       padding: 10px 14px;
-      border-radius: 10px;
       border: none;
-      background: rgba(255, 255, 255, 0.3);
-      color: black;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.3);
       cursor: pointer;
-      backdrop-filter: blur(5px);
     }
 
     .dark .video-bg {
       filter: invert(1);
     }
 
-    @media (max-width: 768px) {
-      .graffiti-heading {
-        width: 65vw;
-      }
-
-      .whois-box {
-        top: 27%;
-        background: rgba(255, 255, 255, 0.35);
-        padding: 8px 15px;
-        animation: shimmerLight 3s infinite ease-in-out;
-      }
-
-      .whois-box img {
-        height: 26px;
-        filter: brightness(0);
-      }
-
-      .game-box {
-        top: calc(27% + 60px);
-        background: rgba(255, 255, 255, 0.35);
-        padding: 8px 15px;
-        animation: shimmerLight 3s infinite ease-in-out;
-      }
-
-      .game-box img {
-        height: 26px;
-        filter: brightness(0);
-      }
-
-      .danger-box {
-        top: calc(27% + 120px);
-        background: rgba(0, 0, 0, 0.5);
-        padding: 8px 15px;
-      }
-
-      .danger-box img {
-        height: 26px;
-        filter: brightness(0) drop-shadow(0 0 12px red);
-      }
-
-      .music-controls input[type="range"] {
-        width: 80px;
-      }
+    /* Pass PNG */
+    .pass-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 90px;
+      filter: grayscale(1) brightness(0.8);
+      cursor: pointer;
+      z-index: 12;
+      transition: transform 0.3s ease;
     }
 
-    @keyframes shimmer {
-      0%, 100% {
-        background-color: rgba(0, 0, 0, 0.35);
-      }
-      50% {
-        background-color: rgba(0, 0, 0, 0.5);
-      }
+    /* Fullscreen Modal */
+    .pass-modal {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 90px;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.6s ease;
+      z-index: 20;
+      display: none;
     }
 
-    @keyframes shimmerLight {
-      0%, 100% {
-        background-color: rgba(255, 255, 255, 0.35);
-      }
-      50% {
-        background-color: rgba(255, 255, 255, 0.5);
-      }
+    .pass-modal.active {
+      display: block;
+      bottom: 50%;
+      right: 50%;
+      transform: translate(50%,50%) scale(1);
+      opacity: 1;
     }
 
+    .pass-modal img {
+      width: 70vw;
+      max-width: 600px;
+      display: block;
+      margin: auto;
+    }
+
+    .close-pass {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    /* Question Icon */
     .question-link {
       position: fixed;
       top: 20px;
       left: 20px;
       z-index: 5;
-      cursor: pointer;
-      animation: subtleGlow 3s infinite ease-in-out, glitchEffect 4s infinite ease-in-out;
+      animation: subtleGlow 3s infinite;
     }
 
     .question-link img {
       width: 100px;
-      height: auto;
-      transform: rotate(-10deg);
       filter: brightness(0);
     }
 
     @media (max-width: 768px) {
-      .question-link {
-        top: 10px;
-        left: 10px;
-      }
-
-      .question-link img {
-        width: 60px;
-        filter: brightness(0) drop-shadow(0 0 8px rgba(255,255,255,0.8)) drop-shadow(0 0 15px rgba(255,255,255,0.6));
-      }
+      .graffiti-heading { width: 65vw; }
+      .question-link img { width: 60px; filter: brightness(0) drop-shadow(0 0 8px white); }
+      .pass-icon { width: 60px; bottom: 15px; right: 15px; }
+      .pass-modal img { width: 90vw; }
     }
   </style>
 </head>
@@ -296,31 +250,22 @@
   <!-- Heading -->
   <img src="graph.png" alt="PRATH4M" class="graffiti-heading" />
 
-  <!-- Who is Pratham -->
-  <div class="whois-box">
-    <a href="whoispratham.html">
-      <img src="whoispratham.png" alt="Who is Pratham?" />
-    </a>
-  </div>
+  <!-- Buttons -->
+  <div class="whois-box"><a href="whoispratham.html"><img src="whoispratham.png" /></a></div>
+  <div class="game-box"><a href="gayme.html"><img src="game.png" /></a></div>
+  <div class="danger-box"><a href="danger.html"><img src="danger.png" /></a></div>
 
-  <!-- Games -->
-  <div class="game-box">
-    <a href="gayme.html">
-      <img src="game.png" alt="Games" />
-    </a>
-  </div>
+  <!-- Question -->
+  <a href="question.html" class="question-link"><img src="question.png" alt="?"/></a>
 
-  <!-- Danger (Shaking Red) -->
-  <div class="danger-box">
-    <a href="danger.html">
-      <img src="danger.png" alt="Danger" />
-    </a>
-  </div>
+  <!-- Pass PNG -->
+  <img src="pass.png" alt="Pass" class="pass-icon" id="passIcon" />
 
-  <!-- Question Mark -->
-  <a href="question.html" class="question-link" id="questionMark">
-    <img src="question.png" alt="?" />
-  </a>
+  <!-- Modal -->
+  <div class="pass-modal" id="passModal">
+    <button class="close-pass" id="closePass">Back</button>
+    <img src="pass-color.png" alt="Pass Expanded" />
+  </div>
 
   <!-- Back Button -->
   <a href="index.html" class="back-button">BACK</a>
@@ -331,42 +276,39 @@
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
   </div>
 
-  <!-- Dark Mode Toggle -->
+  <!-- Dark Toggle -->
   <button class="toggle-btn" id="toggleMode">🌗</button>
 
-  <!-- Audio -->
   <audio id="bgMusic" src="CGPA.mp3" autoplay loop></audio>
 
-  <!-- Script -->
   <script>
     const loader = document.getElementById('loader');
-    const video = document.getElementById('bgVideo');
     const music = document.getElementById('bgMusic');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const volumeSlider = document.getElementById('volumeSlider');
-    const toggleMode = document.getElementById('toggleMode');
+    const passIcon = document.getElementById('passIcon');
+    const passModal = document.getElementById('passModal');
+    const closePass = document.getElementById('closePass');
 
-    video.addEventListener('canplaythrough', () => {
-      loader.classList.add('hidden');
-    });
-
+    loader.addEventListener('transitionend', () => loader.remove());
     music.volume = 0.5;
 
     playPauseBtn.addEventListener('click', () => {
-      if (music.paused) {
-        music.play();
-        playPauseBtn.textContent = '⏸';
-      } else {
-        music.pause();
-        playPauseBtn.textContent = '▶️';
-      }
+      if (music.paused) { music.play(); playPauseBtn.textContent = '⏸'; }
+      else { music.pause(); playPauseBtn.textContent = '▶️'; }
     });
 
-    volumeSlider.addEventListener('input', () => {
-      music.volume = volumeSlider.value;
+    volumeSlider.addEventListener('input', () => music.volume = volumeSlider.value);
+
+    passIcon.addEventListener('click', () => {
+      passModal.classList.add('active');
     });
 
-    toggleMode.addEventListener('click', () => {
+    closePass.addEventListener('click', () => {
+      passModal.classList.remove('active');
+    });
+
+    document.getElementById('toggleMode').addEventListener('click', () => {
       document.body.classList.toggle('dark');
     });
   </script>
