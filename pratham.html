@@ -216,22 +216,36 @@
       }
     }
 
-    /* Question Mark (Top-Left, solid black) */
+    <style>
+  /* Existing question mark styles (desktop) */
+  .question-link {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 5;
+    cursor: pointer;
+    animation: subtleGlow 3s infinite ease-in-out, glitchEffect 4s infinite ease-in-out;
+  }
+
+  .question-link img {
+    width: 100px;
+    height: auto;
+    transform: rotate(-10deg);
+    filter: brightness(0); /* Black only */
+  }
+
+  /* On mobile: make it smaller & closer to corner */
+  @media (max-width: 768px) {
     .question-link {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 5;
-      cursor: pointer;
+      top: 10px;
+      left: 10px;
     }
 
     .question-link img {
-      width: 100px;
-      height: auto;
-      transform: rotate(-10deg);
-      filter: brightness(0); /* Forces pure black */
+      width: 60px;  /* Smaller size */
     }
-  </style>
+  }
+</style>
 </head>
 <body>
 
