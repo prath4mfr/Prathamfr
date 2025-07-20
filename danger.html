@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DANGER</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Base Eye Styling */
+    .eye {
+      position: absolute;
+      background: url('eye.png') no-repeat center/contain;
+      animation: blink 3s infinite, bleed 4s infinite;
+      filter: drop-shadow(0 0 10px red);
+      opacity: 0.8;
+    }
+
+    /* Random blinking animation */
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); opacity: 1; }
+      92%, 96% { transform: scaleY(0.1); opacity: 0.4; }
+    }
+
+    /* Bleeding effect */
+    @keyframes bleed {
+      0%, 100% { filter: drop-shadow(0 0 5px red); }
+      50% { filter: drop-shadow(0 0 20px crimson); }
+    }
+
+    /* Red overlay flicker */
+    .red-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255,0,0,0.05);
+      mix-blend-mode: screen;
+      animation: flicker 1.5s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.05; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Back button */
+    .back-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      backdrop-filter: blur(5px);
+      z-index: 999;
+    }
+    .back-btn:hover { background: rgba(255,0,0,0.8); }
+
+    /* Mobile scaling */
+    @media (max-width: 768px) {
+      .eye { opacity: 0.7; }
+      .back-btn { font-size: 1rem; padding: 8px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Red Flicker Overlay -->
+  <div class="red-overlay"></div>
+
+  <!-- Back Button -->
+  <a href="index.html" class="back-btn">BACK</a>
+
+  <!-- Creepy Audio -->
+  <audio id="demonAudio" src="demon.mp3" autoplay loop></audio>
+
+  <script>
+    const totalEyes = 30; // Number of eyes to spawn
+    const body = document.body;
+
+    for (let i = 0; i < totalEyes; i++) {
+      const eye = document.createElement('div');
+      eye.classList.add('eye');
+
+      // Random size (30px to 200px)
+      const size = Math.floor(Math.random() * 170) + 30;
+      eye.style.width = `${size}px`;
+      eye.style.height = `${size}px`;
+
+      // Random position
+      const x = Math.random() * 100;
+      const y = Math.random() * 100;
+      eye.style.left = `${x}%`;
+      eye.style.top = `${y}%`;
+      eye.style.transform += ` rotate(${Math.random() * 360}deg)`;
+
+      // Random blink speed
+      const blinkSpeed = (Math.random() * 3 + 1).toFixed(1);
+      eye.style.animationDuration = `${blinkSpeed}s, 4s`;
+
+      body.appendChild(eye);
+    }
+  </script>
+</body>
+</html>
