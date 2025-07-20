@@ -65,7 +65,7 @@
     }
 
     .game-box {
-      top: calc(33% + 70px); /* 36px img + padding + 20px gap */
+      top: calc(33% + 70px);
     }
 
     /* Loader */
@@ -216,20 +216,19 @@
       }
     }
 
-    /* Question Mark Button */
+    /* Question Mark */
     .question-link {
       position: absolute;
       z-index: 5;
-      display: inline-block;
       cursor: pointer;
       animation: subtleGlow 3s infinite ease-in-out;
     }
 
     .question-link img {
-      width: 70px;
+      width: 100px; /* Large size */
       height: auto;
-      filter: brightness(1) contrast(1);
       transform: rotate(-10deg);
+      filter: brightness(1) contrast(1);
     }
 
     @keyframes subtleGlow {
@@ -325,12 +324,22 @@
       document.body.classList.toggle('dark');
     });
 
-    // Teleport question mark every 2 seconds near the Games button
+    // Teleport question mark every 2 seconds to a random spot (avoiding overlap zones)
     setInterval(() => {
-      const xOffset = 120 + Math.random() * 60; // Random horizontal offset
-      const yOffset = 60 + Math.random() * 40;  // Random vertical offset
-      questionMark.style.top = `calc(33% + ${70 + yOffset}px)`;
-      questionMark.style.left = `calc(50% + ${xOffset}px)`;
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+
+      // Avoid central elements (Whois/Games/Heading areas)
+      let x = Math.random() * (screenWidth - 120);
+      let y = Math.random() * (screenHeight - 120);
+
+      // Avoid the top heading & center blocks (rough exclusion zones)
+      if (y < screenHeight * 0.2 && x > screenWidth * 0.3 && x < screenWidth * 0.7) {
+        y += screenHeight * 0.3; // Push it lower if too near the heading
+      }
+
+      questionMark.style.left = `${x}px`;
+      questionMark.style.top = `${y}px`;
     }, 2000);
   </script>
 </body>
