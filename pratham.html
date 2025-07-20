@@ -222,13 +222,13 @@
       z-index: 5;
       cursor: pointer;
       animation: subtleGlow 3s infinite ease-in-out;
+      mix-blend-mode: difference; /* INVERTS against background */
     }
 
     .question-link img {
       width: 100px;
       height: auto;
       transform: rotate(-10deg);
-      filter: brightness(1) contrast(1);
     }
 
     @keyframes subtleGlow {
@@ -240,13 +240,13 @@
       }
     }
 
-    /* Glitch animation for teleport */
+    /* Glitch animation */
     @keyframes glitchEffect {
-      0% { transform: scale(1) skew(0deg, 0deg); filter: hue-rotate(0deg); opacity: 1; }
-      25% { transform: scale(1.1) skew(-5deg, 5deg); filter: hue-rotate(90deg); opacity: 0.8; }
-      50% { transform: scale(0.9) skew(5deg, -5deg); filter: hue-rotate(180deg); opacity: 0.6; }
-      75% { transform: scale(1.2) skew(-3deg, 3deg); filter: hue-rotate(270deg); opacity: 0.9; }
-      100% { transform: scale(1) skew(0deg, 0deg); filter: hue-rotate(0deg); opacity: 1; }
+      0% { transform: scale(1) skew(0deg, 0deg); opacity: 1; }
+      25% { transform: scale(1.1) skew(-5deg, 5deg); opacity: 0.8; }
+      50% { transform: scale(0.9) skew(5deg, -5deg); opacity: 0.6; }
+      75% { transform: scale(1.2) skew(-3deg, 3deg); opacity: 0.9; }
+      100% { transform: scale(1) skew(0deg, 0deg); opacity: 1; }
     }
 
     .glitching {
@@ -337,7 +337,7 @@
       document.body.classList.toggle('dark');
     });
 
-    // Teleport question mark every 2 seconds with glitch effect
+    // Teleport with glitch + stays visible on any background
     setInterval(() => {
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
@@ -345,7 +345,6 @@
       let x = Math.random() * (screenWidth - 120);
       let y = Math.random() * (screenHeight - 120);
 
-      // Avoid central heading area
       if (y < screenHeight * 0.2 && x > screenWidth * 0.3 && x < screenWidth * 0.7) {
         y += screenHeight * 0.3;
       }
@@ -353,11 +352,10 @@
       questionMark.style.left = `${x}px`;
       questionMark.style.top = `${y}px`;
 
-      // Trigger glitch animation
       questionMark.classList.add('glitching');
       setTimeout(() => {
         questionMark.classList.remove('glitching');
-      }, 400); // Match animation duration
+      }, 400);
     }, 2000);
   </script>
 </body>
