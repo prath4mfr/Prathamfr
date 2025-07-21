@@ -36,7 +36,6 @@
       text-align: center;
       box-shadow: 0 0 20px rgba(0,0,0,0.3);
     }
-
     .menu h1 {
       font-family: 'Dancing Script', cursive;
       font-size: 60px;
@@ -79,7 +78,7 @@
     }
     .easter-egg img:hover { transform: scale(1.2) rotate(10deg); }
 
-    /* Bounce animation for Kuromi */
+    /* Bounce animation */
     @keyframes kuromiBounce {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
@@ -164,7 +163,6 @@
       border-radius: 20px;
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
-
   </style>
 </head>
 <body class="home-page">
@@ -177,14 +175,14 @@
   <a href="music.html" class="floating-link purple-link">Music</a>
   <a href="feedback.html" class="floating-link blue-link" style="top:80%; left:35%;">Feedback</a>
 
-  <!-- Easter Egg (Kuromi) -->
+  <!-- Kuromi Easter Egg -->
   <div class="easter-egg" id="kuromiTrigger">
     <img src="kuromi.png" alt="Secret Kuromi">
   </div>
 
   <!-- Video Popup -->
   <div id="videoPopup">
-    <video id="popupVideo" autoplay controls>
+    <video id="popupVideo" controls>
       <source src="stateside.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -204,7 +202,7 @@
   </audio>
 
   <script>
-    // Floating Hearts Generator
+    // Floating Hearts
     function createHeart() {
       const heart = document.createElement('div');
       heart.classList.add('heart');
@@ -218,34 +216,34 @@
     const music = document.getElementById('bgMusic');
     const control = document.getElementById('musicControl');
     const volumeSlider = document.getElementById('volumeSlider');
-    music.volume = 0.5;  // Start at 50%
+    music.volume = 0.5;
     volumeSlider.value = 0.5;
 
     window.addEventListener('load', () => { music.play().catch(()=>{}); });
     control.addEventListener('click', () => {
-      if (music.paused) {
-        music.play(); control.textContent = 'Pause Music';
-      } else {
-        music.pause(); control.textContent = 'Play Music';
-      }
+      if (music.paused) { music.play(); control.textContent = 'Pause Music'; }
+      else { music.pause(); control.textContent = 'Play Music'; }
     });
-    volumeSlider.addEventListener('input', () => {
-      music.volume = volumeSlider.value;
-    });
+    volumeSlider.addEventListener('input', () => { music.volume = volumeSlider.value; });
 
-    // Kuromi Popup Video
+    // Video Popup - Only one audio at a time
     const kuromi = document.getElementById('kuromiTrigger');
     const popup = document.getElementById('videoPopup');
     const popupVideo = document.getElementById('popupVideo');
+
     kuromi.addEventListener('click', () => {
       popup.style.display = 'flex';
+      music.pause(); // Pause background music
       popupVideo.currentTime = 0;
       popupVideo.play();
     });
+
+    // Close popup on outside click
     popup.addEventListener('click', (e) => {
       if (e.target === popup) {
         popup.style.display = 'none';
         popupVideo.pause();
+        music.play(); // Resume music when video closes
       }
     });
   </script>
