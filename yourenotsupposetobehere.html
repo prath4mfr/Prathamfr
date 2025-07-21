@@ -67,9 +67,9 @@
       90% { transform: translate(-60px,30px) rotate(-6deg); }
     }
     .shake { animation: shakeScreen 0.2s ease-in-out; }
-    .shakeCrazy { animation: shakeInsane 0.05s infinite; } /* Faster shake in end */
+    .shakeCrazy { animation: shakeInsane 0.05s infinite; }
 
-    /* Death flicker image & glitch effect */
+    /* Death PNG layer */
     #deathFlicker {
       position: fixed;
       top: 0;
@@ -89,7 +89,18 @@
       100% { transform: scale(1) translate(0,0) rotate(0deg); }
     }
 
-    /* Creepy text overlay */
+    /* Color strobe overlay (does NOT overwrite PNG) */
+    #colorFlash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5500;
+      display: none;
+      mix-blend-mode: screen;
+    }
+
     #deathText {
       position: fixed;
       top: 50%;
@@ -121,12 +132,14 @@
 <body>
   <div id="terminalBox"></div>
   <div id="deathFlicker"></div>
+  <div id="colorFlash"></div>
   <div id="deathText">DEATH IS COMING</div>
   <div class="blackout" id="blackout"></div>
 
   <script>
     const terminalBox = document.getElementById("terminalBox");
     const deathFlicker = document.getElementById("deathFlicker");
+    const colorFlash = document.getElementById("colorFlash");
     const deathText = document.getElementById("deathText");
     const blackout = document.getElementById("blackout");
 
@@ -173,23 +186,24 @@
       setTimeout(() => document.body.classList.remove("shake"), 200);
     }, 4000);
 
-    // Insane shaking + death flicker
+    // Insane shaking + flicker
     setTimeout(() => {
       document.body.classList.add("shakeCrazy");
       deathFlicker.style.display = "block";
       deathText.style.display = "block";
+      colorFlash.style.display = "block";
 
       const colors = ["black", "white", "yellow", "blue"];
       let i = 0;
       const flick = setInterval(() => {
-        deathFlicker.style.backgroundColor = colors[i % colors.length];
+        colorFlash.style.backgroundColor = colors[i % colors.length];
         i++;
       }, 10);
 
-      // After 6 sec, blackout + redirect
       setTimeout(() => {
         clearInterval(flick);
         deathFlicker.style.display = "none";
+        colorFlash.style.display = "none";
         deathText.style.display = "none";
         blackout.style.display = "block";
         window.location.href = "index.html";
