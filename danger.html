@@ -16,26 +16,38 @@
       font-family: 'Courier New', monospace;
     }
 
-    /* Eye GIF */
+    /* Moving Eyes */
     .eye {
       position: absolute;
       background: url('eye.gif') no-repeat center/contain;
       opacity: 0.9;
       pointer-events: none;
+      animation: moveAround linear infinite;
     }
 
+    /* Eyes drift randomly */
+    @keyframes moveAround {
+      0%   { transform: translate(0, 0) rotate(var(--rotation)); }
+      25%  { transform: translate(100px, -50px) rotate(var(--rotation)); }
+      50%  { transform: translate(-150px, 80px) rotate(var(--rotation)); }
+      75%  { transform: translate(200px, -120px) rotate(var(--rotation)); }
+      100% { transform: translate(0, 0) rotate(var(--rotation)); }
+    }
+
+    /* Pulse and Shake */
     @keyframes pulse {
       0%, 100% { transform: scale(1) rotate(var(--rotation)); }
-      50% { transform: scale(1.1) rotate(var(--rotation)); }
+      50% { transform: scale(1.2) rotate(var(--rotation)); }
     }
     @keyframes shake {
       0% { transform: translate(0,0) rotate(var(--rotation)); }
-      25% { transform: translate(-5px,5px) rotate(var(--rotation)); }
-      50% { transform: translate(5px,-5px) rotate(var(--rotation)); }
-      75% { transform: translate(-5px,-5px) rotate(var(--rotation)); }
-      100% { transform: translate(5px,5px) rotate(var(--rotation)); }
+      25% { transform: translate(-10px,10px) rotate(var(--rotation)); }
+      50% { transform: translate(10px,-10px) rotate(var(--rotation)); }
+      75% { transform: translate(-10px,-10px) rotate(var(--rotation)); }
+      100% { transform: translate(10px,10px) rotate(var(--rotation)); }
     }
 
+    /* Red flicker background */
     .red-overlay {
       position: absolute;
       top: 0; left: 0;
@@ -51,7 +63,7 @@
       50% { opacity: 0.2; }
     }
 
-    /* Quick Red Flash Warning */
+    /* Ghostly Warning Text */
     .flash-warning {
       position: fixed;
       top: 0; left: 0;
@@ -61,30 +73,28 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 3vw;
+      font-size: 8vw;
       font-weight: bold;
       font-family: "Creepster", cursive, monospace;
-      text-shadow: 0 0 15px darkred, 0 0 30px red;
+      text-shadow: 0 0 25px #300, 0 0 50px #900;
       opacity: 0;
       pointer-events: none;
       z-index: 999;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.1s ease;
     }
     .flash-warning.active { opacity: 1; }
 
-    /* Password Box */
+    /* Transparent Password Box */
     .password-box {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(20,20,20,0.8);
-      border: 2px solid red;
+      background: transparent;
       padding: 20px;
-      border-radius: 8px;
       z-index: 1000;
       display: flex;
-      flex-direction: column;
+      gap: 10px;
       align-items: center;
     }
     .password-box input {
@@ -96,7 +106,37 @@
       text-align: center;
       outline: none;
       caret-color: red;
-      width: 200px;
+      width: 220px;
+    }
+    .password-box button {
+      background: none;
+      border: none;
+      color: crimson;
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+
+    /* Music Controls */
+    .music-controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: white;
+      font-size: 1rem;
+    }
+    .music-controls button {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid crimson;
+      color: white;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .music-controls input[type="range"] {
+      width: 100px;
     }
 
     /* Back Button */
@@ -113,13 +153,11 @@
       backdrop-filter: blur(5px);
       z-index: 1000;
     }
-    .back-btn:hover {
-      background: rgba(255,0,0,0.8);
-    }
+    .back-btn:hover { background: rgba(255,0,0,0.8); }
 
     @media (max-width: 768px) {
       .eye { opacity: 0.8; }
-      .flash-warning { font-size: 5vw; }
+      .flash-warning { font-size: 12vw; }
       .back-btn { font-size: 1rem; padding: 8px 14px; }
     }
   </style>
@@ -132,74 +170,86 @@
   <!-- Password Box -->
   <div class="password-box">
     <input type="password" id="secretInput" maxlength="20" autofocus />
+    <button id="toggleEye">👁️</button>
+  </div>
+
+  <!-- Music Controls -->
+  <div class="music-controls">
+    <button id="toggleMusic">Pause</button>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
   </div>
 
   <!-- Back Button -->
   <a href="pratham.html" class="back-btn">BACK</a>
+
+  <!-- Audio -->
   <audio id="demonAudio" src="dumbo.mp3" autoplay loop></audio>
 
   <script>
-    const totalEyes = 40;
+    const totalEyes = 35;
     const body = document.body;
-    const placed = [];
 
-    // Avoid overlaps
-    function isOverlapping(x, y, size) {
-      return placed.some(pos => {
-        const dx = x - pos.x;
-        const dy = y - pos.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        return distance < (size + pos.size) / 2 + 30; // extra spacing
-      });
-    }
-
+    // Create and move eyes randomly
     for (let i = 0; i < totalEyes; i++) {
       const eye = document.createElement('div');
       eye.classList.add('eye');
-      const size = Math.floor(Math.random() * 150) + 40;
+
+      const size = Math.floor(Math.random() * 120) + 40;
       eye.style.width = `${size}px`;
       eye.style.height = `${size}px`;
 
-      let x, y, attempts = 0;
-      do {
-        x = Math.random() * (window.innerWidth - size);
-        y = Math.random() * (window.innerHeight - size);
-        attempts++;
-        if (attempts > 1000) break;
-      } while (isOverlapping(x, y, size));
-      placed.push({ x, y, size });
-
+      const x = Math.random() * (window.innerWidth - size);
+      const y = Math.random() * (window.innerHeight - size);
       eye.style.left = `${x}px`;
       eye.style.top = `${y}px`;
 
       const rotation = `${Math.floor(Math.random() * 360)}deg`;
       eye.style.setProperty('--rotation', rotation);
 
-      if (Math.random() > 0.7) {
-        const speed = (Math.random() * 0.5 + 0.5).toFixed(2);
-        eye.style.animation = `shake ${speed}s infinite`;
-      } else {
-        const speed = (Math.random() * 2 + 2).toFixed(2);
-        eye.style.animation = `pulse ${speed}s infinite`;
-      }
+      // Random animation speed
+      const speed = (Math.random() * 15 + 10).toFixed(2);
+      eye.style.animationDuration = `${speed}s`;
+
       body.appendChild(eye);
     }
 
-    // Quick warning flash every 10-20s
+    // Quick red flash every 5-15 seconds
     const warning = document.getElementById('warningText');
     function flash() {
       warning.classList.add('active');
-      setTimeout(() => warning.classList.remove('active'), 500); // 0.5 sec flash
-      setTimeout(flash, Math.random() * 10000 + 10000); // 10-20s
+      setTimeout(() => warning.classList.remove('active'), 300);
+      setTimeout(flash, Math.random() * 10000 + 5000);
     }
-    setTimeout(flash, 8000);
+    setTimeout(flash, 5000);
 
-    // Password logic
+    // Password reveal + redirect
     const secretInput = document.getElementById('secretInput');
+    const toggleEye = document.getElementById('toggleEye');
+    toggleEye.addEventListener('click', () => {
+      secretInput.type = secretInput.type === 'password' ? 'text' : 'password';
+    });
     secretInput.addEventListener('input', () => {
       if (secretInput.value === '06/09/2069') {
         window.location.href = 'yourenotsupposetobehere.html';
       }
+    });
+
+    // Music Controls
+    const demonAudio = document.getElementById('demonAudio');
+    const toggleMusic = document.getElementById('toggleMusic');
+    const volumeSlider = document.getElementById('volumeSlider');
+
+    toggleMusic.addEventListener('click', () => {
+      if (demonAudio.paused) {
+        demonAudio.play();
+        toggleMusic.textContent = 'Pause';
+      } else {
+        demonAudio.pause();
+        toggleMusic.textContent = 'Play';
+      }
+    });
+    volumeSlider.addEventListener('input', () => {
+      demonAudio.volume = volumeSlider.value;
     });
   </script>
 </body>
