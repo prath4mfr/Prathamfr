@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="favicon1.png" />
+</head>
+<body class="home-page">
+  <div class="menu">
+    <img src="logo.jpg.webp" class="logo" alt="Logo">
+    <h1>PR4THAM!</h1>
+  </div>
+
+  <!-- Floating Links -->
+  <a href="slides.html" class="floating-link yellow-link">Reasons Why You Should</a>
+  <a href="music.html" class="floating-link purple-link">Music</a>
+  <a href="feedback.html" class="floating-link blue-link" style="top: 80%; left: 35%;">Feedback</a>
+
+
+  <!-- Easter Egg -->
+  <a href="secret.html" class="easter-egg">
+    <img src="kuromi.png" alt="Secret Kuromi">
+  </a>
+
+  <!-- Play/Pause Button -->
+  <button id="musicControl" class="music-control">Pause Music</button>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop autoplay>
+    <source src="illegal.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Floating Hearts
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }
+    setInterval(createHeart, 400);
+
+    // Music Control
+    const music = document.getElementById('bgMusic');
+    const control = document.getElementById('musicControl');
+
+    window.addEventListener('load', () => {
+      music.play().catch(() => {});
+    });
+
+    control.addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        control.textContent = 'Pause Music';
+      } else {
+        music.pause();
+        control.textContent = 'Play Music';
+      }
+    });
+  </script>
+</body>
+</html>
