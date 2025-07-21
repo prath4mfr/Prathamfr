@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>???</title>
+  <title>ACCESS OVERRIDE</title>
   <style>
     html, body {
       margin: 0;
@@ -10,36 +10,39 @@
       height: 100%;
       width: 100%;
       background: black;
+      overflow: hidden;
       color: #0f0;
       font-family: monospace;
-      font-size: 1.5rem;
-      overflow: hidden;
     }
 
-    /* Flickering Red Screen */
+    /* Flash Strobe */
     .flash {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: red;
       opacity: 0;
+      z-index: 2000;
       pointer-events: none;
-      z-index: 1000;
       transition: opacity 0.05s ease;
     }
 
-    /* Glitching hacker text */
-    #terminal {
-      white-space: pre-line;
-      padding: 20px;
-      animation: glitch 0.2s infinite;
-    }
-    @keyframes glitch {
-      0% { transform: translate(0,0); color: #0f0; }
-      25% { transform: translate(-2px,2px); color: #0f0; }
-      50% { transform: translate(2px,-2px); color: red; }
-      75% { transform: translate(-1px,1px); color: #0f0; }
-      100% { transform: translate(0,0); color: #0f0; }
+    /* Central Terminal Window */
+    #terminalBox {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 300px;
+      background: black;
+      border: 2px solid #0f0;
+      padding: 10px;
+      overflow: auto;
+      color: #0f0;
+      font-size: 12px;
+      z-index: 100;
+      box-shadow: 0 0 20px #0f0;
     }
 
     /* Popups */
@@ -48,111 +51,124 @@
       background: black;
       border: 1px solid red;
       color: white;
-      padding: 10px;
-      width: 200px;
-      height: 100px;
+      padding: 5px;
+      width: 150px;
+      height: 80px;
       text-align: center;
       z-index: 500;
-      font-size: 1rem;
-      animation: shake 0.3s infinite;
-    }
-    @keyframes shake {
-      0%, 100% { transform: translate(0,0); }
-      50% { transform: translate(2px,-2px); }
+      font-size: 12px;
+      box-shadow: 0 0 10px red;
+      animation: flick 0.5s infinite alternate;
     }
 
-    /* Camera shake */
-    @keyframes screenShake {
-      0%, 100% { transform: translate(0,0); }
-      20% { transform: translate(-20px,10px); }
-      40% { transform: translate(20px,-10px); }
-      60% { transform: translate(-15px,5px); }
-      80% { transform: translate(15px,-5px); }
-    }
-    .shaking {
-      animation: screenShake 0.3s ease-in-out 3;
+    @keyframes flick {
+      0% { opacity: 0.8; }
+      100% { opacity: 1; }
     }
 
-    /* Blackout */
+    /* Screen shake */
+    @keyframes shakeScreen {
+      0%, 100% { transform: translate(0,0); }
+      20% { transform: translate(-15px,10px); }
+      40% { transform: translate(15px,-10px); }
+      60% { transform: translate(-10px,5px); }
+      80% { transform: translate(10px,-5px); }
+    }
+    .shake {
+      animation: shakeScreen 0.3s ease-in-out;
+    }
+
+    /* Final Blackout */
     .blackout {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: black;
-      z-index: 2000;
       opacity: 0;
+      z-index: 3000;
       transition: opacity 0.5s ease;
     }
   </style>
 </head>
 <body>
-
-  <div id="terminal"></div>
+  <div id="terminalBox"></div>
   <div class="flash" id="flash"></div>
   <div class="blackout" id="blackout"></div>
 
-  <audio src="COMEAROUND.mp3" autoplay loop></audio>
-  <audio id="static" src="static.mp3" autoplay loop></audio>
-
   <script>
-    const terminal = document.getElementById("terminal");
+    const terminalBox = document.getElementById("terminalBox");
     const flash = document.getElementById("flash");
     const blackout = document.getElementById("blackout");
 
+    // Lots of fake hacking lines
     const lines = [
-      "Accessing mainframe...",
-      "Decrypting host files...",
-      "Injecting payload...",
-      "Establishing remote access...",
-      "ROOT ACCESS GRANTED",
-      "Erasing system logs...",
-      "Uploading tracker.exe...",
-      "SYSTEM BREACH COMPLETE"
+      "[INIT] Connecting to host...",
+      "[SCAN] Port 22 open.",
+      "[EXPLOIT] Injecting payload...",
+      "[OK] Bypassing security layers.",
+      "[TRACE] Disabling firewalls...",
+      "[LOOP] Generating fake keys...",
+      "[FORCE] Root shell opened.",
+      "[MIRROR] Uploading malware...",
+      "[LOG] Clearing system history...",
+      "[ALERT] Remote admin override.",
+      "[STACK] Buffer flooding...",
+      "[COMPLETE] Full control acquired.",
+      "[SILENT] Erasing evidence...",
+      "[EXIT] Session terminated.",
+      "[CRITICAL] Memory overwrite in progress.",
+      "[DONE] SYSTEM LOCKED."
     ];
 
-    let idx = 0;
-    function typeLine() {
-      if (idx < lines.length) {
-        terminal.textContent += lines[idx] + "\n";
-        idx++;
-        setTimeout(typeLine, 800);
+    let index = 0;
+    function typeNextLine() {
+      if (index < lines.length) {
+        terminalBox.textContent += lines[index] + "\n";
+        index++;
+        setTimeout(typeNextLine, 200);
       }
     }
-    typeLine();
+    typeNextLine();
 
-    // Red screen flash effect
-    function redFlash() {
-      flash.style.opacity = "1";
-      setTimeout(() => flash.style.opacity = "0", 100);
-      setTimeout(redFlash, Math.random() * 2000 + 1000);
+    // Red flash strobe (0.1s bursts for ~2s randomly)
+    function strobe() {
+      let flashes = 0;
+      const interval = setInterval(() => {
+        flash.style.opacity = (flash.style.opacity === "1") ? "0" : "1";
+        flashes++;
+        if (flashes > 20) { // ~2s of strobing
+          clearInterval(interval);
+          flash.style.opacity = "0";
+          setTimeout(strobe, Math.random() * 4000 + 3000); // wait 3-7s, repeat
+        }
+      }, 100);
     }
-    redFlash();
+    strobe();
 
-    // Screen shake randomly
-    setInterval(() => {
-      document.body.classList.add("shaking");
-      setTimeout(() => document.body.classList.remove("shaking"), 400);
-    }, 7000);
-
-    // Popups appear near end
+    // Spam popups everywhere after 5 seconds
     setTimeout(() => {
-      for (let i = 0; i < 25; i++) {
+      const spam = setInterval(() => {
         const popup = document.createElement("div");
         popup.classList.add("popup");
-        popup.style.left = Math.random() * (window.innerWidth - 220) + "px";
-        popup.style.top = Math.random() * (window.innerHeight - 120) + "px";
-        popup.textContent = "ERROR 666\nSYSTEM OVERRIDE";
+        popup.style.left = Math.random() * (window.innerWidth - 160) + "px";
+        popup.style.top = Math.random() * (window.innerHeight - 100) + "px";
+        popup.textContent = "BREACH DETECTED\nOVERRIDE ACTIVE";
         document.body.appendChild(popup);
-      }
-    }, 8000);
+        if (document.querySelectorAll(".popup").length > 50) clearInterval(spam);
+      }, 150);
+    }, 5000);
 
-    // Blackout then redirect
+    // Random screen shake
+    setInterval(() => {
+      document.body.classList.add("shake");
+      setTimeout(() => document.body.classList.remove("shake"), 400);
+    }, 5000);
+
+    // Final blackout and redirect
     setTimeout(() => {
       blackout.style.opacity = "1";
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 1500);
-    }, 12000);
+      setTimeout(() => window.location.href = "index.html", 2000);
+    }, 15000);
   </script>
 </body>
 </html>
