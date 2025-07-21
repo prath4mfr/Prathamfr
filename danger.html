@@ -23,7 +23,6 @@
       pointer-events: none;
     }
 
-    /* Flash warning */
     .flash-warning {
       position: fixed;
       top: 0; left: 0;
@@ -44,7 +43,6 @@
     }
     .flash-warning.active { opacity: 1; }
 
-    /* Transparent password box */
     .password-box {
       position: fixed;
       top: 50%;
@@ -76,7 +74,6 @@
       font-size: 1.5rem;
     }
 
-    /* Music Controls */
     .music-controls {
       position: fixed;
       top: 20px;
@@ -95,11 +92,8 @@
       padding: 5px 10px;
       cursor: pointer;
     }
-    .music-controls input[type="range"] {
-      width: 100px;
-    }
+    .music-controls input[type="range"] { width: 100px; }
 
-    /* Back Button */
     .back-btn {
       position: fixed;
       bottom: 20px;
@@ -141,16 +135,15 @@
   <audio id="demonAudio" src="dumbo.mp3" autoplay loop></audio>
 
   <script>
-    const totalEyes = 25;
+    const totalEyes = 80; // fill the screen with more eyes
     const eyes = [];
     const body = document.body;
 
-    // Spawn eyes with random motion vectors
     for (let i = 0; i < totalEyes; i++) {
       const eye = document.createElement('div');
       eye.classList.add('eye');
 
-      const size = Math.floor(Math.random() * 120) + 40;
+      const size = Math.floor(Math.random() * 80) + 30; // slightly smaller for more quantity
       eye.style.width = `${size}px`;
       eye.style.height = `${size}px`;
 
@@ -159,14 +152,14 @@
       eye.style.left = `${x}px`;
       eye.style.top = `${y}px`;
 
-      const dx = (Math.random() - 0.5) * 2;
-      const dy = (Math.random() - 0.5) * 2;
+      const dx = (Math.random() - 0.5) * 1.5;
+      const dy = (Math.random() - 0.5) * 1.5;
 
       eyes.push({ el: eye, x, y, dx, dy, size });
       body.appendChild(eye);
     }
 
-    // Move eyes + bounce logic
+    // Movement with bouncing
     function animate() {
       eyes.forEach((eye, i) => {
         eye.x += eye.dx;
@@ -175,7 +168,6 @@
         if (eye.x <= 0 || eye.x + eye.size >= window.innerWidth) eye.dx *= -1;
         if (eye.y <= 0 || eye.y + eye.size >= window.innerHeight) eye.dy *= -1;
 
-        // Bounce off other eyes
         for (let j = i + 1; j < eyes.length; j++) {
           const other = eyes[j];
           const dx = eye.x - other.x;
@@ -194,14 +186,14 @@
     }
     animate();
 
-    // Red flash effect every 3–8 seconds
+    // Faster red flash every 2–6 seconds
     const warning = document.getElementById('warningText');
     function flash() {
       warning.classList.add('active');
       setTimeout(() => warning.classList.remove('active'), 150);
-      setTimeout(flash, Math.random() * 5000 + 3000);
+      setTimeout(flash, Math.random() * 4000 + 2000);
     }
-    setTimeout(flash, 4000);
+    setTimeout(flash, 3000);
 
     // Password toggle + redirect
     const secretInput = document.getElementById('secretInput');
