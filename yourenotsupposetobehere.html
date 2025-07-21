@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>YOU SHOULD NOT BE HERE</title>
+  <title>INTRUSION DETECTED</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       background: black;
-      color: red;
+      color: lime;
       font-family: monospace;
       overflow: hidden;
       animation: flicker 0.1s infinite alternate;
@@ -17,31 +17,31 @@
 
     @keyframes flicker {
       0% { background: black; }
-      100% { background: white; }
+      100% { background: #111; }
     }
 
-    /* Fake camera/mic text */
-    #overlay {
+    /* Fake terminal */
+    #terminal {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      font-size: 2rem;
-      color: red;
-      text-shadow: 0 0 10px black;
-      z-index: 10;
-      opacity: 0;
-      transition: opacity 0.5s ease;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      white-space: pre-wrap;
+      font-size: 1rem;
+      overflow: hidden;
+      z-index: 1;
     }
 
-    /* Glitchy popups */
+    /* Red glitch popups */
     .popup {
       position: absolute;
       background: rgba(0,0,0,0.9);
       color: red;
       border: 1px solid red;
-      padding: 20px;
+      padding: 15px;
       font-size: 1.2rem;
       z-index: 5;
       animation: shake 0.1s infinite;
@@ -54,63 +54,54 @@
       75% { transform: translate(-5px,-5px); }
       100% { transform: translate(5px,5px); }
     }
-
-    /* Fake crash screen */
-    #crash {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: black;
-      color: lime;
-      font-size: 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      z-index: 20;
-      transition: opacity 1s ease;
-    }
   </style>
 </head>
 <body>
   <audio src="COMEAROUND.mp3" autoplay loop></audio>
-  
-  <div id="overlay">Accessing Camera & Microphone...</div>
-  <div id="crash">SYSTEM FAILURE</div>
+
+  <div id="terminal"></div>
 
   <script>
-    const overlay = document.getElementById('overlay');
-    const crash = document.getElementById('crash');
+    const terminal = document.getElementById('terminal');
+    const fakeLogs = [
+      "[!] Intrusion detected...",
+      ">>> Initiating trace route...",
+      ">>> User IP located...",
+      ">>> Injecting payload...",
+      ">>> Wiping session data...",
+      ">>> Forcing system reboot...",
+      "[ERROR] Unauthorized access.",
+      "[TRACE] Terminating connection..."
+    ];
 
-    // Step 1: Fake camera/mic
-    setTimeout(() => {
-      overlay.style.opacity = 1;
-    }, 1000);
+    // Typewriter effect for fake code
+    let line = 0;
+    function typeLine() {
+      if (line < fakeLogs.length) {
+        terminal.innerHTML += fakeLogs[line] + "\n";
+        line++;
+        setTimeout(typeLine, 400);
+      }
+    }
+    typeLine();
 
-    // Step 2: Popups start appearing
+    // Spawn glitch popups
     function spawnPopup() {
       const popup = document.createElement('div');
       popup.className = 'popup';
-      popup.innerText = 'YOU CANNOT ESCAPE';
-      popup.style.left = Math.random() * (window.innerWidth - 150) + 'px';
-      popup.style.top = Math.random() * (window.innerHeight - 80) + 'px';
+      popup.innerText = 'YOU ARE BEING WATCHED';
+      popup.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+      popup.style.top = Math.random() * (window.innerHeight - 100) + 'px';
       document.body.appendChild(popup);
-      setTimeout(() => popup.remove(), 2000);
+      setTimeout(() => popup.remove(), 1500);
     }
-    setTimeout(() => {
-      const interval = setInterval(spawnPopup, 300);
-      setTimeout(() => clearInterval(interval), 5000);
-    }, 2000);
+    const popupInterval = setInterval(spawnPopup, 300);
 
-    // Step 3: Fake crash + redirect
+    // Redirect after 8 seconds
     setTimeout(() => {
-      crash.style.opacity = 1;
-      document.body.style.animation = 'none'; // stop flicker
-    }, 7000);
-
-    setTimeout(() => {
+      clearInterval(popupInterval);
       window.location.href = 'index.html';
-    }, 10000);
+    }, 8000);
   </script>
 </body>
 </html>
