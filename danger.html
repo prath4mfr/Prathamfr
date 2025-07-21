@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>?!!$##</title>
+  <title>DANGER</title>
   <style>
     html, body {
       margin: 0;
@@ -15,22 +15,21 @@
       position: relative;
     }
 
-    /* Eye Styling (animated gif) */
+    /* Eye GIF (no red filter now) */
     .eye {
       position: absolute;
       background: url('eye.gif') no-repeat center/contain;
-      animation: bleed 4s infinite;
-      opacity: 0.85;
-      filter: drop-shadow(0 0 10px red);
+      opacity: 0.9;
+      animation: pulse 3s infinite ease-in-out;
     }
 
-    /* Bleeding red glow */
-    @keyframes bleed {
-      0%, 100% { filter: drop-shadow(0 0 5px red); }
-      50% { filter: drop-shadow(0 0 20px crimson); }
+    /* Subtle breathing animation (no glow) */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
 
-    /* Red screen flicker for creepiness */
+    /* Screen flicker for a creepy vibe */
     .red-overlay {
       position: absolute;
       top: 0; left: 0;
@@ -43,10 +42,10 @@
 
     @keyframes flicker {
       0%, 100% { opacity: 0.05; }
-      50% { opacity: 0.25; }
+      50% { opacity: 0.2; }
     }
 
-    /* Back button (Home page) */
+    /* Back button (to Home) */
     .back-btn {
       position: fixed;
       bottom: 20px;
@@ -64,26 +63,26 @@
       background: rgba(255,0,0,0.8);
     }
 
-    /* Mobile scaling */
+    /* Mobile adjustments */
     @media (max-width: 768px) {
-      .eye { opacity: 0.7; }
+      .eye { opacity: 0.75; }
       .back-btn { font-size: 1rem; padding: 8px 14px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Red Flicker Overlay -->
+  <!-- Flicker Overlay -->
   <div class="red-overlay"></div>
 
-  <!-- Back Button -->
-  <a href="pratham.html" class="back-btn">BACK</a>
+  <!-- Back to Home -->
+  <a href="index.html" class="back-btn">BACK</a>
 
-  <!-- Creepy Background Audio -->
+  <!-- Creepy Audio -->
   <audio id="demonAudio" src="demon.mp3" autoplay loop></audio>
 
   <script>
-    const totalEyes = 40; // Amount of eyes to spawn
+    const totalEyes = 40; // Change to 60-80 if you want it crazier
     const body = document.body;
 
     for (let i = 0; i < totalEyes; i++) {
@@ -101,12 +100,12 @@
       eye.style.left = `${x}%`;
       eye.style.top = `${y}%`;
 
-      // Random rotation
+      // Random rotation (so they feel different)
       eye.style.transform = `rotate(${Math.random() * 360}deg)`;
 
-      // Random animation speed
-      const bleedSpeed = (Math.random() * 3 + 2).toFixed(1);
-      eye.style.animationDuration = `${bleedSpeed}s`;
+      // Random animation timing
+      const pulseSpeed = (Math.random() * 2 + 2).toFixed(1);
+      eye.style.animationDuration = `${pulseSpeed}s`;
 
       body.appendChild(eye);
     }
