@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>C0M1NG</title>
+  <title>OVERRIDE SEQUENCE</title>
   <style>
     html, body {
       margin: 0;
@@ -15,6 +15,34 @@
       font-family: monospace;
     }
 
+    /* Flash with text */
+    .flash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: red;
+      opacity: 0;
+      z-index: 2000;
+      pointer-events: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 5vw;
+      font-weight: bold;
+      text-align: center;
+      color: white;
+      text-shadow: 0 0 10px black, 0 0 40px #900;
+      animation: textGlitch 0.1s infinite;
+    }
+    @keyframes textGlitch {
+      0% { transform: translate(0,0) skew(0deg,0deg); }
+      25% { transform: translate(-5px,3px) skew(-3deg,2deg); }
+      50% { transform: translate(5px,-3px) skew(3deg,-2deg); }
+      75% { transform: translate(-3px,-5px) skew(2deg,-3deg); }
+      100% { transform: translate(0,0) skew(0deg,0deg); }
+    }
+
+    /* Terminal Box */
     #terminalBox {
       position: fixed;
       top: 50%;
@@ -32,6 +60,7 @@
       box-shadow: 0 0 20px #0f0;
     }
 
+    /* Popups */
     .popup {
       position: fixed;
       background: black;
@@ -51,6 +80,7 @@
       100% { opacity: 1; }
     }
 
+    /* Shake effects */
     @keyframes shakeScreen {
       0%, 100% { transform: translate(0,0); }
       20% { transform: translate(-20px,10px); }
@@ -67,80 +97,27 @@
       90% { transform: translate(-60px,30px) rotate(-6deg); }
     }
     .shake { animation: shakeScreen 0.2s ease-in-out; }
-    .shakeCrazy { animation: shakeInsane 0.05s infinite; }
+    .shakeCrazy { animation: shakeInsane 0.1s infinite; }
 
-    /* Death PNG layer */
-    #deathFlicker {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('death.png') center center / cover no-repeat;
-      z-index: 5000;
-      display: none;
-      animation: glitchDeath 0.1s infinite;
-    }
-    @keyframes glitchDeath {
-      0% { transform: scale(1) translate(0,0) rotate(0deg); }
-      25% { transform: scale(1.1) translate(-10px,5px) rotate(-3deg); }
-      50% { transform: scale(1) translate(10px,-5px) rotate(3deg); }
-      75% { transform: scale(1.05) translate(-5px,10px) rotate(1deg); }
-      100% { transform: scale(1) translate(0,0) rotate(0deg); }
-    }
-
-    /* Color strobe overlay (does NOT overwrite PNG) */
-    #colorFlash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 5500;
-      display: none;
-      mix-blend-mode: screen;
-    }
-
-    #deathText {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 5vw;
-      color: red;
-      text-shadow: 0 0 20px white, 0 0 40px red;
-      font-family: monospace;
-      z-index: 6000;
-      display: none;
-      animation: textGlitch 0.1s infinite;
-    }
-    @keyframes textGlitch {
-      0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.6; transform: translate(-48%, -52%) scale(1.1) rotate(1deg); }
-    }
-
+    /* Instant Blackout */
     .blackout {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: black;
-      z-index: 7000;
+      z-index: 3000;
       display: none;
     }
   </style>
 </head>
 <body>
   <div id="terminalBox"></div>
-  <div id="deathFlicker"></div>
-  <div id="colorFlash"></div>
-  <div id="deathText">DEATH IS COMING</div>
+  <div class="flash" id="flash">DEATH IS COMING</div>
   <div class="blackout" id="blackout"></div>
 
   <script>
     const terminalBox = document.getElementById("terminalBox");
-    const deathFlicker = document.getElementById("deathFlicker");
-    const colorFlash = document.getElementById("colorFlash");
-    const deathText = document.getElementById("deathText");
+    const flash = document.getElementById("flash");
     const blackout = document.getElementById("blackout");
 
     const lines = [
@@ -167,7 +144,25 @@
     }
     typeLine();
 
-    // Popups spam
+    // Ultra-fast strobe (red + white, 0.01s)
+    function strobe() {
+      let flashes = 0;
+      const colors = ["red", "white"];
+      const interval = setInterval(() => {
+        flash.style.background = colors[flashes % 2];
+        flash.style.color = colors[flashes % 2] === "red" ? "white" : "red";
+        flash.style.opacity = "1";
+        flashes++;
+        if (flashes > 200) {
+          clearInterval(interval);
+          flash.style.opacity = "0";
+          setTimeout(strobe, Math.random() * 4000 + 3000);
+        }
+      }, 10);
+    }
+    strobe();
+
+    // Popups rapidly fill the screen
     setTimeout(() => {
       const spam = setInterval(() => {
         const popup = document.createElement("div");
@@ -180,34 +175,21 @@
       }, 100);
     }, 4000);
 
-    // Regular shakes
+    // Regular screen shake
     setInterval(() => {
       document.body.classList.add("shake");
       setTimeout(() => document.body.classList.remove("shake"), 200);
     }, 4000);
 
-    // Insane shaking + flicker
+    // Final crazy shaking before shutdown
     setTimeout(() => {
       document.body.classList.add("shakeCrazy");
-      deathFlicker.style.display = "block";
-      deathText.style.display = "block";
-      colorFlash.style.display = "block";
+    }, 12000);
 
-      const colors = ["black", "white", "yellow", "blue"];
-      let i = 0;
-      const flick = setInterval(() => {
-        colorFlash.style.backgroundColor = colors[i % colors.length];
-        i++;
-      }, 10);
-
-      setTimeout(() => {
-        clearInterval(flick);
-        deathFlicker.style.display = "none";
-        colorFlash.style.display = "none";
-        deathText.style.display = "none";
-        blackout.style.display = "block";
-        window.location.href = "index.html";
-      }, 6000);
+    // Instant shutdown -> redirect
+    setTimeout(() => {
+      blackout.style.display = "block";
+      window.location.href = "index.html";
     }, 15000);
   </script>
 </body>
