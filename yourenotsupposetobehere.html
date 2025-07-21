@@ -2,106 +2,157 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>INTRUSION DETECTED</title>
+  <title>???</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      background: black;
-      color: lime;
-      font-family: monospace;
-      overflow: hidden;
-      animation: flicker 0.1s infinite alternate;
-    }
-
-    @keyframes flicker {
-      0% { background: black; }
-      100% { background: #111; }
-    }
-
-    /* Fake terminal */
-    #terminal {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100%;
-      padding: 20px;
-      box-sizing: border-box;
-      white-space: pre-wrap;
-      font-size: 1rem;
+      background: black;
+      color: #0f0;
+      font-family: monospace;
+      font-size: 1.5rem;
       overflow: hidden;
-      z-index: 1;
     }
 
-    /* Red glitch popups */
+    /* Flickering Red Screen */
+    .flash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: red;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1000;
+      transition: opacity 0.05s ease;
+    }
+
+    /* Glitching hacker text */
+    #terminal {
+      white-space: pre-line;
+      padding: 20px;
+      animation: glitch 0.2s infinite;
+    }
+    @keyframes glitch {
+      0% { transform: translate(0,0); color: #0f0; }
+      25% { transform: translate(-2px,2px); color: #0f0; }
+      50% { transform: translate(2px,-2px); color: red; }
+      75% { transform: translate(-1px,1px); color: #0f0; }
+      100% { transform: translate(0,0); color: #0f0; }
+    }
+
+    /* Popups */
     .popup {
-      position: absolute;
-      background: rgba(0,0,0,0.9);
-      color: red;
+      position: fixed;
+      background: black;
       border: 1px solid red;
-      padding: 15px;
-      font-size: 1.2rem;
-      z-index: 5;
-      animation: shake 0.1s infinite;
+      color: white;
+      padding: 10px;
+      width: 200px;
+      height: 100px;
+      text-align: center;
+      z-index: 500;
+      font-size: 1rem;
+      animation: shake 0.3s infinite;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translate(0,0); }
+      50% { transform: translate(2px,-2px); }
     }
 
-    @keyframes shake {
-      0% { transform: translate(0,0); }
-      25% { transform: translate(-5px,5px); }
-      50% { transform: translate(5px,-5px); }
-      75% { transform: translate(-5px,-5px); }
-      100% { transform: translate(5px,5px); }
+    /* Camera shake */
+    @keyframes screenShake {
+      0%, 100% { transform: translate(0,0); }
+      20% { transform: translate(-20px,10px); }
+      40% { transform: translate(20px,-10px); }
+      60% { transform: translate(-15px,5px); }
+      80% { transform: translate(15px,-5px); }
+    }
+    .shaking {
+      animation: screenShake 0.3s ease-in-out 3;
+    }
+
+    /* Blackout */
+    .blackout {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.5s ease;
     }
   </style>
 </head>
 <body>
-  <audio src="COMEAROUND.mp3" autoplay loop></audio>
 
   <div id="terminal"></div>
+  <div class="flash" id="flash"></div>
+  <div class="blackout" id="blackout"></div>
+
+  <audio src="COMEAROUND.mp3" autoplay loop></audio>
+  <audio id="static" src="static.mp3" autoplay loop></audio>
 
   <script>
-    const terminal = document.getElementById('terminal');
-    const fakeLogs = [
-      "[!] Intrusion detected...",
-      ">>> Initiating trace route...",
-      ">>> User IP located...",
-      ">>> Injecting payload...",
-      ">>> Wiping session data...",
-      ">>> Forcing system reboot...",
-      "[ERROR] Unauthorized access.",
-      "[TRACE] Terminating connection..."
+    const terminal = document.getElementById("terminal");
+    const flash = document.getElementById("flash");
+    const blackout = document.getElementById("blackout");
+
+    const lines = [
+      "Accessing mainframe...",
+      "Decrypting host files...",
+      "Injecting payload...",
+      "Establishing remote access...",
+      "ROOT ACCESS GRANTED",
+      "Erasing system logs...",
+      "Uploading tracker.exe...",
+      "SYSTEM BREACH COMPLETE"
     ];
 
-    // Typewriter effect for fake code
-    let line = 0;
+    let idx = 0;
     function typeLine() {
-      if (line < fakeLogs.length) {
-        terminal.innerHTML += fakeLogs[line] + "\n";
-        line++;
-        setTimeout(typeLine, 400);
+      if (idx < lines.length) {
+        terminal.textContent += lines[idx] + "\n";
+        idx++;
+        setTimeout(typeLine, 800);
       }
     }
     typeLine();
 
-    // Spawn glitch popups
-    function spawnPopup() {
-      const popup = document.createElement('div');
-      popup.className = 'popup';
-      popup.innerText = 'YOU ARE BEING WATCHED';
-      popup.style.left = Math.random() * (window.innerWidth - 200) + 'px';
-      popup.style.top = Math.random() * (window.innerHeight - 100) + 'px';
-      document.body.appendChild(popup);
-      setTimeout(() => popup.remove(), 1500);
+    // Red screen flash effect
+    function redFlash() {
+      flash.style.opacity = "1";
+      setTimeout(() => flash.style.opacity = "0", 100);
+      setTimeout(redFlash, Math.random() * 2000 + 1000);
     }
-    const popupInterval = setInterval(spawnPopup, 300);
+    redFlash();
 
-    // Redirect after 8 seconds
+    // Screen shake randomly
+    setInterval(() => {
+      document.body.classList.add("shaking");
+      setTimeout(() => document.body.classList.remove("shaking"), 400);
+    }, 7000);
+
+    // Popups appear near end
     setTimeout(() => {
-      clearInterval(popupInterval);
-      window.location.href = 'index.html';
+      for (let i = 0; i < 25; i++) {
+        const popup = document.createElement("div");
+        popup.classList.add("popup");
+        popup.style.left = Math.random() * (window.innerWidth - 220) + "px";
+        popup.style.top = Math.random() * (window.innerHeight - 120) + "px";
+        popup.textContent = "ERROR 666\nSYSTEM OVERRIDE";
+        document.body.appendChild(popup);
+      }
     }, 8000);
+
+    // Blackout then redirect
+    setTimeout(() => {
+      blackout.style.opacity = "1";
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1500);
+    }, 12000);
   </script>
 </body>
 </html>
