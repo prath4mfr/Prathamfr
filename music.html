@@ -17,6 +17,7 @@
       background: url('hello3.png') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
+      flex-direction: column;
     }
     .player {
       background: rgba(0, 0, 0, 0.5);
@@ -26,6 +27,7 @@
       text-align: center;
       box-shadow: 0 0 30px rgba(0,0,0,0.5);
       max-width: 400px;
+      display: none; /* Hidden until Start button is pressed */
     }
     .album-art {
       width: 250px;
@@ -75,26 +77,26 @@
     .volume-container {
       margin: 20px 0;
     }
-    .falling-gif {
-      position: fixed;
-      top: -50px;
-      width: 50px;
-      height: 50px;
-      pointer-events: none;
-      animation: dropDown 4s linear forwards;
-      z-index: 999;
+    #startBtn {
+      padding: 15px 40px;
+      font-size: 20px;
+      border: none;
+      border-radius: 30px;
+      background: #ff69b4;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+      transition: 0.3s;
     }
-    @keyframes dropDown {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(120vh); opacity: 0; }
-    }
-    h1 {
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 8px #000;
+    #startBtn:hover {
+      background: #fff;
+      color: #ff69b4;
     }
   </style>
 </head>
 <body>
+
+  <button id="startBtn">Start Music</button>
 
   <div class="player">
     <h1>Now Playing</h1>
@@ -132,53 +134,47 @@
     const progress = document.getElementById('progress');
     const progressContainer = document.getElementById('progressContainer');
     const volume = document.getElementById('volume');
-
-    let dropInterval = null;
+    const startBtn = document.getElementById('startBtn');
+    const player = document.querySelector('.player');
 
     function loadTrack(index) {
       audio.src = tracks[index].src;
       cover.src = tracks[index].cover;
       songTitle.textContent = tracks[index].name;
-      audio.play();
-      playPauseBtn.textContent = '⏸️';
-      if (!dropInterval) dropInterval = setInterval(createDrop, 400);
     }
 
-    function createDrop() {
-      const drop = document.createElement('img');
-      drop.src = 'dawg.gif';
-      drop.classList.add('falling-gif');
-      drop.style.left = Math.random() * window.innerWidth + 'px';
-      document.body.appendChild(drop);
-      setTimeout(() => drop.remove(), 4000);
+    function playTrack() {
+      audio.volume = 0.5;
+      audio.play();
+      playPauseBtn.textContent = '⏸️';
     }
 
     playPauseBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
         playPauseBtn.textContent = '⏸️';
-        if (!dropInterval) dropInterval = setInterval(createDrop, 400);
       } else {
         audio.pause();
         playPauseBtn.textContent = '▶️';
-        clearInterval(dropInterval);
-        dropInterval = null;
       }
     });
 
     prevBtn.addEventListener('click', () => {
       currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
       loadTrack(currentTrack);
+      playTrack();
     });
 
     nextBtn.addEventListener('click', () => {
       currentTrack = (currentTrack + 1) % tracks.length;
       loadTrack(currentTrack);
+      playTrack();
     });
 
     audio.addEventListener('ended', () => {
       currentTrack = (currentTrack + 1) % tracks.length;
       loadTrack(currentTrack);
+      playTrack();
     });
 
     audio.addEventListener('timeupdate', () => {
@@ -189,19 +185,19 @@
     progressContainer.addEventListener('click', (e) => {
       const width = progressContainer.clientWidth;
       const clickX = e.offsetX;
-      const duration = audio.duration;
-      audio.currentTime = (clickX / width) * duration;
+      audio.currentTime = (clickX / width) * audio.duration;
     });
 
     volume.addEventListener('input', () => {
       audio.volume = volume.value;
     });
 
-    // Initial load (but don't autoplay)
-    audio.volume = 0.5;
-    cover.src = tracks[0].cover;
-    songTitle.textContent = tracks[0].name;
-    playPauseBtn.textContent = '▶️';
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      player.style.display = 'block';
+      loadTrack(currentTrack);
+      playTrack();
+    });
   </script>
 
 </body>
