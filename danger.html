@@ -16,54 +16,14 @@
       font-family: 'Courier New', monospace;
     }
 
-    /* Moving Eyes */
     .eye {
       position: absolute;
       background: url('eye.gif') no-repeat center/contain;
       opacity: 0.9;
       pointer-events: none;
-      animation: moveAround linear infinite;
     }
 
-    /* Eyes drift randomly */
-    @keyframes moveAround {
-      0%   { transform: translate(0, 0) rotate(var(--rotation)); }
-      25%  { transform: translate(100px, -50px) rotate(var(--rotation)); }
-      50%  { transform: translate(-150px, 80px) rotate(var(--rotation)); }
-      75%  { transform: translate(200px, -120px) rotate(var(--rotation)); }
-      100% { transform: translate(0, 0) rotate(var(--rotation)); }
-    }
-
-    /* Pulse and Shake */
-    @keyframes pulse {
-      0%, 100% { transform: scale(1) rotate(var(--rotation)); }
-      50% { transform: scale(1.2) rotate(var(--rotation)); }
-    }
-    @keyframes shake {
-      0% { transform: translate(0,0) rotate(var(--rotation)); }
-      25% { transform: translate(-10px,10px) rotate(var(--rotation)); }
-      50% { transform: translate(10px,-10px) rotate(var(--rotation)); }
-      75% { transform: translate(-10px,-10px) rotate(var(--rotation)); }
-      100% { transform: translate(10px,10px) rotate(var(--rotation)); }
-    }
-
-    /* Red flicker background */
-    .red-overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(255,0,0,0.05);
-      mix-blend-mode: screen;
-      animation: flicker 1.5s infinite;
-      pointer-events: none;
-      z-index: 5;
-    }
-    @keyframes flicker {
-      0%, 100% { opacity: 0.05; }
-      50% { opacity: 0.2; }
-    }
-
-    /* Ghostly Warning Text */
+    /* Flash warning */
     .flash-warning {
       position: fixed;
       top: 0; left: 0;
@@ -73,18 +33,18 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 8vw;
+      font-size: 10vw;
       font-weight: bold;
       font-family: "Creepster", cursive, monospace;
-      text-shadow: 0 0 25px #300, 0 0 50px #900;
+      text-shadow: 0 0 40px #300, 0 0 80px #900;
       opacity: 0;
       pointer-events: none;
-      z-index: 999;
-      transition: opacity 0.1s ease;
+      z-index: 2000;
+      transition: opacity 0.05s ease;
     }
     .flash-warning.active { opacity: 1; }
 
-    /* Transparent Password Box */
+    /* Transparent password box */
     .password-box {
       position: fixed;
       top: 50%;
@@ -156,40 +116,36 @@
     .back-btn:hover { background: rgba(255,0,0,0.8); }
 
     @media (max-width: 768px) {
-      .eye { opacity: 0.8; }
-      .flash-warning { font-size: 12vw; }
+      .flash-warning { font-size: 15vw; }
       .back-btn { font-size: 1rem; padding: 8px 14px; }
     }
   </style>
 </head>
 <body>
-
-  <div class="red-overlay"></div>
   <div class="flash-warning" id="warningText">YOU ARE NOT SUPPOSED TO BE HERE</div>
 
-  <!-- Password Box -->
+  <!-- Password -->
   <div class="password-box">
     <input type="password" id="secretInput" maxlength="20" autofocus />
     <button id="toggleEye">👁️</button>
   </div>
 
-  <!-- Music Controls -->
+  <!-- Music -->
   <div class="music-controls">
     <button id="toggleMusic">Pause</button>
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
   </div>
 
-  <!-- Back Button -->
   <a href="pratham.html" class="back-btn">BACK</a>
 
-  <!-- Audio -->
   <audio id="demonAudio" src="dumbo.mp3" autoplay loop></audio>
 
   <script>
-    const totalEyes = 35;
+    const totalEyes = 25;
+    const eyes = [];
     const body = document.body;
 
-    // Create and move eyes randomly
+    // Spawn eyes with random motion vectors
     for (let i = 0; i < totalEyes; i++) {
       const eye = document.createElement('div');
       eye.classList.add('eye');
@@ -203,26 +159,51 @@
       eye.style.left = `${x}px`;
       eye.style.top = `${y}px`;
 
-      const rotation = `${Math.floor(Math.random() * 360)}deg`;
-      eye.style.setProperty('--rotation', rotation);
+      const dx = (Math.random() - 0.5) * 2;
+      const dy = (Math.random() - 0.5) * 2;
 
-      // Random animation speed
-      const speed = (Math.random() * 15 + 10).toFixed(2);
-      eye.style.animationDuration = `${speed}s`;
-
+      eyes.push({ el: eye, x, y, dx, dy, size });
       body.appendChild(eye);
     }
 
-    // Quick red flash every 5-15 seconds
+    // Move eyes + bounce logic
+    function animate() {
+      eyes.forEach((eye, i) => {
+        eye.x += eye.dx;
+        eye.y += eye.dy;
+
+        if (eye.x <= 0 || eye.x + eye.size >= window.innerWidth) eye.dx *= -1;
+        if (eye.y <= 0 || eye.y + eye.size >= window.innerHeight) eye.dy *= -1;
+
+        // Bounce off other eyes
+        for (let j = i + 1; j < eyes.length; j++) {
+          const other = eyes[j];
+          const dx = eye.x - other.x;
+          const dy = eye.y - other.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < (eye.size + other.size) / 2) {
+            eye.dx *= -1; eye.dy *= -1;
+            other.dx *= -1; other.dy *= -1;
+          }
+        }
+
+        eye.el.style.left = `${eye.x}px`;
+        eye.el.style.top = `${eye.y}px`;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Red flash effect every 3–8 seconds
     const warning = document.getElementById('warningText');
     function flash() {
       warning.classList.add('active');
-      setTimeout(() => warning.classList.remove('active'), 300);
-      setTimeout(flash, Math.random() * 10000 + 5000);
+      setTimeout(() => warning.classList.remove('active'), 150);
+      setTimeout(flash, Math.random() * 5000 + 3000);
     }
-    setTimeout(flash, 5000);
+    setTimeout(flash, 4000);
 
-    // Password reveal + redirect
+    // Password toggle + redirect
     const secretInput = document.getElementById('secretInput');
     const toggleEye = document.getElementById('toggleEye');
     toggleEye.addEventListener('click', () => {
@@ -234,11 +215,10 @@
       }
     });
 
-    // Music Controls
+    // Music controls
     const demonAudio = document.getElementById('demonAudio');
     const toggleMusic = document.getElementById('toggleMusic');
     const volumeSlider = document.getElementById('volumeSlider');
-
     toggleMusic.addEventListener('click', () => {
       if (demonAudio.paused) {
         demonAudio.play();
