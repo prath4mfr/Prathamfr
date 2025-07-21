@@ -40,7 +40,8 @@
 
     .whois-box,
     .game-box,
-    .danger-box {
+    .danger-box,
+    .girlypop-box {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
@@ -54,7 +55,8 @@
 
     .whois-box img,
     .game-box img,
-    .danger-box img {
+    .danger-box img,
+    .girlypop-box img {
       height: 36px;
       width: auto;
       display: block;
@@ -62,23 +64,8 @@
 
     .whois-box { top: 33%; }
     .game-box { top: calc(33% + 70px); }
-
-    /* Danger Button (Shake + Red Flicker) */
-    .danger-box {
-      top: calc(33% + 140px);
-      animation: shake 0.5s infinite alternate, redFlicker 1s infinite;
-    }
-    @keyframes shake {
-      0% { transform: translateX(-50%) rotate(0deg); }
-      25% { transform: translateX(-50%) rotate(-5deg); }
-      50% { transform: translateX(-50%) rotate(5deg); }
-      75% { transform: translateX(-50%) rotate(-5deg); }
-      100% { transform: translateX(-50%) rotate(5deg); }
-    }
-    @keyframes redFlicker {
-      0%,100% { box-shadow: 0 0 15px red; background: rgba(50,0,0,0.5); }
-      50% { box-shadow: 0 0 30px red; background: rgba(100,0,0,0.6); }
-    }
+    .danger-box { top: calc(33% + 140px); }
+    .girlypop-box { top: calc(33% + 210px); }
 
     /* Loader */
     #loader {
@@ -161,11 +148,11 @@
     /* Mobile Tweaks */
     @media (max-width: 768px) {
       .graffiti-heading { width: 65vw; }
-      .whois-box, .game-box, .danger-box {
+      .whois-box, .game-box, .danger-box, .girlypop-box {
         background: rgba(255,255,255,0.35);
         animation: shimmerLight 3s infinite ease-in-out;
       }
-      .whois-box img, .game-box img, .danger-box img {
+      .whois-box img, .game-box img, .danger-box img, .girlypop-box img {
         height: 26px;
         filter: brightness(0);
       }
@@ -225,6 +212,7 @@
   <div class="whois-box"><a href="whoispratham.html"><img src="whoispratham.png" alt="Who is Pratham?" /></a></div>
   <div class="game-box"><a href="gayme.html"><img src="game.png" alt="Games" /></a></div>
   <div class="danger-box"><a href="danger.html"><img src="danger.png" alt="Danger" /></a></div>
+  <div class="girlypop-box"><a href="girlypop.html"><img src="girlypop.png" alt="Girly Pop" /></a></div>
 
   <!-- Question Mark -->
   <a href="question.html" class="question-link"><img src="question.png" alt="?" /></a>
