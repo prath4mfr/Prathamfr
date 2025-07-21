@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ACCESS OVERRIDE</title>
+  <title>OVERRIDE SEQUENCE</title>
   <style>
     html, body {
       margin: 0;
@@ -15,7 +15,7 @@
       font-family: monospace;
     }
 
-    /* Flash Strobe */
+    /* Ultra-fast flash overlay */
     .flash {
       position: fixed;
       top: 0; left: 0;
@@ -24,10 +24,9 @@
       opacity: 0;
       z-index: 2000;
       pointer-events: none;
-      transition: opacity 0.05s ease;
     }
 
-    /* Central Terminal Window */
+    /* Terminal Window */
     #terminalBox {
       position: fixed;
       top: 50%;
@@ -58,35 +57,33 @@
       z-index: 500;
       font-size: 12px;
       box-shadow: 0 0 10px red;
-      animation: flick 0.5s infinite alternate;
+      animation: flick 0.3s infinite alternate;
     }
-
     @keyframes flick {
-      0% { opacity: 0.8; }
+      0% { opacity: 0.6; }
       100% { opacity: 1; }
     }
 
-    /* Screen shake */
+    /* Shake effect */
     @keyframes shakeScreen {
       0%, 100% { transform: translate(0,0); }
-      20% { transform: translate(-15px,10px); }
-      40% { transform: translate(15px,-10px); }
-      60% { transform: translate(-10px,5px); }
-      80% { transform: translate(10px,-5px); }
+      20% { transform: translate(-20px,10px); }
+      40% { transform: translate(20px,-10px); }
+      60% { transform: translate(-15px,5px); }
+      80% { transform: translate(15px,-5px); }
     }
     .shake {
-      animation: shakeScreen 0.3s ease-in-out;
+      animation: shakeScreen 0.2s ease-in-out;
     }
 
-    /* Final Blackout */
+    /* Instant Blackout */
     .blackout {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: black;
-      opacity: 0;
       z-index: 3000;
-      transition: opacity 0.5s ease;
+      display: none;
     }
   </style>
 </head>
@@ -100,74 +97,68 @@
     const flash = document.getElementById("flash");
     const blackout = document.getElementById("blackout");
 
-    // Lots of fake hacking lines
     const lines = [
-      "[INIT] Connecting to host...",
-      "[SCAN] Port 22 open.",
-      "[EXPLOIT] Injecting payload...",
-      "[OK] Bypassing security layers.",
-      "[TRACE] Disabling firewalls...",
-      "[LOOP] Generating fake keys...",
-      "[FORCE] Root shell opened.",
-      "[MIRROR] Uploading malware...",
-      "[LOG] Clearing system history...",
-      "[ALERT] Remote admin override.",
-      "[STACK] Buffer flooding...",
-      "[COMPLETE] Full control acquired.",
-      "[SILENT] Erasing evidence...",
-      "[EXIT] Session terminated.",
-      "[CRITICAL] Memory overwrite in progress.",
-      "[DONE] SYSTEM LOCKED."
+      "[INIT] Connecting to remote node...",
+      "[SCAN] Breaching security layers...",
+      "[INJECT] Payload execution...",
+      "[TRACE] Disabling logs...",
+      "[EXPLOIT] Gaining root shell...",
+      "[WRITE] Overwriting memory...",
+      "[STACK] Buffer flood triggered...",
+      "[OVERRIDE] Remote control locked.",
+      "[MALWARE] Infecting kernel modules...",
+      "[FINAL] SYSTEM CAPTURED.",
+      "[TERMINATE] Preparing shutdown..."
     ];
 
-    let index = 0;
-    function typeNextLine() {
-      if (index < lines.length) {
-        terminalBox.textContent += lines[index] + "\n";
-        index++;
-        setTimeout(typeNextLine, 200);
+    let idx = 0;
+    function typeLine() {
+      if (idx < lines.length) {
+        terminalBox.textContent += lines[idx] + "\n";
+        idx++;
+        setTimeout(typeLine, 150);
       }
     }
-    typeNextLine();
+    typeLine();
 
-    // Red flash strobe (0.1s bursts for ~2s randomly)
+    // Ultra-fast flickering (0.01s changes)
     function strobe() {
       let flashes = 0;
       const interval = setInterval(() => {
-        flash.style.opacity = (flash.style.opacity === "1") ? "0" : "1";
+        flash.style.opacity = flash.style.opacity === "1" ? "0" : "1";
         flashes++;
-        if (flashes > 20) { // ~2s of strobing
+        if (flashes > 200) { // ~2s total
           clearInterval(interval);
           flash.style.opacity = "0";
-          setTimeout(strobe, Math.random() * 4000 + 3000); // wait 3-7s, repeat
+          setTimeout(strobe, Math.random() * 4000 + 3000);
         }
-      }, 100);
+      }, 10);
     }
     strobe();
 
-    // Spam popups everywhere after 5 seconds
+    // Popups rapidly fill the screen
     setTimeout(() => {
       const spam = setInterval(() => {
         const popup = document.createElement("div");
         popup.classList.add("popup");
         popup.style.left = Math.random() * (window.innerWidth - 160) + "px";
         popup.style.top = Math.random() * (window.innerHeight - 100) + "px";
-        popup.textContent = "BREACH DETECTED\nOVERRIDE ACTIVE";
+        popup.textContent = "OVERRIDE ACTIVE\nDATA BREACH";
         document.body.appendChild(popup);
-        if (document.querySelectorAll(".popup").length > 50) clearInterval(spam);
-      }, 150);
-    }, 5000);
+        if (document.querySelectorAll(".popup").length > 100) clearInterval(spam);
+      }, 100);
+    }, 4000);
 
     // Random screen shake
     setInterval(() => {
       document.body.classList.add("shake");
-      setTimeout(() => document.body.classList.remove("shake"), 400);
-    }, 5000);
+      setTimeout(() => document.body.classList.remove("shake"), 200);
+    }, 4000);
 
-    // Final blackout and redirect
+    // Instant shutdown (no fade) -> redirect
     setTimeout(() => {
-      blackout.style.opacity = "1";
-      setTimeout(() => window.location.href = "index.html", 2000);
+      blackout.style.display = "block"; // instantly covers
+      window.location.href = "index.html";
     }, 15000);
   </script>
 </body>
