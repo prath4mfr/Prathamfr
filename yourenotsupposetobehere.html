@@ -15,7 +15,6 @@
       font-family: monospace;
     }
 
-    /* Terminal Box */
     #terminalBox {
       position: fixed;
       top: 50%;
@@ -33,7 +32,6 @@
       box-shadow: 0 0 20px #0f0;
     }
 
-    /* Popups */
     .popup {
       position: fixed;
       background: black;
@@ -53,7 +51,6 @@
       100% { opacity: 1; }
     }
 
-    /* Shake effects */
     @keyframes shakeScreen {
       0%, 100% { transform: translate(0,0); }
       20% { transform: translate(-20px,10px); }
@@ -70,9 +67,9 @@
       90% { transform: translate(-60px,30px) rotate(-6deg); }
     }
     .shake { animation: shakeScreen 0.2s ease-in-out; }
-    .shakeCrazy { animation: shakeInsane 0.1s infinite; }
+    .shakeCrazy { animation: shakeInsane 0.05s infinite; } /* Faster shake in end */
 
-    /* Flickering death image */
+    /* Death flicker image & glitch effect */
     #deathFlicker {
       position: fixed;
       top: 0;
@@ -82,15 +79,41 @@
       background: url('death.png') center center / cover no-repeat;
       z-index: 5000;
       display: none;
+      animation: glitchDeath 0.1s infinite;
+    }
+    @keyframes glitchDeath {
+      0% { transform: scale(1) translate(0,0) rotate(0deg); }
+      25% { transform: scale(1.1) translate(-10px,5px) rotate(-3deg); }
+      50% { transform: scale(1) translate(10px,-5px) rotate(3deg); }
+      75% { transform: scale(1.05) translate(-5px,10px) rotate(1deg); }
+      100% { transform: scale(1) translate(0,0) rotate(0deg); }
     }
 
-    /* Blackout */
+    /* Creepy text overlay */
+    #deathText {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5vw;
+      color: red;
+      text-shadow: 0 0 20px white, 0 0 40px red;
+      font-family: monospace;
+      z-index: 6000;
+      display: none;
+      animation: textGlitch 0.1s infinite;
+    }
+    @keyframes textGlitch {
+      0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.6; transform: translate(-48%, -52%) scale(1.1) rotate(1deg); }
+    }
+
     .blackout {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: black;
-      z-index: 6000;
+      z-index: 7000;
       display: none;
     }
   </style>
@@ -98,11 +121,13 @@
 <body>
   <div id="terminalBox"></div>
   <div id="deathFlicker"></div>
+  <div id="deathText">DEATH IS COMING</div>
   <div class="blackout" id="blackout"></div>
 
   <script>
     const terminalBox = document.getElementById("terminalBox");
     const deathFlicker = document.getElementById("deathFlicker");
+    const deathText = document.getElementById("deathText");
     const blackout = document.getElementById("blackout");
 
     const lines = [
@@ -148,14 +173,12 @@
       setTimeout(() => document.body.classList.remove("shake"), 200);
     }, 4000);
 
-    // Crazy shaking near the end
+    // Insane shaking + death flicker
     setTimeout(() => {
       document.body.classList.add("shakeCrazy");
-    }, 12000);
-
-    // Death flicker (0.01s, black/white/yellow/blue for 6 sec)
-    setTimeout(() => {
       deathFlicker.style.display = "block";
+      deathText.style.display = "block";
+
       const colors = ["black", "white", "yellow", "blue"];
       let i = 0;
       const flick = setInterval(() => {
@@ -163,10 +186,11 @@
         i++;
       }, 10);
 
-      // After 6 seconds, blackout + redirect
+      // After 6 sec, blackout + redirect
       setTimeout(() => {
         clearInterval(flick);
         deathFlicker.style.display = "none";
+        deathText.style.display = "none";
         blackout.style.display = "block";
         window.location.href = "index.html";
       }, 6000);
