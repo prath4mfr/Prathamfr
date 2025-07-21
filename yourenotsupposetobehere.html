@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>OVERRIDE SEQUENCE</title>
+  <title>COM1NG<title>
   <style>
     html, body {
       margin: 0;
@@ -15,26 +15,34 @@
       font-family: monospace;
     }
 
-    /* Flash layers */
+    /* Flash with text */
     .flash {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: white;
-      mix-blend-mode: difference;
+      background: red;
       opacity: 0;
       z-index: 2000;
       pointer-events: none;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 4vw;
+      font-size: 5vw;
       font-weight: bold;
-      color: black;
-      text-shadow: 0 0 20px red, 0 0 50px darkred;
+      text-align: center;
+      color: white;
+      text-shadow: 0 0 10px black, 0 0 40px #900;
+      animation: textGlitch 0.1s infinite;
+    }
+    @keyframes textGlitch {
+      0% { transform: translate(0,0) skew(0deg,0deg); }
+      25% { transform: translate(-5px,3px) skew(-3deg,2deg); }
+      50% { transform: translate(5px,-3px) skew(3deg,-2deg); }
+      75% { transform: translate(-3px,-5px) skew(2deg,-3deg); }
+      100% { transform: translate(0,0) skew(0deg,0deg); }
     }
 
-    /* Terminal Window */
+    /* Terminal Box */
     #terminalBox {
       position: fixed;
       top: 50%;
@@ -50,21 +58,6 @@
       font-size: 12px;
       z-index: 100;
       box-shadow: 0 0 20px #0f0;
-    }
-
-    /* Glitchy background letters */
-    .glitchChar {
-      position: fixed;
-      color: #0f0;
-      font-size: 18px;
-      opacity: 0.7;
-      z-index: 50;
-      pointer-events: none;
-      animation: float 2s linear infinite;
-    }
-    @keyframes float {
-      0% { transform: translateY(0); opacity: 0.7; }
-      100% { transform: translateY(100vh); opacity: 0; }
     }
 
     /* Popups */
@@ -83,11 +76,11 @@
       animation: flick 0.3s infinite alternate;
     }
     @keyframes flick {
-      0% { opacity: 0.6; }
+      0% { opacity: 0.5; }
       100% { opacity: 1; }
     }
 
-    /* Shake effect */
+    /* Shake effects */
     @keyframes shakeScreen {
       0%, 100% { transform: translate(0,0); }
       20% { transform: translate(-20px,10px); }
@@ -95,9 +88,16 @@
       60% { transform: translate(-15px,5px); }
       80% { transform: translate(15px,-5px); }
     }
-    .shake {
-      animation: shakeScreen 0.2s ease-in-out;
+    @keyframes shakeInsane {
+      0%, 100% { transform: translate(0,0) rotate(0deg); }
+      10% { transform: translate(-50px,20px) rotate(-5deg); }
+      30% { transform: translate(50px,-20px) rotate(5deg); }
+      50% { transform: translate(-40px,40px) rotate(-3deg); }
+      70% { transform: translate(40px,-40px) rotate(3deg); }
+      90% { transform: translate(-60px,30px) rotate(-6deg); }
     }
+    .shake { animation: shakeScreen 0.2s ease-in-out; }
+    .shakeCrazy { animation: shakeInsane 0.1s infinite; }
 
     /* Instant Blackout */
     .blackout {
@@ -144,13 +144,14 @@
     }
     typeLine();
 
-    // Ultra-fast white/red strobe (0.01s switch)
+    // Ultra-fast strobe (red + white, 0.01s)
     function strobe() {
       let flashes = 0;
       const colors = ["red", "white"];
       const interval = setInterval(() => {
         flash.style.background = colors[flashes % 2];
-        flash.style.opacity = flash.style.opacity === "1" ? "0" : "1";
+        flash.style.color = colors[flashes % 2] === "red" ? "white" : "red";
+        flash.style.opacity = "1";
         flashes++;
         if (flashes > 200) {
           clearInterval(interval);
@@ -160,20 +161,6 @@
       }, 10);
     }
     strobe();
-
-    // Random glitch characters near end
-    setTimeout(() => {
-      const glitchInterval = setInterval(() => {
-        const char = document.createElement("div");
-        char.classList.add("glitchChar");
-        char.textContent = String.fromCharCode(33 + Math.random() * 90);
-        char.style.left = Math.random() * window.innerWidth + "px";
-        char.style.top = "-20px";
-        document.body.appendChild(char);
-        setTimeout(() => char.remove(), 2000);
-      }, 30);
-      setTimeout(() => clearInterval(glitchInterval), 5000);
-    }, 10000);
 
     // Popups rapidly fill the screen
     setTimeout(() => {
@@ -188,13 +175,18 @@
       }, 100);
     }, 4000);
 
-    // Screen shake loop
+    // Regular screen shake
     setInterval(() => {
       document.body.classList.add("shake");
       setTimeout(() => document.body.classList.remove("shake"), 200);
     }, 4000);
 
-    // Instant shutdown (no fade) -> redirect
+    // Final crazy shaking before shutdown
+    setTimeout(() => {
+      document.body.classList.add("shakeCrazy");
+    }, 12000);
+
+    // Instant shutdown -> redirect
     setTimeout(() => {
       blackout.style.display = "block";
       window.location.href = "index.html";
