@@ -13,19 +13,21 @@
       background: black;
       overflow: hidden;
       position: relative;
+      font-family: 'Courier New', monospace;
     }
 
+    /* Eye GIF */
     .eye {
       position: absolute;
       background: url('eye.gif') no-repeat center/contain;
       opacity: 0.9;
+      pointer-events: none;
     }
 
     @keyframes pulse {
       0%, 100% { transform: scale(1) rotate(var(--rotation)); }
       50% { transform: scale(1.1) rotate(var(--rotation)); }
     }
-
     @keyframes shake {
       0% { transform: translate(0,0) rotate(var(--rotation)); }
       25% { transform: translate(-5px,5px) rotate(var(--rotation)); }
@@ -44,55 +46,81 @@
       pointer-events: none;
       z-index: 5;
     }
-
     @keyframes flicker {
       0%, 100% { opacity: 0.05; }
       50% { opacity: 0.2; }
     }
 
+    /* Quick Red Flash Warning */
     .flash-warning {
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
       background: red;
-      color: white;
+      color: black;
       display: flex;
       justify-content: center;
       align-items: center;
       font-size: 3vw;
-      font-family: monospace;
+      font-weight: bold;
+      font-family: "Creepster", cursive, monospace;
+      text-shadow: 0 0 15px darkred, 0 0 30px red;
       opacity: 0;
       pointer-events: none;
       z-index: 999;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.2s ease;
+    }
+    .flash-warning.active { opacity: 1; }
+
+    /* Password Box */
+    .password-box {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(20,20,20,0.8);
+      border: 2px solid red;
+      padding: 20px;
+      border-radius: 8px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .password-box input {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid crimson;
+      color: crimson;
+      font-size: 1.5rem;
+      text-align: center;
+      outline: none;
+      caret-color: red;
+      width: 200px;
     }
 
-    .flash-warning.active {
-      opacity: 1;
-    }
-
+    /* Back Button */
     .back-btn {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0,0,0,0.5);
       color: white;
       padding: 10px 18px;
       border-radius: 12px;
       text-decoration: none;
       font-size: 1.2rem;
       backdrop-filter: blur(5px);
-      z-index: 999;
+      z-index: 1000;
     }
-
     .back-btn:hover {
       background: rgba(255,0,0,0.8);
     }
 
     @media (max-width: 768px) {
       .eye { opacity: 0.8; }
-      .back-btn { font-size: 1rem; padding: 8px 14px; }
       .flash-warning { font-size: 5vw; }
+      .back-btn { font-size: 1rem; padding: 8px 14px; }
     }
   </style>
 </head>
@@ -100,6 +128,13 @@
 
   <div class="red-overlay"></div>
   <div class="flash-warning" id="warningText">YOU ARE NOT SUPPOSED TO BE HERE</div>
+
+  <!-- Password Box -->
+  <div class="password-box">
+    <input type="password" id="secretInput" maxlength="20" autofocus />
+  </div>
+
+  <!-- Back Button -->
   <a href="pratham.html" class="back-btn">BACK</a>
   <audio id="demonAudio" src="dumbo.mp3" autoplay loop></audio>
 
@@ -108,19 +143,19 @@
     const body = document.body;
     const placed = [];
 
+    // Avoid overlaps
     function isOverlapping(x, y, size) {
       return placed.some(pos => {
         const dx = x - pos.x;
         const dy = y - pos.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        return distance < (size + pos.size) / 2 + 10;
+        return distance < (size + pos.size) / 2 + 30; // extra spacing
       });
     }
 
     for (let i = 0; i < totalEyes; i++) {
       const eye = document.createElement('div');
       eye.classList.add('eye');
-
       const size = Math.floor(Math.random() * 150) + 40;
       eye.style.width = `${size}px`;
       eye.style.height = `${size}px`;
@@ -130,7 +165,7 @@
         x = Math.random() * (window.innerWidth - size);
         y = Math.random() * (window.innerHeight - size);
         attempts++;
-        if (attempts > 500) break;
+        if (attempts > 1000) break;
       } while (isOverlapping(x, y, size));
       placed.push({ x, y, size });
 
@@ -147,19 +182,25 @@
         const speed = (Math.random() * 2 + 2).toFixed(2);
         eye.style.animation = `pulse ${speed}s infinite`;
       }
-
       body.appendChild(eye);
     }
 
-    // Random red flash warning every 10-30s
+    // Quick warning flash every 10-20s
     const warning = document.getElementById('warningText');
-    function showWarning() {
+    function flash() {
       warning.classList.add('active');
-      setTimeout(() => warning.classList.remove('active'), 700);
-      const next = Math.random() * 20000 + 10000; // 10s to 30s
-      setTimeout(showWarning, next);
+      setTimeout(() => warning.classList.remove('active'), 500); // 0.5 sec flash
+      setTimeout(flash, Math.random() * 10000 + 10000); // 10-20s
     }
-    setTimeout(showWarning, 10000);
+    setTimeout(flash, 8000);
+
+    // Password logic
+    const secretInput = document.getElementById('secretInput');
+    secretInput.addEventListener('input', () => {
+      if (secretInput.value === '06/09/2069') {
+        window.location.href = 'yourenotsupposetobehere.html';
+      }
+    });
   </script>
 </body>
 </html>
