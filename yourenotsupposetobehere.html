@@ -15,15 +15,23 @@
       font-family: monospace;
     }
 
-    /* Ultra-fast flash overlay */
+    /* Flash layers */
     .flash {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: red;
+      background: white;
+      mix-blend-mode: difference;
       opacity: 0;
       z-index: 2000;
       pointer-events: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 4vw;
+      font-weight: bold;
+      color: black;
+      text-shadow: 0 0 20px red, 0 0 50px darkred;
     }
 
     /* Terminal Window */
@@ -42,6 +50,21 @@
       font-size: 12px;
       z-index: 100;
       box-shadow: 0 0 20px #0f0;
+    }
+
+    /* Glitchy background letters */
+    .glitchChar {
+      position: fixed;
+      color: #0f0;
+      font-size: 18px;
+      opacity: 0.7;
+      z-index: 50;
+      pointer-events: none;
+      animation: float 2s linear infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 0.7; }
+      100% { transform: translateY(100vh); opacity: 0; }
     }
 
     /* Popups */
@@ -89,7 +112,7 @@
 </head>
 <body>
   <div id="terminalBox"></div>
-  <div class="flash" id="flash"></div>
+  <div class="flash" id="flash">DEATH IS COMING</div>
   <div class="blackout" id="blackout"></div>
 
   <script>
@@ -121,13 +144,15 @@
     }
     typeLine();
 
-    // Ultra-fast flickering (0.01s changes)
+    // Ultra-fast white/red strobe (0.01s switch)
     function strobe() {
       let flashes = 0;
+      const colors = ["red", "white"];
       const interval = setInterval(() => {
+        flash.style.background = colors[flashes % 2];
         flash.style.opacity = flash.style.opacity === "1" ? "0" : "1";
         flashes++;
-        if (flashes > 200) { // ~2s total
+        if (flashes > 200) {
           clearInterval(interval);
           flash.style.opacity = "0";
           setTimeout(strobe, Math.random() * 4000 + 3000);
@@ -135,6 +160,20 @@
       }, 10);
     }
     strobe();
+
+    // Random glitch characters near end
+    setTimeout(() => {
+      const glitchInterval = setInterval(() => {
+        const char = document.createElement("div");
+        char.classList.add("glitchChar");
+        char.textContent = String.fromCharCode(33 + Math.random() * 90);
+        char.style.left = Math.random() * window.innerWidth + "px";
+        char.style.top = "-20px";
+        document.body.appendChild(char);
+        setTimeout(() => char.remove(), 2000);
+      }, 30);
+      setTimeout(() => clearInterval(glitchInterval), 5000);
+    }, 10000);
 
     // Popups rapidly fill the screen
     setTimeout(() => {
@@ -149,7 +188,7 @@
       }, 100);
     }, 4000);
 
-    // Random screen shake
+    // Screen shake loop
     setInterval(() => {
       document.body.classList.add("shake");
       setTimeout(() => document.body.classList.remove("shake"), 200);
@@ -157,7 +196,7 @@
 
     // Instant shutdown (no fade) -> redirect
     setTimeout(() => {
-      blackout.style.display = "block"; // instantly covers
+      blackout.style.display = "block";
       window.location.href = "index.html";
     }, 15000);
   </script>
