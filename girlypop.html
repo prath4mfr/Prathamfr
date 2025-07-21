@@ -26,15 +26,9 @@
       background: url('Hellokitty.jpg') no-repeat center center fixed;
       background-size: cover;
     }
-    body.other-page,
-    .music-page {
-      background: url('gradient.avif') no-repeat center center fixed;
-      background-size: cover;
-    }
 
     /* ===== BOXES ===== */
-    .menu,
-    .content-box {
+    .menu {
       background: rgba(255, 182, 193, 0.8);
       padding: 40px;
       border-radius: 20px;
@@ -42,28 +36,12 @@
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     }
 
-    .password-box {
-      background: rgba(210, 180, 140, 0.9);
-      padding: 40px;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    }
-
-    /* ===== LOGO ===== */
-    .logo {
-      width: 80px;
-      height: auto;
-      margin-bottom: 20px;
-      border-radius: 50%;
-    }
-
-    /* ===== HOME / MENU HEADING ===== */
+    /* ===== MENU HEADING ===== */
     .menu h1 {
       font-family: 'Dancing Script', cursive;
       font-size: 60px;
       color: darkred;
-      margin-bottom: 20px;
+      margin: 0;
     }
 
     /* ===== FLOATING LINKS ===== */
@@ -77,57 +55,15 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
       transition: transform 0.2s, box-shadow 0.2s;
     }
-
     .floating-link:hover {
       text-decoration: underline;
       transform: scale(1.05);
     }
 
-    /* ===== SPECIFIC LINK COLORS ===== */
-    .yellow-link {
-      color: #FFD700;
-      background: rgba(255, 215, 0, 0.3);
-      top: 20%;
-      left: 10%;
-    }
-    .red-link {
-      color: #FF4500;
-      background: rgba(255, 69, 0, 0.3);
-      top: 50%;
-      right: 15%;
-    }
-    .pink-link {
-      color: #FF69B4;
-      background: rgba(255, 105, 180, 0.3);
-      bottom: 25%;
-      left: 20%;
-    }
-    .green-link {
-      color: #32CD32;
-      background: rgba(50, 205, 50, 0.3);
-      bottom: 10%;
-      right: 30%;
-    }
-    .purple-link {
-      color: #9370DB;
-      background: rgba(147, 112, 219, 0.3);
-      top: 25%;
-      left: 55%;
-    }
-    .orange-link {
-      color: #FFA500;
-      background: rgba(255, 165, 0, 0.3);
-      top: 40%;
-      left: 25%;
-    }
-    .black-link {
-      background: black;
-      color: white;
-    }
-    .blue-link {
-      color: #3498db;
-      background: rgba(52, 152, 219, 0.3);
-    }
+    /* ===== LINK COLORS ===== */
+    .yellow-link { color: #FFD700; background: rgba(255,215,0,0.3); top:20%; left:10%; }
+    .purple-link { color: #9370DB; background: rgba(147,112,219,0.3); top:25%; left:55%; }
+    .blue-link { color: #3498db; background: rgba(52,152,219,0.3); }
 
     /* ===== EASTER EGG ICON ===== */
     .easter-egg {
@@ -145,29 +81,26 @@
       border-radius: 50%;
       transition: transform 0.3s ease;
     }
-    .easter-egg img:hover {
-      transform: scale(1.2) rotate(10deg);
-    }
+    .easter-egg img:hover { transform: scale(1.2) rotate(10deg); }
 
-    /* ===== ANIMATED FLOATING HEARTS ===== */
+    /* ===== FLOATING HEARTS ===== */
     .heart {
       position: fixed;
-      bottom: -40px;
+      bottom: -50px;
       width: 40px;
       height: 40px;
       background: url('heart2.png') no-repeat center;
       background-size: contain;
       pointer-events: none;
-      animation: floatUp 4s linear forwards;
-      z-index: 1;
+      animation: floatUp 6s linear forwards;
+      z-index: 0;
     }
     @keyframes floatUp {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      50% { transform: translateY(-50vh) scale(1.3); opacity: 1; }
-      100% { transform: translateY(-120vh) scale(0.8); opacity: 0; }
+      0% { transform: translateY(0) scale(1); opacity:1; }
+      100% { transform: translateY(-120vh) scale(0.8); opacity:0; }
     }
 
-    /* ===== MUSIC CONTROL BUTTON ===== */
+    /* ===== MUSIC BUTTON ===== */
     .music-control {
       position: fixed;
       bottom: 20px;
@@ -182,36 +115,58 @@
       transition: background 0.3s ease;
       z-index: 999;
     }
-    .music-control:hover {
-      background: hotpink;
-      color: white;
+    .music-control:hover { background: hotpink; color: white; }
+
+    /* ===== POPUP VIDEO ===== */
+    #videoPopup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255, 192, 203, 0.7);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    #videoPopup video {
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
 
-    /* ===== FINAL CURSOR SAFETY ===== */
-    html, body, *,
-    a, button, input, textarea, select, label,
-    .floating-link, .music-control, .easter-egg, .heart, .content-box, .menu {
+    /* ===== CURSOR AGAIN ===== */
+    html, body, *, a, button, input, textarea, select, label,
+    .floating-link, .music-control, .easter-egg, .heart, .menu {
       cursor: url('cursor.cur'), auto;
     }
   </style>
 </head>
 <body class="home-page">
   <div class="menu">
-    <img src="logo.jpg.webp" class="logo" alt="Logo">
     <h1>PR4THAM!</h1>
   </div>
 
   <!-- Floating Links -->
   <a href="slides.html" class="floating-link yellow-link">Reasons Why You Should</a>
   <a href="music.html" class="floating-link purple-link">Music</a>
-  <a href="feedback.html" class="floating-link blue-link" style="top: 80%; left: 35%;">Feedback</a>
+  <a href="feedback.html" class="floating-link blue-link" style="top:80%; left:35%;">Feedback</a>
 
   <!-- Easter Egg -->
-  <a href="secret.html" class="easter-egg">
+  <div class="easter-egg" id="kuromiTrigger">
     <img src="kuromi.png" alt="Secret Kuromi">
-  </a>
+  </div>
 
-  <!-- Play/Pause Button -->
+  <!-- Video Popup -->
+  <div id="videoPopup">
+    <video id="popupVideo" autoplay controls>
+      <source src="stateside.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Music Control -->
   <button id="musicControl" class="music-control">Pause Music</button>
 
   <!-- Background Music -->
@@ -227,21 +182,35 @@
       heart.classList.add('heart');
       heart.style.left = Math.random() * window.innerWidth + 'px';
       document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 4000);
+      setTimeout(() => heart.remove(), 6000);
     }
     setInterval(createHeart, 400);
 
     // Music Control
     const music = document.getElementById('bgMusic');
     const control = document.getElementById('musicControl');
-    window.addEventListener('load', () => { music.play().catch(() => {}); });
+    window.addEventListener('load', () => { music.play().catch(()=>{}); });
     control.addEventListener('click', () => {
       if (music.paused) {
-        music.play();
-        control.textContent = 'Pause Music';
+        music.play(); control.textContent = 'Pause Music';
       } else {
-        music.pause();
-        control.textContent = 'Play Music';
+        music.pause(); control.textContent = 'Play Music';
+      }
+    });
+
+    // Kuromi Easter Egg Popup Video
+    const kuromi = document.getElementById('kuromiTrigger');
+    const popup = document.getElementById('videoPopup');
+    const popupVideo = document.getElementById('popupVideo');
+    kuromi.addEventListener('click', () => {
+      popup.style.display = 'flex';
+      popupVideo.currentTime = 0;
+      popupVideo.play();
+    });
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) {
+        popup.style.display = 'none';
+        popupVideo.pause();
       }
     });
   </script>
