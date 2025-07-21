@@ -8,12 +8,9 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
+      background: black;
+      color: red;
+      font-family: monospace;
       overflow: hidden;
       animation: flicker 0.1s infinite alternate;
     }
@@ -23,37 +20,97 @@
       100% { background: white; }
     }
 
-    iframe {
-      position: absolute;
-      width: 300px;
-      height: 180px;
-      border: none;
+    /* Fake camera/mic text */
+    #overlay {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 2rem;
+      color: red;
+      text-shadow: 0 0 10px black;
       z-index: 10;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    /* Glitchy popups */
+    .popup {
+      position: absolute;
+      background: rgba(0,0,0,0.9);
+      color: red;
+      border: 1px solid red;
+      padding: 20px;
+      font-size: 1.2rem;
+      z-index: 5;
+      animation: shake 0.1s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0,0); }
+      25% { transform: translate(-5px,5px); }
+      50% { transform: translate(5px,-5px); }
+      75% { transform: translate(-5px,-5px); }
+      100% { transform: translate(5px,5px); }
+    }
+
+    /* Fake crash screen */
+    #crash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      color: lime;
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      z-index: 20;
+      transition: opacity 1s ease;
     }
   </style>
 </head>
 <body>
   <audio src="COMEAROUND.mp3" autoplay loop></audio>
+  
+  <div id="overlay">Accessing Camera & Microphone...</div>
+  <div id="crash">SYSTEM FAILURE</div>
 
   <script>
-    const videoIDs = [
-      "vwD0ewU0uZ8","kBFDaYf8GpU","-u7YErDZmxw","3V68zWvvJ6E","OADWgHqF8sw","a1UAkV1vs4Y",
-      "RhN07X4hcK4","Ka1QybRGkGo","O2jkV4BsN6U","NiqzAybAlqM","a24EUd0zeqI",
-      "xPjq75pbewI","1e0yw3kP0F4","tyWJ5MLzT7s","yCCTHUW392g","J_qvG5ODGHk",
-      "TFWXqLSr4ZM","6tI-0LBamGg","pe62zVIc4X0","Pi-OvAfQD8M","M1t3tcqvu0s",
-      "tVRTm2khwTM","_9hkXCYiEjc","FRnWtzoVR9o","Z73PBkRBMFA","XxORUYxVvVg",
-      "fXF59UWr-tA"
-    ];
+    const overlay = document.getElementById('overlay');
+    const crash = document.getElementById('crash');
 
-    videoIDs.forEach((id, index) => {
-      setTimeout(() => {
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}`;
-        iframe.style.left = Math.random() * (window.innerWidth - 300) + 'px';
-        iframe.style.top = Math.random() * (window.innerHeight - 180) + 'px';
-        document.body.appendChild(iframe);
-      }, index * 1000); // 1 per second
-    });
+    // Step 1: Fake camera/mic
+    setTimeout(() => {
+      overlay.style.opacity = 1;
+    }, 1000);
+
+    // Step 2: Popups start appearing
+    function spawnPopup() {
+      const popup = document.createElement('div');
+      popup.className = 'popup';
+      popup.innerText = 'YOU CANNOT ESCAPE';
+      popup.style.left = Math.random() * (window.innerWidth - 150) + 'px';
+      popup.style.top = Math.random() * (window.innerHeight - 80) + 'px';
+      document.body.appendChild(popup);
+      setTimeout(() => popup.remove(), 2000);
+    }
+    setTimeout(() => {
+      const interval = setInterval(spawnPopup, 300);
+      setTimeout(() => clearInterval(interval), 5000);
+    }, 2000);
+
+    // Step 3: Fake crash + redirect
+    setTimeout(() => {
+      crash.style.opacity = 1;
+      document.body.style.animation = 'none'; // stop flicker
+    }, 7000);
+
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 10000);
   </script>
 </body>
 </html>
