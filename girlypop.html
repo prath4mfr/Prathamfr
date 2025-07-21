@@ -117,6 +117,26 @@
     }
     .music-control:hover { background: hotpink; color: white; }
 
+    /* ===== BACK BUTTON ===== */
+    .back-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background: lightblue;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      transition: background 0.3s ease;
+      z-index: 999;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+    .back-button:hover { background: deepskyblue; color: white; }
+
     /* ===== POPUP VIDEO ===== */
     #videoPopup {
       display: none;
@@ -138,7 +158,7 @@
 
     /* ===== CURSOR AGAIN ===== */
     html, body, *, a, button, input, textarea, select, label,
-    .floating-link, .music-control, .easter-egg, .heart, .menu {
+    .floating-link, .music-control, .back-button, .easter-egg, .heart, .menu {
       cursor: url('cursor.cur'), auto;
     }
   </style>
@@ -168,6 +188,9 @@
 
   <!-- Music Control -->
   <button id="musicControl" class="music-control">Pause Music</button>
+
+  <!-- Back Button -->
+  <a href="pratham.html" class="back-button">Back</a>
 
   <!-- Background Music -->
   <audio id="bgMusic" loop autoplay>
