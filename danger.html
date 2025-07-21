@@ -15,28 +15,22 @@
       position: relative;
     }
 
-    /* Base Eye Styling */
+    /* Eye Styling (animated gif) */
     .eye {
       position: absolute;
-      background: url('eye.png') no-repeat center/contain;
-      animation: blink 3s infinite, bleed 4s infinite;
+      background: url('eye.gif') no-repeat center/contain;
+      animation: bleed 4s infinite;
+      opacity: 0.85;
       filter: drop-shadow(0 0 10px red);
-      opacity: 0.8;
     }
 
-    /* Blinking animation */
-    @keyframes blink {
-      0%, 90%, 100% { transform: scaleY(1); opacity: 1; }
-      92%, 96% { transform: scaleY(0.1); opacity: 0.4; }
-    }
-
-    /* Bleeding glow */
+    /* Bleeding red glow */
     @keyframes bleed {
       0%, 100% { filter: drop-shadow(0 0 5px red); }
       50% { filter: drop-shadow(0 0 20px crimson); }
     }
 
-    /* Red screen flicker */
+    /* Red screen flicker for creepiness */
     .red-overlay {
       position: absolute;
       top: 0; left: 0;
@@ -49,10 +43,10 @@
 
     @keyframes flicker {
       0%, 100% { opacity: 0.05; }
-      50% { opacity: 0.3; }
+      50% { opacity: 0.25; }
     }
 
-    /* Back button (Home) */
+    /* Back button (Home page) */
     .back-btn {
       position: fixed;
       bottom: 20px;
@@ -70,7 +64,7 @@
       background: rgba(255,0,0,0.8);
     }
 
-    /* Mobile */
+    /* Mobile scaling */
     @media (max-width: 768px) {
       .eye { opacity: 0.7; }
       .back-btn { font-size: 1rem; padding: 8px 14px; }
@@ -82,14 +76,14 @@
   <!-- Red Flicker Overlay -->
   <div class="red-overlay"></div>
 
-  <!-- Back Button (HOME) -->
-  <a href="pratham.html" class="back-btn">BACK</a>
+  <!-- Back Button -->
+  <a href="index.html" class="back-btn">BACK</a>
 
-  <!-- Creepy Audio -->
+  <!-- Creepy Background Audio -->
   <audio id="demonAudio" src="demon.mp3" autoplay loop></audio>
 
   <script>
-    const totalEyes = 30; // Number of eyes to generate
+    const totalEyes = 40; // Amount of eyes to spawn
     const body = document.body;
 
     for (let i = 0; i < totalEyes; i++) {
@@ -101,19 +95,15 @@
       eye.style.width = `${size}px`;
       eye.style.height = `${size}px`;
 
-      // Random screen position
+      // Random position
       const x = Math.random() * 100;
       const y = Math.random() * 100;
       eye.style.left = `${x}%`;
       eye.style.top = `${y}%`;
-      eye.style.transform += ` rotate(${Math.random() * 360}deg)`;
 
-      // Random blink speed
-      const blinkSpeed = (Math.random() * 3 + 1).toFixed(1);
-      eye.style.animationDuration = `${blinkSpeed}s, 4s`;
+      // Random rotation
+      eye.style.transform = `rotate(${Math.random() * 360}deg)`;
 
-      body.appendChild(eye);
-    }
-  </script>
-</body>
-</html>
+      // Random animation speed
+      const bleedSpeed = (Math.random() * 3 + 2).toFixed(1);
+      eye.style.animationDuration = `${ble
