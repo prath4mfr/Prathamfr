@@ -41,7 +41,8 @@
     .whois-box,
     .game-box,
     .danger-box,
-    .girlypop-box {
+    .girlypop-box,
+    .end-box {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
@@ -56,7 +57,8 @@
     .whois-box img,
     .game-box img,
     .danger-box img,
-    .girlypop-box img {
+    .girlypop-box img,
+    .end-box img {
       height: 36px;
       width: auto;
       display: block;
@@ -66,6 +68,7 @@
     .game-box { top: calc(33% + 70px); }
     .danger-box { top: calc(33% + 140px); }
     .girlypop-box { top: calc(33% + 210px); }
+    .end-box { top: calc(33% + 280px); } /* End button below Girly Pop */
 
     /* Loader */
     #loader {
@@ -148,11 +151,11 @@
     /* Mobile Tweaks */
     @media (max-width: 768px) {
       .graffiti-heading { width: 65vw; }
-      .whois-box, .game-box, .danger-box, .girlypop-box {
+      .whois-box, .game-box, .danger-box, .girlypop-box, .end-box {
         background: rgba(255,255,255,0.35);
         animation: shimmerLight 3s infinite ease-in-out;
       }
-      .whois-box img, .game-box img, .danger-box img, .girlypop-box img {
+      .whois-box img, .game-box img, .danger-box img, .girlypop-box img, .end-box img {
         height: 26px;
         filter: brightness(0);
       }
@@ -213,11 +216,12 @@
   <div class="game-box"><a href="gayme.html"><img src="game.png" alt="Games" /></a></div>
   <div class="danger-box"><a href="danger.html"><img src="danger.png" alt="Danger" /></a></div>
   <div class="girlypop-box"><a href="girlypop.html"><img src="girlypop.png" alt="Girly Pop" /></a></div>
+  <div class="end-box"><a href="end.html"><img src="end.png" alt="End" /></a></div>
 
   <!-- Question Mark -->
   <a href="question.html" class="question-link"><img src="question.png" alt="?" /></a>
 
-  <!-- Pass PNG (Same file expands) -->
+  <!-- Pass PNG -->
   <div class="pass-container" id="passTrigger">
     <img src="pass.png" alt="Pass" />
   </div>
