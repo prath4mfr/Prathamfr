@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DANGER</title>
+  <title>D34TH7</title>
   <style>
     html, body {
       margin: 0;
@@ -15,21 +15,29 @@
       position: relative;
     }
 
-    /* Eye GIF (no red filter now) */
+    /* Eye GIF styling */
     .eye {
       position: absolute;
       background: url('eye.gif') no-repeat center/contain;
       opacity: 0.9;
-      animation: pulse 3s infinite ease-in-out;
     }
 
-    /* Subtle breathing animation (no glow) */
+    /* Subtle breathing pulse */
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      0%, 100% { transform: scale(1) rotate(var(--rotation)); }
+      50% { transform: scale(1.1) rotate(var(--rotation)); }
     }
 
-    /* Screen flicker for a creepy vibe */
+    /* Violent shake for some eyes */
+    @keyframes shake {
+      0% { transform: translate(0,0) rotate(var(--rotation)); }
+      25% { transform: translate(-5px,5px) rotate(var(--rotation)); }
+      50% { transform: translate(5px,-5px) rotate(var(--rotation)); }
+      75% { transform: translate(-5px,-5px) rotate(var(--rotation)); }
+      100% { transform: translate(5px,5px) rotate(var(--rotation)); }
+    }
+
+    /* Screen flicker effect */
     .red-overlay {
       position: absolute;
       top: 0; left: 0;
@@ -38,6 +46,7 @@
       mix-blend-mode: screen;
       animation: flicker 1.5s infinite;
       pointer-events: none;
+      z-index: 5;
     }
 
     @keyframes flicker {
@@ -45,7 +54,7 @@
       50% { opacity: 0.2; }
     }
 
-    /* Back button (to Home) */
+    /* Back Button */
     .back-btn {
       position: fixed;
       bottom: 20px;
@@ -63,27 +72,36 @@
       background: rgba(255,0,0,0.8);
     }
 
-    /* Mobile adjustments */
     @media (max-width: 768px) {
-      .eye { opacity: 0.75; }
+      .eye { opacity: 0.8; }
       .back-btn { font-size: 1rem; padding: 8px 14px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Flicker Overlay -->
+  <!-- Red Flicker Overlay -->
   <div class="red-overlay"></div>
 
-  <!-- Back to Home -->
-  <a href="index.html" class="back-btn">BACK</a>
+  <!-- Back Button -->
+  <a href="pratham.html" class="back-btn">BACK</a>
 
   <!-- Creepy Audio -->
-  <audio id="demonAudio" src="demon.mp3" autoplay loop></audio>
+  <audio id="demonAudio" src="dumbo.mp3" autoplay loop></audio>
 
   <script>
-    const totalEyes = 40; // Change to 60-80 if you want it crazier
+    const totalEyes = 40; // number of eyes
     const body = document.body;
+    const placedPositions = []; // to prevent overlaps
+
+    function isOverlapping(x, y, size) {
+      return placedPositions.some(pos => {
+        const dx = x - pos.x;
+        const dy = y - pos.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        return distance < (size + pos.size) / 2 + 20; // 20px buffer
+      });
+    }
 
     for (let i = 0; i < totalEyes; i++) {
       const eye = document.createElement('div');
@@ -94,18 +112,30 @@
       eye.style.width = `${size}px`;
       eye.style.height = `${size}px`;
 
-      // Random position
-      const x = Math.random() * 100;
-      const y = Math.random() * 100;
-      eye.style.left = `${x}%`;
-      eye.style.top = `${y}%`;
+      // Find non-overlapping position
+      let x, y, attempts = 0;
+      do {
+        x = Math.random() * (window.innerWidth - size);
+        y = Math.random() * (window.innerHeight - size);
+        attempts++;
+      } while (isOverlapping(x, y, size) && attempts < 200);
+      placedPositions.push({ x, y, size });
 
-      // Random rotation (so they feel different)
-      eye.style.transform = `rotate(${Math.random() * 360}deg)`;
+      eye.style.left = `${x}px`;
+      eye.style.top = `${y}px`;
 
-      // Random animation timing
-      const pulseSpeed = (Math.random() * 2 + 2).toFixed(1);
-      eye.style.animationDuration = `${pulseSpeed}s`;
+      // Random rotation (tilted or upside down)
+      const rotation = `${Math.floor(Math.random() * 360)}deg`;
+      eye.style.setProperty('--rotation', rotation);
+
+      // Random animation: some shake violently, some pulse
+      if (Math.random() > 0.7) {
+        const speed = (Math.random() * 0.5 + 0.5).toFixed(2); // fast shake
+        eye.style.animation = `shake ${speed}s infinite`;
+      } else {
+        const speed = (Math.random() * 2 + 2).toFixed(2); // slow pulse
+        eye.style.animation = `pulse ${speed}s infinite`;
+      }
 
       body.appendChild(eye);
     }
