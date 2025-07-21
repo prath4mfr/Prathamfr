@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>COM1NG<title>
+  <title>OVERRIDE SEQUENCE</title>
   <style>
     html, body {
       margin: 0;
@@ -13,33 +13,6 @@
       overflow: hidden;
       color: #0f0;
       font-family: monospace;
-    }
-
-    /* Flash with text */
-    .flash {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: red;
-      opacity: 0;
-      z-index: 2000;
-      pointer-events: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 5vw;
-      font-weight: bold;
-      text-align: center;
-      color: white;
-      text-shadow: 0 0 10px black, 0 0 40px #900;
-      animation: textGlitch 0.1s infinite;
-    }
-    @keyframes textGlitch {
-      0% { transform: translate(0,0) skew(0deg,0deg); }
-      25% { transform: translate(-5px,3px) skew(-3deg,2deg); }
-      50% { transform: translate(5px,-3px) skew(3deg,-2deg); }
-      75% { transform: translate(-3px,-5px) skew(2deg,-3deg); }
-      100% { transform: translate(0,0) skew(0deg,0deg); }
     }
 
     /* Terminal Box */
@@ -99,25 +72,37 @@
     .shake { animation: shakeScreen 0.2s ease-in-out; }
     .shakeCrazy { animation: shakeInsane 0.1s infinite; }
 
-    /* Instant Blackout */
+    /* Flickering death image */
+    #deathFlicker {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('death.png') center center / cover no-repeat;
+      z-index: 5000;
+      display: none;
+    }
+
+    /* Blackout */
     .blackout {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: black;
-      z-index: 3000;
+      z-index: 6000;
       display: none;
     }
   </style>
 </head>
 <body>
   <div id="terminalBox"></div>
-  <div class="flash" id="flash">DEATH IS COMING</div>
+  <div id="deathFlicker"></div>
   <div class="blackout" id="blackout"></div>
 
   <script>
     const terminalBox = document.getElementById("terminalBox");
-    const flash = document.getElementById("flash");
+    const deathFlicker = document.getElementById("deathFlicker");
     const blackout = document.getElementById("blackout");
 
     const lines = [
@@ -144,25 +129,7 @@
     }
     typeLine();
 
-    // Ultra-fast strobe (red + white, 0.01s)
-    function strobe() {
-      let flashes = 0;
-      const colors = ["red", "white"];
-      const interval = setInterval(() => {
-        flash.style.background = colors[flashes % 2];
-        flash.style.color = colors[flashes % 2] === "red" ? "white" : "red";
-        flash.style.opacity = "1";
-        flashes++;
-        if (flashes > 200) {
-          clearInterval(interval);
-          flash.style.opacity = "0";
-          setTimeout(strobe, Math.random() * 4000 + 3000);
-        }
-      }, 10);
-    }
-    strobe();
-
-    // Popups rapidly fill the screen
+    // Popups spam
     setTimeout(() => {
       const spam = setInterval(() => {
         const popup = document.createElement("div");
@@ -175,21 +142,34 @@
       }, 100);
     }, 4000);
 
-    // Regular screen shake
+    // Regular shakes
     setInterval(() => {
       document.body.classList.add("shake");
       setTimeout(() => document.body.classList.remove("shake"), 200);
     }, 4000);
 
-    // Final crazy shaking before shutdown
+    // Crazy shaking near the end
     setTimeout(() => {
       document.body.classList.add("shakeCrazy");
     }, 12000);
 
-    // Instant shutdown -> redirect
+    // Death flicker (0.01s, black/white/yellow/blue for 6 sec)
     setTimeout(() => {
-      blackout.style.display = "block";
-      window.location.href = "index.html";
+      deathFlicker.style.display = "block";
+      const colors = ["black", "white", "yellow", "blue"];
+      let i = 0;
+      const flick = setInterval(() => {
+        deathFlicker.style.backgroundColor = colors[i % colors.length];
+        i++;
+      }, 10);
+
+      // After 6 seconds, blackout + redirect
+      setTimeout(() => {
+        clearInterval(flick);
+        deathFlicker.style.display = "none";
+        blackout.style.display = "block";
+        window.location.href = "index.html";
+      }, 6000);
     }, 15000);
   </script>
 </body>
