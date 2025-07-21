@@ -18,69 +18,56 @@
       align-items: center;
     }
 
-    .chat-box {
+    .feedback-box {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(15px);
-      padding: 30px;
+      padding: 40px;
       border-radius: 20px;
       box-shadow: 0 0 30px rgba(0,0,0,0.4);
       max-width: 500px;
       width: 90%;
-      max-height: 80vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      text-align: center;
     }
 
     h1 {
       margin-bottom: 20px;
-      font-size: 32px;
-      text-align: center;
+      font-size: 36px;
       text-shadow: 2px 2px 8px #000;
     }
 
-    textarea {
-      flex: 1;
-      width: 100%;
-      padding: 20px;
-      border: none;
-      border-radius: 10px;
-      resize: none;
-      font-size: 16px;
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      backdrop-filter: blur(5px);
-      overflow-y: auto;
+    p {
+      font-size: 18px;
+      margin-bottom: 25px;
+      color: #ddd;
     }
 
-    textarea:focus {
-      outline: none;
+    .feedback-link {
+      display: inline-block;
+      padding: 15px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      background: rgba(255, 105, 180, 0.2);
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .feedback-link:hover {
+      background: rgba(255, 105, 180, 0.5);
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
     }
   </style>
 </head>
 <body>
-  <div class="chat-box">
-    <h1>Feedback Chat</h1>
-    <textarea id="feedback" placeholder="Type your message here..."></textarea>
+
+  <div class="feedback-box">
+    <h1>Feedback</h1>
+    <p>Rate us 1 to 5 stars and share your thoughts using the form below:</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfV3_79mZfI8X_Uu26Z5mwAed9J7Qk2ZPPQXysfVMjyPEA1Hw/viewform?usp=dialog" target="_blank" class="feedback-link">Give Feedback</a>
   </div>
 
-  <script>
-    const feedback = document.getElementById('feedback');
-
-    // Load saved feedback
-    feedback.value = localStorage.getItem('feedbackChat') || '';
-
-    // Save on input
-    feedback.addEventListener('input', () => {
-      localStorage.setItem('feedbackChat', feedback.value);
-    });
-
-    // Sync across tabs
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'feedbackChat') {
-        feedback.value = e.newValue;
-      }
-    });
-  </script>
 </body>
 </html>
